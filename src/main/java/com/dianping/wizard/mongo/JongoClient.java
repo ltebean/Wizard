@@ -19,7 +19,7 @@ import com.mongodb.MongoException;
  */
 public class JongoClient {
 
-    private static final Configuration config= Config.getConfiguraion();
+    private static Configuration config= Config.getConfiguraion();
 
     private static Jongo jongo;
 

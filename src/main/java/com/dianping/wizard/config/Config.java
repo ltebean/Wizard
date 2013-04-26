@@ -20,6 +20,7 @@ public class Config {
     }
 
     static {
+
         try {
             configuration = new PropertiesConfiguration("wizard.properties");
         } catch (ConfigurationException e) {

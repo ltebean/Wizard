@@ -10,7 +10,7 @@ import java.util.Map;
  * Time: 下午4:59
  * To change this template use File | Settings | File Templates.
  */
-public interface WidgetManager {
+public interface WidgetRenderer {
 
     public String renderWidget(Widget widget, Widget.ModeType modeType,Map<String,Object> params);
 }

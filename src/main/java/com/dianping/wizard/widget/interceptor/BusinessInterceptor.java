@@ -5,6 +5,7 @@ import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,9 @@ public class BusinessInterceptor implements Interceptor {
         Mode mode=widget.getModes().get(invocation.getModeType().value);
         if(mode==null){
             throw new WidgetException("mode not found:"+invocation.getModeType());
+        }
+        if(StringUtils.isEmpty(mode.getCode())){
+            return InvocationContext.SUCCESS;
         }
         Map<String,Object> result= engine.eval(context,mode.getCode());
         invocation.getContext().putAll(result);

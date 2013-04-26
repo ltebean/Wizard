@@ -11,6 +11,8 @@ public interface WidgetRepo {
 
     public Widget loadWidget(String id);
 
+    public Widget loadWidgetByName(String name);
+
     public void addWidget(Widget widget);
 
     public void updateWidget(Widget widget);

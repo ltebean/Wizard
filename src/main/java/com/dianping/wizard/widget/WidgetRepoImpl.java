@@ -14,13 +14,18 @@ import java.util.Map;
  * Time: 下午4:44
  * To change this template use File | Settings | File Templates.
  */
-class WidgetRepoImpl implements WidgetRepo{
+public class WidgetRepoImpl implements WidgetRepo{
 
     private MongoCollection col= JongoClient.getInstance().getCollection("widget");
 
     @Override
     public Widget loadWidget(String id) {
         return col.findOne(new ObjectId(id)).as(Widget.class);
+    }
+
+    @Override
+    public Widget loadWidgetByName(String name) {
+        return col.findOne("{name:#}",name).as(Widget.class);
     }
 
     @Override

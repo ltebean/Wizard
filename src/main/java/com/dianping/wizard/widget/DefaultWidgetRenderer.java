@@ -1,9 +1,8 @@
 package com.dianping.wizard.widget;
 
-import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.widget.interceptor.InterceptorConfig;
+import org.apache.log4j.Logger;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,7 +12,9 @@ import java.util.Map;
  * Time: 下午5:05
  * To change this template use File | Settings | File Templates.
  */
-public class DefaultWidgetManager implements WidgetManager {
+public class DefaultWidgetRenderer implements WidgetRenderer {
+
+    Logger logger= Logger.getLogger(this.getClass());
 
     @Override
     public String renderWidget(Widget widget, Widget.ModeType modeType,Map<String,Object> params){
@@ -25,7 +26,7 @@ public class DefaultWidgetManager implements WidgetManager {
             invocation.invoke();
             return invocation.getOutput();
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error("rendering error",e);
         }
         return "";
     }
