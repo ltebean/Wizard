@@ -13,6 +13,10 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class Widget extends Model {
+    public static void main(String[] args) {
+
+    }
+
 
     public enum ModeType{
 

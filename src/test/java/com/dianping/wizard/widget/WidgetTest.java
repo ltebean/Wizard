@@ -42,8 +42,8 @@ public class WidgetTest
         Widget widget=repo.loadWidgetByName("shopDisplay");
         widget.name="shopDisplay";
         Mode displayMode=new Mode();
-        displayMode.code="shop=['shopId':param.shopId];result=['shop':shop];result.widget=new com.dianping.wizard.widget.Widget();";
-        displayMode.template="shopId:${shop.shopId} widget:${widget}";
+        displayMode.code="name=service.get('shopService').getShopName(1);shop=['shopId':param.shopId,'name':name];result=['shop':shop];";
+        displayMode.template="shopId:${shop.shopId} name:${HtmlFormater.capitalize(shop.name)}";
         widget.modes.put("display",displayMode);
         //repo.saveWidget(widget);
 
@@ -51,5 +51,8 @@ public class WidgetTest
         params.put("shopId",500000);
         WidgetRenderer manager=WidgetRendererFactory.getRenderer("default");
         System.out.println(manager.renderWidget(widget, Widget.ModeType.Display.value, params));
+
+//        params=new HashMap<String, Object>();
+//        System.out.println(manager.renderWidget(widget, Widget.ModeType.Display.value, params));
     }
 }

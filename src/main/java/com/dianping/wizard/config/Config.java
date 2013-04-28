@@ -13,18 +13,15 @@ import org.apache.commons.configuration.PropertiesConfiguration;
  * To change this template use File | Settings | File Templates.
  */
 public class Config {
-    private static Configuration configuration ;
+    private static final Configuration configuration ;
 
-    private Config(){
-
-    }
+    private Config(){}
 
     static {
-
         try {
             configuration = new PropertiesConfiguration("wizard.properties");
         } catch (ConfigurationException e) {
-            throw new WizardExeption("properties file not found");
+            throw new WizardExeption("properties file not found, 'wizard.properties' must exist in the classpath");
         }
     }
 

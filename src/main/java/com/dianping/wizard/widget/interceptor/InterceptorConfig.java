@@ -1,5 +1,8 @@
 package com.dianping.wizard.widget.interceptor;
 
+import com.dianping.wizard.widget.extension.ServiceInjectionInterceptor;
+import com.dianping.wizard.widget.extension.StaticModelInjectionInterceptor;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,11 +16,13 @@ import java.util.List;
  */
 public class InterceptorConfig {
 
-    private static List<Interceptor> interceptors;
+    private static final List<Interceptor> interceptors;
 
     static{
         interceptors=new ArrayList<Interceptor>();
         interceptors.add(new MergeInterceptor());
+        interceptors.add(new ServiceInjectionInterceptor());
+        interceptors.add(new StaticModelInjectionInterceptor());
         interceptors.add(new BusinessInterceptor());
     }
 

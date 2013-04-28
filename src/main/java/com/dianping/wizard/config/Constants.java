@@ -12,5 +12,11 @@ public class Constants {
 
     public static final String MONGODB_PORT ="mongodb.port";
 
-    public static final String FREEMARKER_PROPERTIES_PATH="freemarker.properties.path";
+    public static final String FREEMARKER_PROPERTIES="freemarker.properties";
+
+    public static final String SERVICE_LOCATOR="extension.serviceLocator.className";
+
+    public static final String STATIC_MODEL_LIST="extension.staticModel.list";
+
+
 }
