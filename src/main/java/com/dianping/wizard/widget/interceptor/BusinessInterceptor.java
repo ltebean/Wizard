@@ -7,7 +7,6 @@ import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,15 +24,15 @@ public class BusinessInterceptor implements Interceptor {
     public String intercept(InvocationContext invocation) throws Exception {
         Widget widget=invocation.getWidget();
         Map<String,Object> context=invocation.getContext();
-        context.put("config",widget.getConfig());
-        Mode mode=widget.getModes().get(invocation.getModeType().value);
+        context.put("config",widget.config);
+        Mode mode=widget.modes.get(invocation.getModeType());
         if(mode==null){
             throw new WidgetException("mode not found:"+invocation.getModeType());
         }
-        if(StringUtils.isEmpty(mode.getCode())){
+        if(StringUtils.isEmpty(mode.code)){
             return InvocationContext.SUCCESS;
         }
-        Map<String,Object> result= engine.eval(context,mode.getCode());
+        Map<String,Object> result= (Map<String,Object>)engine.eval(context,mode.code);
         invocation.getContext().putAll(result);
         return InvocationContext.SUCCESS;
     }

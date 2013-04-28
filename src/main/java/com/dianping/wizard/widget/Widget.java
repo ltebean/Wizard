@@ -25,43 +25,12 @@ public class Widget extends Model {
         }
     }
 
-    private String name;
+    public String name;
 
-    private String type;
+    public String type;
 
-    private Map<String,Object> config;
+    public Map<String,Object> config;
 
-    private Map<String,Mode> modes;
+    public Map<String,Mode> modes;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Map<String, Object> getConfig() {
-        return config;
-    }
-
-    public void setConfig(Map<String, Object> config) {
-        this.config = config;
-    }
-
-    public Map<String, Mode> getModes() {
-        return modes;
-    }
-
-    public void setModes(Map<String, Mode> modes) {
-        this.modes = modes;
-    }
 }

@@ -12,5 +12,5 @@ import java.util.Map;
  */
 public interface WidgetRenderer {
 
-    public String renderWidget(Widget widget, Widget.ModeType modeType,Map<String,Object> params);
+    public String renderWidget(Widget widget, String mode,Map<String,Object> params);
 }

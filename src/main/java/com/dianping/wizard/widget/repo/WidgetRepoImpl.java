@@ -1,11 +1,9 @@
-package com.dianping.wizard.widget;
+package com.dianping.wizard.widget.repo;
 
 import com.dianping.wizard.mongo.JongoClient;
+import com.dianping.wizard.widget.Widget;
 import org.bson.types.ObjectId;
 import org.jongo.MongoCollection;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +12,7 @@ import java.util.Map;
  * Time: 下午4:44
  * To change this template use File | Settings | File Templates.
  */
-public class WidgetRepoImpl implements WidgetRepo{
+class WidgetRepoImpl implements WidgetRepo{
 
     private MongoCollection col= JongoClient.getInstance().getCollection("widget");
 
@@ -29,12 +27,7 @@ public class WidgetRepoImpl implements WidgetRepo{
     }
 
     @Override
-    public void addWidget(Widget widget) {
-        col.save(widget);
-    }
-
-    @Override
-    public void updateWidget(Widget widget) {
+    public void saveWidget(Widget widget) {
         col.save(widget);
     }
 

@@ -1,5 +1,7 @@
 package com.dianping.wizard.script;
 
+import com.dianping.wizard.exception.WidgetException;
+
 import javax.script.ScriptEngineManager;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,18 +27,17 @@ public class ScriptEngine {
         engine = manager.getEngineByName("groovy");
     }
 
-    public Map<String,Object> eval(Map<String,Object> context,String code){
+    public Object eval(Map<String,Object> context,String code){
         try {
             for(Map.Entry<String,Object> entry : context.entrySet()) {
                 engine.put(entry.getKey(),entry.getValue());
             }
             engine.eval(code);
-            Map<String,Object> result= ((Map<String,Object>)engine.get("result"));
+            Object result= engine.get("result");
             return result;
         }catch (Exception e){
-            e.printStackTrace();
+            throw new WidgetException("script error:",e);
         }
-        return new HashMap<String, Object>();
     }
 
 }

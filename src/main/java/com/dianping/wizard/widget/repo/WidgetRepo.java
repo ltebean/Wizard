@@ -1,4 +1,6 @@
-package com.dianping.wizard.widget;
+package com.dianping.wizard.widget.repo;
+
+import com.dianping.wizard.widget.Widget;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,9 +15,7 @@ public interface WidgetRepo {
 
     public Widget loadWidgetByName(String name);
 
-    public void addWidget(Widget widget);
-
-    public void updateWidget(Widget widget);
+    public void saveWidget(Widget widget);
 
     public void deleteWidget(String id);
 

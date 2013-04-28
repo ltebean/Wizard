@@ -12,12 +12,12 @@ import java.util.Map;
  * Time: 下午5:05
  * To change this template use File | Settings | File Templates.
  */
-public class DefaultWidgetRenderer implements WidgetRenderer {
+class DefaultWidgetRenderer implements WidgetRenderer {
 
     Logger logger= Logger.getLogger(this.getClass());
 
     @Override
-    public String renderWidget(Widget widget, Widget.ModeType modeType,Map<String,Object> params){
+    public String renderWidget(Widget widget, String modeType,Map<String,Object> params){
         if (widget == null) {
             throw new IllegalArgumentException("widget can not be null");
         }

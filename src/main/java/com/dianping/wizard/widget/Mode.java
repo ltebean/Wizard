@@ -9,33 +9,10 @@ package com.dianping.wizard.widget;
  */
 public class Mode {
 
-    private String code;
+    public String code;
 
-    private String script;
+    public String script;
 
-    private String template;
+    public String template;
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getScript() {
-        return script;
-    }
-
-    public void setScript(String script) {
-        this.script = script;
-    }
-
-    public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
-    }
 }

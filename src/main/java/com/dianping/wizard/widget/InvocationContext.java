@@ -27,11 +27,11 @@ public class InvocationContext {
 
     private String output;
 
-    private final Widget.ModeType modeType;
+    private final String modeType;
 
     private final Iterator<Interceptor> interceptors;
 
-    public InvocationContext(Widget widget, Widget.ModeType modeType, Map<String, Object> params, Iterator<Interceptor> interceptors) {
+    public InvocationContext(Widget widget, String modeType, Map<String, Object> params, Iterator<Interceptor> interceptors) {
         this.widget = widget;
         this.modeType=modeType;
         this.context = new HashMap<String, Object>();
@@ -71,7 +71,7 @@ public class InvocationContext {
         this.output = output;
     }
 
-    public Widget.ModeType getModeType() {
+    public String getModeType() {
         return modeType;
     }
 }
