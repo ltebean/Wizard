@@ -7,11 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ltebean
- * Date: 13-4-27
- * Time: 上午9:35
- * To change this template use File | Settings | File Templates.
+ * @author ltebean
  */
 public class Layout extends Model {
 
@@ -19,7 +15,10 @@ public class Layout extends Model {
 
     public Map<String,List<String>> config=new HashMap<String, List<String>>();
 
-    public Map<String,String> result=new HashMap<String, String>();
-
-
+    public static Layout cloneFromPrototype(Layout prototype,String newName){
+        Layout layout=new Layout();
+        layout.name=newName;
+        layout.config=prototype.config;
+        return layout;
+    }
 }

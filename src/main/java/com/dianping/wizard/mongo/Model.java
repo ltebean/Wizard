@@ -8,7 +8,6 @@ import org.jongo.marshall.jackson.oid.ObjectId;
 
 /**
  * @author cong.yu
- * 
  */
 public class Model {
     @Id

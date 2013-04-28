@@ -6,11 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ltebean
- * Date: 13-4-27
- * Time: 上午9:24
- * To change this template use File | Settings | File Templates.
+ * @author ltebean
  */
 public class WidgetRendererFactory {
 

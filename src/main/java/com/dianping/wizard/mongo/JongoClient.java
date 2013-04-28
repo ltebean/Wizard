@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 
 import com.dianping.wizard.config.Config;
 import com.dianping.wizard.config.Constants;
+import com.dianping.wizard.exception.WizardExeption;
 import org.apache.commons.configuration.Configuration;
 import org.jongo.Jongo;
 
@@ -15,13 +16,12 @@ import com.mongodb.MongoException;
 
 /**
  * @author cong.yu
- * 
  */
 public class JongoClient {
 
-    private static Configuration config= Config.getConfiguraion();
+    private static final Configuration config= Config.getConfiguraion();
 
-    private static Jongo jongo;
+    private static final Jongo jongo;
 
     private static final String SERVER_ADDRESS =config.getString(Constants.MONGODB_HOST,"127.0.0.1");
 
@@ -33,10 +33,8 @@ public class JongoClient {
         try {
             Mongo mongo = new Mongo(SERVER_ADDRESS, SERVER_PORT);
             jongo = new Jongo(mongo.getDB(DB_NAME));
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (MongoException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new WizardExeption("failed to connect to mongodb",e);
         }
     }
 

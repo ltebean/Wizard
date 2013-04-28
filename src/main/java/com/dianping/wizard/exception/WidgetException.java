@@ -1,11 +1,7 @@
 package com.dianping.wizard.exception;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ltebean
- * Date: 13-4-24
- * Time: 上午8:57
- * To change this template use File | Settings | File Templates.
+ * @author ltebean
  */
 public class WidgetException extends RuntimeException {
 

@@ -6,17 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ltebean
- * Date: 13-4-23
- * Time: 下午4:27
- * To change this template use File | Settings | File Templates.
+ * @author ltebean
  */
 public class Widget extends Model {
-    public static void main(String[] args) {
-
-    }
-
 
     public enum ModeType{
 
@@ -36,5 +28,14 @@ public class Widget extends Model {
     public Map<String,Object> config;
 
     public Map<String,Mode> modes;
+
+    public static Widget cloneFromPrototype(Widget prototype,String newName){
+        Widget widget=new Widget();
+        widget.name=newName;
+        widget.type=prototype.type;
+        widget.config=prototype.config;
+        widget.modes=prototype.modes;
+        return widget;
+    }
 
 }

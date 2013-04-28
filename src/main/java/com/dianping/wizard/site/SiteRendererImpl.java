@@ -14,11 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ltebean
- * Date: 13-4-27
- * Time: 上午11:35
- * To change this template use File | Settings | File Templates.
+ * @author ltebean
  */
 public class SiteRendererImpl implements SiteRenderer {
 
@@ -27,7 +23,6 @@ public class SiteRendererImpl implements SiteRenderer {
     private WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
 
     private LayoutRepo layoutRepo= LayoutRepoFactory.getRepo("default");
-
 
     private ScriptEngine engine=ScriptEngine.getInstance();
 

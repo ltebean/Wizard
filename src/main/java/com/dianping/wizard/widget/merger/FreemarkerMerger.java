@@ -16,11 +16,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ltebean
- * Date: 13-4-24
- * Time: 上午9:22
- * To change this template use File | Settings | File Templates.
+ * @author ltebean
  */
 public class FreemarkerMerger {
 

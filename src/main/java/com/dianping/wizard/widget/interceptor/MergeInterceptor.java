@@ -16,7 +16,10 @@ import com.dianping.wizard.widget.merger.FreemarkerUtils;
 public class MergeInterceptor implements Interceptor {
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
-        invocation.invoke();
+        String resultCode=invocation.invoke();
+        if(resultCode==InvocationContext.NONE){
+            return resultCode;
+        }
         Widget widget=invocation.getWidget();
         Mode mode=widget.modes.get(invocation.getModeType());
         if(mode==null){

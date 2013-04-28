@@ -3,16 +3,19 @@ package com.dianping.wizard.site;
 import com.dianping.wizard.widget.Widget;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ltebean
- * Date: 13-4-27
- * Time: 上午9:34
- * To change this template use File | Settings | File Templates.
+ * @author ltebean
  */
 public class Site extends Widget{
 
     public String rule;
 
-    public Layout layout;
-
+    public static Site cloneFromPrototype(Site prototype,String newSiteName){
+        Site site=new Site();
+        site.name=newSiteName;
+        site.rule=prototype.rule;
+        site.type=prototype.type;
+        site.config=prototype.config;
+        site.modes=prototype.modes;
+        return site;
+    }
 }

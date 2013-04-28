@@ -12,8 +12,7 @@ import java.util.Map;
 /**
  * Unit test for simple App.
  */
-public class WidgetTest
-    extends TestCase
+public class WidgetTest extends TestCase
 {
     /**
      * Create the test case

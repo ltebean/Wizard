@@ -1,8 +1,10 @@
 package com.dianping.wizard.widget;
 
+import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.widget.interceptor.InterceptorConfig;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -21,10 +23,19 @@ class DefaultWidgetRenderer implements WidgetRenderer {
         if (widget == null) {
             throw new IllegalArgumentException("widget can not be null");
         }
+        if (params == null) {
+            params=new HashMap<String, Object>();
+        }
         InvocationContext invocation=new InvocationContext(widget, modeType,params, InterceptorConfig.getInterceptors());
         try {
-            invocation.invoke();
-            return invocation.getOutput();
+            String resultCode=invocation.invoke();
+            if(resultCode==InvocationContext.SUCCESS){
+                return invocation.getOutput();
+            }else if(resultCode==InvocationContext.NONE){
+                return "";
+            }else{
+                throw new WidgetException("unknown result code: "+resultCode);
+            }
         } catch (Exception e) {
             logger.error("rendering error",e);
         }

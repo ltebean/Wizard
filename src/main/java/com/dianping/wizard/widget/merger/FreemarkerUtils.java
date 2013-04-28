@@ -3,11 +3,7 @@ package com.dianping.wizard.widget.merger;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: ltebean
- * Date: 13-4-24
- * Time: 上午9:20
- * To change this template use File | Settings | File Templates.
+ * @author ltebean
  */
 public class FreemarkerUtils {
 

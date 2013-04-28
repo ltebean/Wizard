@@ -14,9 +14,10 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class ScriptEngine {
+
     private static final ScriptEngine ourInstance = new ScriptEngine();
 
-    private javax.script.ScriptEngine engine;
+    private final javax.script.ScriptEngine engine;
 
     public static ScriptEngine getInstance() {
         return ourInstance;
@@ -36,7 +37,7 @@ public class ScriptEngine {
             Object result= engine.get("result");
             return result;
         }catch (Exception e){
-            throw new WidgetException("script error:",e);
+            throw new WidgetException("script running error:", e);
         }
     }
 
