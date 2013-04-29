@@ -1,13 +1,12 @@
 package com.dianping.wizard.site;
 
+import com.dianping.wizard.repo.GenericRepo;
+import com.dianping.wizard.repo.RepoFactory;
 import com.dianping.wizard.script.ScriptEngine;
-import com.dianping.wizard.site.repo.LayoutRepo;
-import com.dianping.wizard.site.repo.LayoutRepoFactory;
 import com.dianping.wizard.widget.Widget;
 import com.dianping.wizard.widget.WidgetRenderer;
 import com.dianping.wizard.widget.WidgetRendererFactory;
-import com.dianping.wizard.widget.repo.WidgetRepo;
-import com.dianping.wizard.widget.repo.WidgetRepoFactory;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,17 +17,17 @@ import java.util.Map;
  */
 public class SiteRendererImpl implements SiteRenderer {
 
-    private WidgetRepo widgetRepo= WidgetRepoFactory.getRepo("default");
+    private GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
 
     private WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
 
-    private LayoutRepo layoutRepo= LayoutRepoFactory.getRepo("default");
+    private GenericRepo<Layout> layoutRepo= RepoFactory.getRepo(Layout.class);
 
     private ScriptEngine engine=ScriptEngine.getInstance();
 
     @Override
     public String renderSite(Site site, String mode, Map<String, Object> params) {
-        Layout layout=layoutRepo.loadLayoutByName(getLayoutName(site.rule,params));
+        Layout layout=layoutRepo.loadByName(getLayoutName(site.rule, params));
         ResultWrapper wrapper =renderComponents(layout, mode, params);
         Map<String,Object> siteParam=new HashMap<String, Object>();
         siteParam.put("output", wrapper.output);
@@ -43,16 +42,23 @@ public class SiteRendererImpl implements SiteRenderer {
 
     private ResultWrapper renderComponents(Layout layout,String mode,Map<String,Object>param){
         ResultWrapper wrapper=new ResultWrapper();
+        StringBuilder scriptBuilder=new StringBuilder();
         for(Map.Entry<String,List<String>> entry : layout.config.entrySet()) {
             String colKey=entry.getKey();
-            String s="";
+            StringBuilder builder=new StringBuilder();
             for(String widgetName:entry.getValue()){
-                Widget widget=widgetRepo.loadWidgetByName(widgetName);
-                s+=renderer.renderWidget(widget,mode,param);
-                wrapper.script+=  widget.modes.get(mode).script;
+                Widget widget=widgetRepo.loadByName(widgetName);
+                builder.append(renderer.renderWidget(widget,mode,param));
+                if(widget.modes.get(mode)==null){
+                    continue;
+                }
+                if(StringUtils.isNotEmpty(widget.modes.get(mode).script)){
+                    scriptBuilder.append(widget.modes.get(mode).script);
+                }
             }
-            wrapper.output.put(colKey,s);
+            wrapper.output.put(colKey,builder.toString());
         }
+        wrapper.script=scriptBuilder.toString();
         return wrapper;
     }
 }

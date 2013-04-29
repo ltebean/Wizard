@@ -1,7 +1,8 @@
 package com.dianping.wizard.widget;
 
-import com.dianping.wizard.widget.repo.WidgetRepo;
-import com.dianping.wizard.widget.repo.WidgetRepoFactory;
+import com.dianping.wizard.repo.GenericRepo;
+import com.dianping.wizard.repo.GenericRepoImpl;
+import com.dianping.wizard.repo.RepoFactory;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -37,8 +38,8 @@ public class WidgetTest extends TestCase
      */
     public void testApp()
     {
-        WidgetRepo repo= WidgetRepoFactory.getRepo("default");
-        Widget widget=repo.loadWidgetByName("shopDisplay");
+        GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
+        Widget widget=widgetRepo.loadByName("shopDisplay");
         widget.name="shopDisplay";
         Mode displayMode=new Mode();
         displayMode.code="name=service.get('shopService').getShopName(1);shop=['shopId':param.shopId,'name':name];result=['shop':shop];";

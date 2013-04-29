@@ -1,16 +1,12 @@
 package com.dianping.wizard.site;
 
-import com.dianping.wizard.site.repo.LayoutRepo;
-import com.dianping.wizard.site.repo.LayoutRepoImp;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,25 +54,25 @@ public class SiteTest extends TestCase
 //        layoutRepo.saveLayout(layout);
 
 
-//        Map<String,Object> params=new HashMap<String, Object>();
-//        params.put("shopId",50000);
-//
-//        Site site=new Site();
-//        site.modes=new HashMap<String, Mode>();
-//        site.rule="result='';if(shopId==500000){result='once';}else{result='twice';}";
-//
-//        Mode displayMode=new Mode();
-//        displayMode.code="";
-//        displayMode.template="${param.output.col}\n<script>${param.script}</script>";
-//        site.modes.put("display", displayMode);
-//
-//        Mode configMode=new Mode();
-//        configMode.code="";
-//        configMode.template="${param.output.col}\n<script>${param.script}</script>";
-//        site.modes.put("config", configMode);
-//
-//        SiteRenderer renderer= new SiteRendererImpl();
-//        System.out.println(renderer.renderSite(site, Widget.ModeType.Config.value, params));
+        Map<String,Object> params=new HashMap<String, Object>();
+        params.put("shopId",50000);
+
+        Site site=new Site();
+        site.modes=new HashMap<String, Mode>();
+        site.rule="result='';if(shopId==500000){result='once';}else{result='twice';}";
+
+        Mode displayMode=new Mode();
+        displayMode.code="";
+        displayMode.template="${param.output.main}\n<script>${param.script}</script>";
+        site.modes.put("display", displayMode);
+
+        Mode configMode=new Mode();
+        configMode.code="";
+        configMode.template="${param.output.col}\n<script>${param.script}</script>";
+        site.modes.put("config", configMode);
+
+        SiteRenderer renderer= new SiteRendererImpl();
+        System.out.println(renderer.renderSite(site, Widget.ModeType.Config.value, params));
     }
 }
 
