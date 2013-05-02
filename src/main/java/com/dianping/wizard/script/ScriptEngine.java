@@ -2,9 +2,10 @@ package com.dianping.wizard.script;
 
 import com.dianping.wizard.exception.WidgetException;
 
-import javax.script.ScriptEngineManager;
-import java.util.HashMap;
+import javax.script.*;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +20,8 @@ public class ScriptEngine {
 
     private final javax.script.ScriptEngine engine;
 
+    private final ConcurrentMap<String, CompiledScript> compiledScripts = new ConcurrentHashMap<String, CompiledScript>();
+
     public static ScriptEngine getInstance() {
         return ourInstance;
     }
@@ -29,12 +32,17 @@ public class ScriptEngine {
     }
 
     public Object eval(Map<String,Object> context,String code){
+
         try {
-            for(Map.Entry<String,Object> entry : context.entrySet()) {
-                engine.put(entry.getKey(),entry.getValue());
+            CompiledScript script = compiledScripts.get(code);
+            if(script==null){
+                script = ((Compilable) engine).compile(code);
+                compiledScripts.putIfAbsent(code, script);
             }
-            engine.eval(code);
-            Object result= engine.get("result");
+            Bindings bindings = engine.createBindings();
+            bindings.putAll(context);
+            script.eval(bindings);
+            Object result= bindings.get("result");
             return result;
         }catch (Exception e){
             throw new WidgetException("script running error:", e);

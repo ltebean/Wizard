@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class WidgetRendererFactory {
 
-    private static Map<String,WidgetRenderer> renders;
+    private static final Map<String,WidgetRenderer> renders;
 
     static{
         renders=new HashMap<String, WidgetRenderer>();

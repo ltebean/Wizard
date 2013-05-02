@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class BusinessInterceptor implements Interceptor {
 
-    private ScriptEngine engine= ScriptEngine.getInstance();
+    private final ScriptEngine engine= ScriptEngine.getInstance();
 
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
@@ -27,7 +27,7 @@ public class BusinessInterceptor implements Interceptor {
         context.put("config",widget.config);
         Mode mode=widget.modes.get(invocation.getModeType());
         if(mode==null){
-            throw new WidgetException("mode not found:"+invocation.getModeType());
+            throw new WidgetException("widget("+widget.name+") does not support mode:"+invocation.getModeType()+"");
         }
         if(StringUtils.isEmpty(mode.code)){
             return InvocationContext.SUCCESS;

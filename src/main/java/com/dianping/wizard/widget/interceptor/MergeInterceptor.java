@@ -23,7 +23,7 @@ public class MergeInterceptor implements Interceptor {
         Widget widget=invocation.getWidget();
         Mode mode=widget.modes.get(invocation.getModeType());
         if(mode==null){
-            throw new WidgetException("mode not found:"+invocation.getModeType());
+            throw new WidgetException("widget("+widget.name+") does not support mode:"+invocation.getModeType()+"");
         }
         invocation.setOutput(FreemarkerUtils.merge(mode.template,invocation.getContext()));
         return InvocationContext.SUCCESS;

@@ -27,7 +27,7 @@ public class JongoClient {
 
     private static final int SERVER_PORT = config.getInt(Constants.MONGODB_PORT,27017);
 
-    private static final String DB_NAME = "test";
+    private static final String DB_NAME = config.getString(Constants.MONGODB_NAME,"test");
 
     static {
         try {

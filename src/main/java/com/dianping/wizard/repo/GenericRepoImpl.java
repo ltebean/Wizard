@@ -10,24 +10,23 @@ import org.jongo.MongoCollection;
  */
 public class GenericRepoImpl<T> implements GenericRepo<T> {
 
-    private MongoCollection col;
+    protected MongoCollection col;
 
     private Class<T> clazz;
 
     public GenericRepoImpl(Class<T> clazz) {
         this.clazz =clazz;
         this.col= JongoClient.getInstance().getCollection(StringUtils.lowerCase(clazz.getSimpleName()));
-
     }
 
     @Override
     public  T load(String id) {
-        return (T)(col.findOne(new ObjectId(id)).as(clazz));
+        return col.findOne(new ObjectId(id)).as(clazz);
     }
 
     @Override
     public  T loadByName(String name) {
-        return (T)(col.findOne("{name:#}",name).as(clazz));
+        return col.findOne("{name:#}",name).as(clazz);
     }
 
     @Override

@@ -63,16 +63,21 @@ public class SiteTest extends TestCase
 
         Mode displayMode=new Mode();
         displayMode.code="";
-        displayMode.template="${param.output.main}\n<script>${param.script}</script>";
+        displayMode.template="${param.layout.main}\n<script>${param.script}</script>";
         site.modes.put("display", displayMode);
 
         Mode configMode=new Mode();
         configMode.code="";
-        configMode.template="${param.output.col}\n<script>${param.script}</script>";
+        configMode.template="${param.layout.col}\n<script>${param.script}</script>";
         site.modes.put("config", configMode);
 
-        SiteRenderer renderer= new SiteRendererImpl();
-        System.out.println(renderer.renderSite(site, Widget.ModeType.Config.value, params));
+        SiteRenderer renderer= SiteRendererFactory.getRenderer("default");
+        System.out.println(renderer.renderSite(site, Widget.ModeType.Display.value, params));
+
+        long start=System.currentTimeMillis();
+        System.out.println(renderer.renderSite(site, Widget.ModeType.Display.value, params));
+
+        System.out.println(System.currentTimeMillis()-start);
     }
 }
 

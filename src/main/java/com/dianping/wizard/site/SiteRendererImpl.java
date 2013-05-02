@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * @author ltebean
  */
-public class SiteRendererImpl implements SiteRenderer {
+class SiteRendererImpl implements SiteRenderer {
 
     private GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
 
@@ -30,7 +30,7 @@ public class SiteRendererImpl implements SiteRenderer {
         Layout layout=layoutRepo.loadByName(getLayoutName(site.rule, params));
         ResultWrapper wrapper =renderComponents(layout, mode, params);
         Map<String,Object> siteParam=new HashMap<String, Object>();
-        siteParam.put("output", wrapper.output);
+        siteParam.put("layout", wrapper.output);
         siteParam.put("script", wrapper.script);
         return renderer.renderWidget(site,mode,siteParam);
     }

@@ -34,7 +34,7 @@ class DefaultWidgetRenderer implements WidgetRenderer {
             }else if(resultCode==InvocationContext.NONE){
                 return "";
             }else{
-                throw new WidgetException("unknown result code: "+resultCode);
+                throw new WidgetException("unknown result code-"+resultCode+" returned by widget:"+widget.name);
             }
         } catch (Exception e) {
             logger.error("rendering error",e);
