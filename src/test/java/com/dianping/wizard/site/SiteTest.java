@@ -59,7 +59,7 @@ public class SiteTest extends TestCase
 
         Site site=new Site();
         site.modes=new HashMap<String, Mode>();
-        site.rule="result='';if(shopId==500000){result='once';}else{result='twice';}";
+        site.rule="if(shopId==500000){return 'once';}else{return 'twice';}";
 
         Mode displayMode=new Mode();
         displayMode.code="";
@@ -72,6 +72,7 @@ public class SiteTest extends TestCase
         site.modes.put("config", configMode);
 
         SiteRenderer renderer= SiteRendererFactory.getRenderer("default");
+
         System.out.println(renderer.renderSite(site, Widget.ModeType.Display.value, params));
 
         long start=System.currentTimeMillis();

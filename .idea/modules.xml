@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/wizard.iml" filepath="$PROJECT_DIR$/wizard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wizard-admin/wizard-admin.iml" filepath="$PROJECT_DIR$/../wizard-admin/wizard-admin.iml" />
+    </modules>
+  </component>
+</project>
+
