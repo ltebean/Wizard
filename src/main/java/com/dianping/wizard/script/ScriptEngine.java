@@ -3,7 +3,6 @@ package com.dianping.wizard.script;
 import com.dianping.wizard.exception.WidgetException;
 
 import javax.script.*;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -42,7 +41,8 @@ public class ScriptEngine {
             }
             Bindings bindings = engine.createBindings();
             bindings.putAll(context);
-            Object result= script.eval(bindings);
+            script.eval(bindings);
+            Object result= bindings.get("result");
             return result;
         }catch (Exception e){
             throw new WidgetException("script running error:", e);

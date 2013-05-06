@@ -42,7 +42,7 @@ public class WidgetTest extends TestCase
         Widget widget=widgetRepo.loadByName("shopDisplay");
         widget.name="shopDisplay";
         Mode displayMode=new Mode();
-        displayMode.code="name=service.get('shopService').getShopName(1);shop=['shopId':param.shopId,'name':name];return ['shop':shop];";
+        displayMode.code="name=service.get('shopService').getShopName(1);shop=['shopId':param.shopId,'name':name];result=['shop':shop];";
         displayMode.template="shopId:${shop.shopId} name:${HtmlFormater.capitalize(shop.name)}";
         widget.modes.put("display",displayMode);
         //repo.saveWidget(widget);

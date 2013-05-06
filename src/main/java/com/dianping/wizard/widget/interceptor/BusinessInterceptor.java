@@ -32,13 +32,8 @@ public class BusinessInterceptor implements Interceptor {
         if(StringUtils.isEmpty(mode.code)){
             return InvocationContext.SUCCESS;
         }
-        Object result=engine.eval(context,mode.code);
-        if(InvocationContext.NONE.equals(result)){
-            return InvocationContext.NONE;
-        } else {
-            invocation.getContext().putAll((Map<String,Object>)result);
-            return InvocationContext.SUCCESS;
-        }
-
+        Map<String,Object> result= (Map<String,Object>)engine.eval(context,mode.code);
+        invocation.getContext().putAll(result);
+        return InvocationContext.SUCCESS;
     }
 }
