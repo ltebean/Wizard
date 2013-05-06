@@ -26,14 +26,21 @@ public class BusinessInterceptor implements Interceptor {
         Map<String,Object> context=invocation.getContext();
         context.put("config",widget.config);
         Mode mode=widget.modes.get(invocation.getModeType());
+
         if(mode==null){
             throw new WidgetException("widget("+widget.name+") does not support mode:"+invocation.getModeType()+"");
         }
         if(StringUtils.isEmpty(mode.code)){
             return InvocationContext.SUCCESS;
         }
-        Map<String,Object> result= (Map<String,Object>)engine.eval(context,mode.code);
-        invocation.getContext().putAll(result);
+
+        Object result=engine.eval(context,mode.code);
+
+        if(InvocationContext.NONE.equals(result)){
+            return InvocationContext.NONE;
+        }
+
+        invocation.getContext().putAll((Map<String,Object>)result);
         return InvocationContext.SUCCESS;
     }
 }

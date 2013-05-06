@@ -41,8 +41,7 @@ public class ScriptEngine {
             }
             Bindings bindings = engine.createBindings();
             bindings.putAll(context);
-            script.eval(bindings);
-            Object result= bindings.get("result");
+            Object result= script.eval(bindings);
             return result;
         }catch (Exception e){
             throw new WidgetException("script running error:", e);
