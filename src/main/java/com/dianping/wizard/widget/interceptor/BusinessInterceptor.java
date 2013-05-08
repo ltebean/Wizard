@@ -2,6 +2,7 @@ package com.dianping.wizard.widget.interceptor;
 
 import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.script.ScriptEngine;
+import com.dianping.wizard.script.ScriptEngineFactory;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public class BusinessInterceptor implements Interceptor {
 
-    private final ScriptEngine engine= ScriptEngine.getInstance();
+    private final ScriptEngine engine= ScriptEngineFactory.getEngine("default");
 
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
@@ -34,7 +35,7 @@ public class BusinessInterceptor implements Interceptor {
             return InvocationContext.SUCCESS;
         }
 
-        Object result=engine.eval(context,mode.code);
+        Object result=engine.eval(mode.code,context);
 
         if(InvocationContext.NONE.equals(result)){
             return InvocationContext.NONE;

@@ -2,7 +2,9 @@ package com.dianping.wizard.site;
 
 import com.dianping.wizard.repo.GenericRepo;
 import com.dianping.wizard.repo.RepoFactory;
+import com.dianping.wizard.script.DefaultScriptEngine;
 import com.dianping.wizard.script.ScriptEngine;
+import com.dianping.wizard.script.ScriptEngineFactory;
 import com.dianping.wizard.widget.Widget;
 import com.dianping.wizard.widget.WidgetRenderer;
 import com.dianping.wizard.widget.WidgetRendererFactory;
@@ -17,13 +19,13 @@ import java.util.Map;
  */
 class SiteRendererImpl implements SiteRenderer {
 
-    private GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
+    private final GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
 
-    private WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
+    private final WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
 
-    private GenericRepo<Layout> layoutRepo= RepoFactory.getRepo(Layout.class);
+    private final GenericRepo<Layout> layoutRepo= RepoFactory.getRepo(Layout.class);
 
-    private ScriptEngine engine=ScriptEngine.getInstance();
+    private final ScriptEngine engine= ScriptEngineFactory.getEngine("default");
 
     @Override
     public String renderSite(Site site, String mode, Map<String, Object> params) {
@@ -36,7 +38,7 @@ class SiteRendererImpl implements SiteRenderer {
     }
 
     private String getLayoutName(String rule, Map<String, Object> params){
-        return (String)engine.eval(params,rule);
+        return (String)engine.eval(rule,params);
     }
 
 
