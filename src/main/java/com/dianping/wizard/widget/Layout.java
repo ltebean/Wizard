@@ -1,4 +1,4 @@
-package com.dianping.wizard.site;
+package com.dianping.wizard.widget;
 
 import com.dianping.wizard.mongo.Model;
 

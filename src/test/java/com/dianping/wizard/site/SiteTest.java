@@ -2,6 +2,8 @@ package com.dianping.wizard.site;
 
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
+import com.dianping.wizard.widget.WidgetRenderer;
+import com.dianping.wizard.widget.WidgetRendererFactory;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -55,27 +57,22 @@ public class SiteTest extends TestCase
 
 
         Map<String,Object> params=new HashMap<String, Object>();
-        params.put("shopId",50000);
+        params.put("shopId",5000);
 
-        Site site=new Site();
+        Widget site=new Widget();
         site.modes=new HashMap<String, Mode>();
-        site.rule="if(shopId==500000){return 'once';}else{return 'twice';}";
+        site.rule="if(param.shopId==500000){return 'once';}else{return 'ad';}";
 
         Mode displayMode=new Mode();
         displayMode.code="";
-        displayMode.template="${param.layout.main}\n<script>${param.script}</script>";
+        displayMode.template="${layout.main}\n<script>${script}</script>";
         site.modes.put("display", displayMode);
 
-        Mode configMode=new Mode();
-        configMode.code="";
-        configMode.template="${param.layout.col}\n<script>${param.script}</script>";
-        site.modes.put("config", configMode);
-
-        SiteRenderer renderer= SiteRendererFactory.getRenderer("default");
-        System.out.println(renderer.renderSite(site, Widget.ModeType.Display.value, params));
+        WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
+        System.out.println(renderer.renderWidget(site, Widget.ModeType.Display.value, params));
 
         long start=System.currentTimeMillis();
-        System.out.println(renderer.renderSite(site, Widget.ModeType.Display.value, params));
+        //System.out.println(renderer.renderWidget(site, Widget.ModeType.Display.value, params));
 
         System.out.println(System.currentTimeMillis()-start);
     }

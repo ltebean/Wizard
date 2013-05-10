@@ -23,6 +23,10 @@ public class Widget extends Model {
 
     public String name;
 
+    public String rule;
+
+    public String layoutName;
+
     public String type;
 
     public Map<String,Object> config;
@@ -32,6 +36,8 @@ public class Widget extends Model {
     public static Widget cloneFromPrototype(Widget prototype,String newName){
         Widget widget=new Widget();
         widget.name=newName;
+        widget.rule=prototype.rule;
+        widget.layoutName=prototype.layoutName;
         widget.type=prototype.type;
         widget.config=prototype.config;
         widget.modes=prototype.modes;

@@ -23,6 +23,7 @@ public class InterceptorConfig {
         interceptors.add(new MergeInterceptor());
         interceptors.add(new ServiceInjectionInterceptor());
         interceptors.add(new StaticModelInjectionInterceptor());
+        interceptors.add(new RenderLayoutInterceptor());
         interceptors.add(new BusinessInterceptor());
     }
 

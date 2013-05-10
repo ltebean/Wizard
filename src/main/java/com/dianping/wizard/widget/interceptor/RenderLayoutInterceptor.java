@@ -1,23 +1,19 @@
-package com.dianping.wizard.site;
+package com.dianping.wizard.widget.interceptor;
 
 import com.dianping.wizard.repo.GenericRepo;
 import com.dianping.wizard.repo.RepoFactory;
-import com.dianping.wizard.script.DefaultScriptEngine;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
-import com.dianping.wizard.widget.Widget;
-import com.dianping.wizard.widget.WidgetRenderer;
-import com.dianping.wizard.widget.WidgetRendererFactory;
+import com.dianping.wizard.widget.*;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author ltebean
  */
-class SiteRendererImpl implements SiteRenderer {
+public class RenderLayoutInterceptor implements Interceptor {
 
     private final GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
 
@@ -28,21 +24,21 @@ class SiteRendererImpl implements SiteRenderer {
     private final ScriptEngine engine= ScriptEngineFactory.getEngine("default");
 
     @Override
-    public String renderSite(Site site, String mode, Map<String, Object> params) {
-        Layout layout=layoutRepo.loadByName(getLayoutName(site.rule, params));
-        ResultWrapper wrapper =renderComponents(layout, mode, params);
-        Map<String,Object> siteParam=new HashMap<String, Object>();
-        siteParam.put("layout", wrapper.output);
-        siteParam.put("script", wrapper.script);
-        return renderer.renderWidget(site,mode,siteParam);
+    public String intercept(InvocationContext invocation) throws Exception {
+        Widget widget=invocation.getWidget();
+        if(StringUtils.isNotEmpty(widget.rule)){
+             widget.layoutName=(String)engine.eval(widget.rule,invocation.getContext());
+        }
+        if(StringUtils.isNotEmpty(widget.layoutName)){
+            Layout layout=layoutRepo.loadByName(widget.layoutName);
+            ResultWrapper wrapper=renderComponents(layout,invocation.getModeType(),invocation.getContext());
+            invocation.getContext().put("layout", wrapper.output);
+            invocation.getContext().put("script", wrapper.script);
+        }
+        return invocation.invoke();
     }
 
-    private String getLayoutName(String rule, Map<String, Object> params){
-        return (String)engine.eval(rule,params);
-    }
-
-
-    private ResultWrapper renderComponents(Layout layout,String mode,Map<String,Object>param){
+    private ResultWrapper renderComponents(Layout layout,String mode,Map<String,Object> param){
         ResultWrapper wrapper=new ResultWrapper();
         StringBuilder scriptBuilder=new StringBuilder();
         for(Map.Entry<String,List<String>> entry : layout.config.entrySet()) {
