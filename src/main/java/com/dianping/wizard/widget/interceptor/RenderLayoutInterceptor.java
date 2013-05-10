@@ -31,7 +31,8 @@ public class RenderLayoutInterceptor implements Interceptor {
         }
         if(StringUtils.isNotEmpty(widget.layoutName)){
             Layout layout=layoutRepo.loadByName(widget.layoutName);
-            ResultWrapper wrapper=renderComponents(layout,invocation.getModeType(),invocation.getContext());
+            Map<String,Object> param=(Map< String,Object>) invocation.getContext().get("param");
+            ResultWrapper wrapper=renderComponents(layout,invocation.getModeType(),param);
             invocation.getContext().put("layout", wrapper.output);
             invocation.getContext().put("script", wrapper.script);
         }
