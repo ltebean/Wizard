@@ -1,15 +1,15 @@
 package com.dianping.wizard.widget.extension;
 
-import com.dianping.wizard.config.Config;
-import com.dianping.wizard.config.Constants;
+import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.interceptor.Interceptor;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,16 +21,10 @@ public class StaticModelInjectionInterceptor implements Interceptor {
 
     public StaticModelInjectionInterceptor() {
         staticModels=new HashMap<String, Object>();
-        String staticModelList= Config.getConfiguraion().getString(Constants.STATIC_MODEL_LIST);
-        if(StringUtils.isEmpty(staticModelList)){
+        List<String> modelList=Configuration.get("extension.staticModels",List.class);
+        if(CollectionUtils.isEmpty(modelList)){
             return;
         }
-
-        String[] modelList=staticModelList.split("\\|");
-        if(modelList==null||modelList.length==0){
-            return;
-        }
-
         BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
         TemplateHashModel models = wrapper.getStaticModels();
         for (String clazz : modelList) {

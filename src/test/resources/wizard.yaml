@@ -1,0 +1,10 @@
+mongo:
+    host: 127.0.0.1
+    port: 27017
+    db: test
+freemarker:
+    properties: freemarker.properties
+extension:
+    serviceLocator: com.dianping.wizard.service.ServiceLocator
+    staticModels:
+        - com.dianping.wizard.service.HtmlFormater

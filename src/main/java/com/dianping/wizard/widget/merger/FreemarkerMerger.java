@@ -1,13 +1,10 @@
 package com.dianping.wizard.widget.merger;
 
-import com.dianping.wizard.config.Config;
-import com.dianping.wizard.config.Constants;
+import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
 import freemarker.cache.StringTemplateLoader;
-import freemarker.template.Configuration;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.StringReader;
@@ -22,7 +19,7 @@ public class FreemarkerMerger {
 
     private static FreemarkerMerger instance=new FreemarkerMerger();
 
-    private Configuration cfg;
+    private freemarker.template.Configuration cfg;
 
     public String merge(String templateString,Map<String,Object> context) throws Exception {
         Template template = new Template("strTemplate", new StringReader(templateString), cfg);
@@ -32,9 +29,9 @@ public class FreemarkerMerger {
     }
 
     private FreemarkerMerger() {
-        cfg=new Configuration();
+        cfg=new freemarker.template.Configuration();
         Properties properties = new Properties();
-        String freemarkerProperties= Config.getConfiguraion().getString(Constants.FREEMARKER_PROPERTIES);
+        String freemarkerProperties= Configuration.get("freemarker.properties",String.class);
         if(StringUtils.isNotEmpty(freemarkerProperties)){
             try {
                 properties.load(this.getClass().getClassLoader()

@@ -1,7 +1,6 @@
 package com.dianping.wizard.widget.extension;
 
-import com.dianping.wizard.config.Config;
-import com.dianping.wizard.config.Constants;
+import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.interceptor.Interceptor;
@@ -21,12 +20,11 @@ public class ServiceInjectionInterceptor implements Interceptor {
     private  boolean hasLocator;
 
     public ServiceInjectionInterceptor() {
-        String locatorClassName= Config.getConfiguraion().getString(Constants.SERVICE_LOCATOR);
+        String locatorClassName= Configuration.get("extension.serviceLocator",String.class);
         if(StringUtils.isEmpty(locatorClassName)){
             hasLocator=false;
             return;
         }
-        Object serviceLocator;
         try{
             locator=(ServiceLocator)Class.forName(locatorClassName).newInstance();
             hasLocator=true;
