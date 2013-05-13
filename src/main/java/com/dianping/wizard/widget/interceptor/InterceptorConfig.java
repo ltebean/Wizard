@@ -1,7 +1,10 @@
 package com.dianping.wizard.widget.interceptor;
 
+import com.dianping.wizard.config.Configuration;
+import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.widget.extension.ServiceInjectionInterceptor;
 import com.dianping.wizard.widget.extension.StaticModelInjectionInterceptor;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,12 +22,20 @@ public class InterceptorConfig {
     private static final List<Interceptor> interceptors;
 
     static{
+        List<String> interceptorList=Configuration.get("interceptors",List.class);
+        if(CollectionUtils.isEmpty(interceptorList)){
+            throw new WizardExeption("interceptors rule not found");
+        }
         interceptors=new ArrayList<Interceptor>();
-        interceptors.add(new MergeInterceptor());
-        interceptors.add(new ServiceInjectionInterceptor());
-        interceptors.add(new StaticModelInjectionInterceptor());
-        interceptors.add(new RenderLayoutInterceptor());
-        interceptors.add(new BusinessInterceptor());
+
+        try {
+            for(String interceptorClass:interceptorList){
+                Class clazz=Class.forName(interceptorClass);
+                interceptors.add((Interceptor) clazz.newInstance());
+            }
+        } catch(Exception e) {
+            throw new WizardExeption("interceptors initialization failed",e);
+        }
     }
 
     public static Iterator<Interceptor> getInterceptors() {

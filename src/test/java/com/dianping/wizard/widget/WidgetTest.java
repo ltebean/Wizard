@@ -2,18 +2,16 @@ package com.dianping.wizard.widget;
 
 import com.dianping.wizard.repo.GenericRepo;
 import com.dianping.wizard.repo.RepoFactory;
+import com.dianping.wizard.script.ScriptEngine;
+import com.dianping.wizard.script.ScriptEngineFactory;
+import groovy.lang.GroovyShell;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.yaml.snakeyaml.Yaml;
 
 import javax.script.ScriptException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -43,7 +41,7 @@ public class WidgetTest extends TestCase
     /**
      * Rigourous Test :-)
      */
-    public void testApp() throws ScriptException, NoSuchMethodException {
+    public void testApp() throws Exception {
         GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
         Widget widget=widgetRepo.loadByName("shopDisplay");
         widget.name="shopDisplay";
@@ -57,6 +55,7 @@ public class WidgetTest extends TestCase
         params.put("shopId",500000);
         WidgetRenderer manager=WidgetRendererFactory.getRenderer("default");
         System.out.println(manager.renderWidget(widget, Widget.ModeType.Display.value, params));
+
 
 //        ScriptEngineManager factory = new ScriptEngineManager();
 //        ScriptEngine engine = factory.getEngineByName("JavaScript");

@@ -30,6 +30,11 @@ public class GenericRepoImpl<T> implements GenericRepo<T> {
     }
 
     @Override
+    public  Iterable<T> find(String query, Object... params) {
+        return col.find(query,params).as(clazz);
+    }
+
+    @Override
     public  T save(T t) {
         col.save(t);
         return t;

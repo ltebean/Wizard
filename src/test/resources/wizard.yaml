@@ -4,6 +4,12 @@ mongo:
     db: test
 freemarker:
     properties: freemarker.properties
+interceptors:
+    - com.dianping.wizard.widget.interceptor.MergeInterceptor
+    - com.dianping.wizard.widget.extension.ServiceInjectionInterceptor
+    - com.dianping.wizard.widget.extension.StaticModelInjectionInterceptor
+    - com.dianping.wizard.widget.interceptor.RenderLayoutInterceptor
+    - com.dianping.wizard.widget.interceptor.BusinessInterceptor
 extension:
     serviceLocator: com.dianping.wizard.service.ServiceLocator
     staticModels:

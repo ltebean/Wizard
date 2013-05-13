@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class RepoFactory {
 
-    private static ConcurrentMap<String,GenericRepo> repos=new ConcurrentHashMap<String, GenericRepo>();
+    private static final ConcurrentMap<String,GenericRepo> repos=new ConcurrentHashMap<String, GenericRepo>();
 
     public static GenericRepo getRepo(Class clazz){
         String repoName=clazz.getName();

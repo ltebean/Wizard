@@ -17,9 +17,9 @@ public class RenderLayoutInterceptor implements Interceptor {
 
     private final GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
 
-    private final WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
-
     private final GenericRepo<Layout> layoutRepo= RepoFactory.getRepo(Layout.class);
+
+    private final WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
 
     private final ScriptEngine engine= ScriptEngineFactory.getEngine("default");
 

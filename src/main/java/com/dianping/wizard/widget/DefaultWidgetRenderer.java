@@ -16,7 +16,7 @@ import java.util.Map;
  */
 class DefaultWidgetRenderer implements WidgetRenderer {
 
-    Logger logger= Logger.getLogger(this.getClass());
+    private Logger logger= Logger.getLogger(this.getClass());
 
     @Override
     public String renderWidget(Widget widget, String modeType,Map<String,Object> params){

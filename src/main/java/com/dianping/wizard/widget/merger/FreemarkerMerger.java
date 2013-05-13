@@ -17,15 +17,12 @@ import java.util.Properties;
  */
 public class FreemarkerMerger {
 
-    private static FreemarkerMerger instance=new FreemarkerMerger();
+    private static final FreemarkerMerger instance=new FreemarkerMerger();
 
-    private freemarker.template.Configuration cfg;
+    private final freemarker.template.Configuration cfg;
 
-    public String merge(String templateString,Map<String,Object> context) throws Exception {
-        Template template = new Template("strTemplate", new StringReader(templateString), cfg);
-        StringWriter writer = new StringWriter();
-        template.process(context,writer);
-        return writer.getBuffer().toString();
+    public static FreemarkerMerger getInstance(){
+        return instance;
     }
 
     private FreemarkerMerger() {
@@ -47,9 +44,11 @@ public class FreemarkerMerger {
         cfg.setObjectWrapper(ObjectWrapper.BEANS_WRAPPER);
     }
 
-    public static FreemarkerMerger getInstance(){
-        return instance;
-
+    public String merge(String templateString,Map<String,Object> context) throws Exception {
+        Template template = new Template("strTemplate", new StringReader(templateString), cfg);
+        StringWriter writer = new StringWriter();
+        template.process(context,writer);
+        return writer.getBuffer().toString();
     }
 
 }
