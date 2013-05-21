@@ -1,7 +1,11 @@
 package com.dianping.wizard.repo;
 
+import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.repo.db.LayoutDBRepo;
+import com.dianping.wizard.repo.db.WidgetDBRepo;
+import com.dianping.wizard.repo.local.LayoutLocalRepo;
+import com.dianping.wizard.repo.local.WidgetLocalRepo;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -15,7 +19,12 @@ public class LayoutRepoFactory {
 
     static {
         repos=new ConcurrentHashMap<String, LayoutRepo>();
-        repos.put("default",new LayoutDBRepo());
+        String mode= Configuration.get("mode", "dev", String.class);
+        if(mode.equals("dev")){
+            repos.put("default",new LayoutLocalRepo());
+        }else{
+            repos.put("default",new LayoutDBRepo());
+        }
     }
 
     public static LayoutRepo getRepo(String name){

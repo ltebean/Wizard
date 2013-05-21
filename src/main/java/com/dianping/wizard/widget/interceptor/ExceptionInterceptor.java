@@ -23,13 +23,11 @@ public class ExceptionInterceptor implements Interceptor{
         try {
             return invocation.invoke();
         } catch(Exception e) {
-            if(handling.equals("log")){
-                logger.error("error in rendering widget: " + invocation.getWidget().name, e);
-                return InvocationContext.NONE;
-            } else if(handling.equals("print")){
+            if(handling.equals("print")){
                 invocation.setOutput(ExceptionUtils.getFullStackTrace(e));
                 return InvocationContext.SUCCESS;
             } else {
+                logger.error("error in rendering widget: " + invocation.getWidget().name, e);
                 return InvocationContext.NONE;
             }
         }

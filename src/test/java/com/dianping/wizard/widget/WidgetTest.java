@@ -1,5 +1,6 @@
 package com.dianping.wizard.widget;
 
+import com.dianping.wizard.repo.LayoutRepoFactory;
 import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.repo.WidgetRepoFactory;
 import junit.framework.Test;

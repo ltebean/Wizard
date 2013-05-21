@@ -11,8 +11,6 @@ import java.util.Map;
  */
 public class Layout extends Model {
 
-    public String name;
-
     public Map<String,List<String>> config=new HashMap<String, List<String>>();
 
     public static Layout cloneFromPrototype(Layout prototype,String newName){

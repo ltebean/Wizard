@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class Widget extends Model {
 
-    public enum ModeType{
+    public static enum ModeType{
 
         Display("display"),Config("config");
 
@@ -20,8 +20,6 @@ public class Widget extends Model {
             this.value=value;
         }
     }
-
-    public String name;
 
     public String rule;
 

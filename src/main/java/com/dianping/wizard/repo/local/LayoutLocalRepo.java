@@ -17,7 +17,7 @@ public class LayoutLocalRepo implements LayoutRepo {
         Layout layout=new Layout();
         String config= FileUtils.readFileOnClassPath(name,"layout");
         Yaml yaml=new Yaml(new ByteArrayInputStream(config.getBytes()));
-        layout.name=yaml.get("name","",String.class);
+        layout.name=name;
         layout.config=yaml.get("config",null,Map.class);
         return layout;
     }

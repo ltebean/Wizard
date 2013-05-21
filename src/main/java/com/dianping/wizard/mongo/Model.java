@@ -16,9 +16,9 @@ import java.io.Serializable;
 public class Model implements Serializable{
     @Id
     @ObjectId
-    public String id;
+    public String id="";
 
-    public String name;
+    public String name="";
 
     @Override
     public boolean equals(Object o) {
