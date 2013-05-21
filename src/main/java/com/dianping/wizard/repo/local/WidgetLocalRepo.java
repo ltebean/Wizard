@@ -8,6 +8,7 @@ import com.dianping.wizard.utils.FileUtils;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
@@ -17,6 +18,8 @@ import java.util.Map;
  * @author ltebean
  */
 public class WidgetLocalRepo implements WidgetRepo {
+
+    private final Logger logger= Logger.getLogger(this.getClass());
 
     private  final Cache cache;
 
@@ -33,7 +36,9 @@ public class WidgetLocalRepo implements WidgetRepo {
         Widget widget=(Widget)cache.get(key);
         if (widget == null) {
             widget=constructWidget(name);
-            cache.add(key,widget);
+            if (widget != null) {
+                cache.add(key,widget);
+            }
         }
         return widget;
     }
@@ -53,13 +58,18 @@ public class WidgetLocalRepo implements WidgetRepo {
         widget.modes.put("display",displayMode);
         widget.modes.put("config",configMode);
 
-        String config= FileUtils.readFileOnClassPath(name,"widget");
-        if(StringUtils.isNotEmpty(config)){
-            Yaml yaml=new Yaml(new ByteArrayInputStream(config.getBytes()));
-            widget.config = yaml.get("config",new HashMap<String, Object>(),Map.class);
-            widget.rule=yaml.get("rule","",String.class);
-            widget.layoutName=yaml.get("layoutName","",String.class);
+        try {
+            String config= FileUtils.readFileOnClassPath(name,"widget");
+            if(StringUtils.isNotEmpty(config)){
+                Yaml yaml=new Yaml(new ByteArrayInputStream(config.getBytes()));
+                widget.config = yaml.get("config",new HashMap<String, Object>(),Map.class);
+                widget.rule=yaml.get("rule","",String.class);
+                widget.layoutName=yaml.get("layoutName","",String.class);
+            }
+        } catch(Exception e) {
+            logger.warn("no .widget file for: "+name);
         }
+
         return widget;
     }
 

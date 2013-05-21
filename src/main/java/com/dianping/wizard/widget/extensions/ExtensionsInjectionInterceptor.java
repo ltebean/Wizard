@@ -33,7 +33,7 @@ public class ExtensionsInjectionInterceptor implements Interceptor {
         if(StringUtils.isNotEmpty(locatorClassName)){
             try{
                 ServiceLocator locator=(ServiceLocator)Class.forName(locatorClassName).newInstance();
-                extensions.put("extensions",locator);
+                extensions.put("service",locator);
             }catch (Exception e){
                 throw new WidgetException("extensions locator initialization failed",e);
             }

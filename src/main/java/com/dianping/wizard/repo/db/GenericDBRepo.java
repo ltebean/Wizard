@@ -36,7 +36,9 @@ public class GenericDBRepo<T extends Model> implements GenericRepo<T> {
         T result= (T) cache.get(key);
         if (result == null) {
             result =col.findOne("{name:#}",name).as(clazz);
-            cache.add(key,result);
+            if (result != null) {
+                cache.add(key,result);
+            }
         }
         return result;
     }

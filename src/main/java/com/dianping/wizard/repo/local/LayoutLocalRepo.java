@@ -30,7 +30,9 @@ public class LayoutLocalRepo implements LayoutRepo {
         Layout layout = (Layout) cache.get(key);
         if (layout == null) {
             layout = constructLayout(name);
-            cache.add(key, layout);
+            if (layout != null) {
+                cache.add(key,layout);
+            }
         }
         return layout;
     }

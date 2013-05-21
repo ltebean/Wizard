@@ -5,6 +5,8 @@ package com.dianping.wizard.utils;
  */
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -29,19 +31,22 @@ public class ResourceList{
     public static Collection<String> getResources(
             final Pattern pattern){
         final ArrayList<String> retval = new ArrayList<String>();
-        final String classPath = System.getProperty("java.class.path", ".");
-        final String[] classPathElements = classPath.split(":");
-        for(final String element : classPathElements){
-            retval.addAll(getResources(element, pattern));
+
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        URL url = classLoader.getResource("");
+        try {
+            retval.addAll(getResources(new File(url.toURI()), pattern));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return retval;
     }
 
     private static Collection<String> getResources(
-            final String element,
+            final File file,
             final Pattern pattern){
         final ArrayList<String> retval = new ArrayList<String>();
-        final File file = new File(element);
         if(file.isDirectory()){
             retval.addAll(getResourcesFromDirectory(file, pattern));
         }
