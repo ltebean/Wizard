@@ -9,7 +9,7 @@ import java.io.Reader;
 /**
  * @author ltebean
  */
-class Yaml {
+public class Yaml {
 
     private final org.yaml.snakeyaml.Yaml yaml = new  org.yaml.snakeyaml.Yaml();
 
@@ -35,6 +35,15 @@ class Yaml {
             return (T) Ognl.getValue(ognlTree, config, clazz);
         } catch (OgnlException e) {
             throw new RuntimeException("falied to get config with expression: "+expression,e);
+        }
+    }
+
+    public <T> T get(String expression, T defaultValue, Class<T> clazz){
+        try {
+            T value=get(expression,clazz);
+            return value!=null?value:defaultValue;
+        } catch(Exception e) {
+            return defaultValue;
         }
     }
 

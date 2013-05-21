@@ -1,4 +1,4 @@
-package com.dianping.wizard.widget.extension;
+package com.dianping.wizard.widget.extensions;
 
 /**
  * @author ltebean

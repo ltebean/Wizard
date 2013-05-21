@@ -1,4 +1,4 @@
-package com.dianping.wizard.service;
+package com.dianping.wizard.extensions;
 
 import org.apache.commons.lang.StringUtils;
 

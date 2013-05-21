@@ -1,11 +1,11 @@
 package com.dianping.wizard.repo;
 
+import com.dianping.wizard.mongo.Model;
+
 /**
  * @author ltebean
  */
-public interface GenericRepo<T> {
-
-    public  T load(String id);
+public interface GenericRepo<T extends Model> {
 
     public  T loadByName(String name);
 

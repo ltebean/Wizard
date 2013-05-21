@@ -18,6 +18,8 @@ public class Model implements Serializable{
     @ObjectId
     public String id;
 
+    public String name;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -26,13 +28,16 @@ public class Model implements Serializable{
         Model model = (Model) o;
 
         if (!id.equals(model.id)) return false;
+        if (!name.equals(model.name)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
     }
 
     @Override

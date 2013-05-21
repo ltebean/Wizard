@@ -1,4 +1,4 @@
-package com.dianping.wizard.service;
+package com.dianping.wizard.extensions;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +7,7 @@ package com.dianping.wizard.service;
  * Time: 上午11:01
  * To change this template use File | Settings | File Templates.
  */
-public class ServiceLocator implements com.dianping.wizard.widget.extension.ServiceLocator{
+public class ServiceLocator implements com.dianping.wizard.widget.extensions.ServiceLocator{
     @Override
     public Object get(String serviceName) {
         return new shopService();

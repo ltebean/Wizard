@@ -1,7 +1,6 @@
 package com.dianping.wizard.widget.interceptor;
 
-import com.dianping.wizard.repo.GenericRepo;
-import com.dianping.wizard.repo.RepoFactory;
+import com.dianping.wizard.repo.*;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
 import com.dianping.wizard.widget.*;
@@ -15,9 +14,9 @@ import java.util.Map;
  */
 public class RenderLayoutInterceptor implements Interceptor {
 
-    private final GenericRepo<Widget> widgetRepo= RepoFactory.getRepo(Widget.class);
+    private final WidgetRepo widgetRepo= WidgetRepoFactory.getRepo("default");
 
-    private final GenericRepo<Layout> layoutRepo= RepoFactory.getRepo(Layout.class);
+    private final LayoutRepo layoutRepo= LayoutRepoFactory.getRepo("default");
 
     private final WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
 

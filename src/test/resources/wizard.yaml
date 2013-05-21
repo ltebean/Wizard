@@ -1,16 +1,12 @@
+mode: dev
 mongo:
     host: 127.0.0.1
     port: 27017
     db: test
 freemarker:
     properties: freemarker.properties
-interceptors:
-    - com.dianping.wizard.widget.interceptor.MergeInterceptor
-    - com.dianping.wizard.widget.extension.ServiceInjectionInterceptor
-    - com.dianping.wizard.widget.extension.StaticModelInjectionInterceptor
-    - com.dianping.wizard.widget.interceptor.RenderLayoutInterceptor
-    - com.dianping.wizard.widget.interceptor.BusinessInterceptor
-extension:
-    serviceLocator: com.dianping.wizard.service.ServiceLocator
+extensions:
+    cacheManager: com.dianping.wizard.extensions.CacheManagerImpl
+    serviceLocator: com.dianping.wizard.extensions.ServiceLocator
     staticModels:
-        - com.dianping.wizard.service.HtmlFormater
+        - com.dianping.wizard.extensions.HtmlFormater

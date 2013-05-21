@@ -19,4 +19,8 @@ public class Configuration {
         return yaml.get(expression,clazz);
     }
 
+    public static <T> T get(String expression, T defaultValue, Class<T> clazz){
+        return yaml.get(expression,defaultValue,clazz);
+    }
+
 }
