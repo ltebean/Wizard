@@ -7,7 +7,7 @@ mongo:
 freemarker:
     properties: freemarker.properties
 extensions:
-    cacheManager: com.dianping.wizard.extensions.CacheManagerImpl
+    cache: com.dianping.wizard.extensions.CacheImpl
     serviceLocator: com.dianping.wizard.extensions.ServiceLocator
     staticModels:
         - com.dianping.wizard.extensions.HtmlFormater

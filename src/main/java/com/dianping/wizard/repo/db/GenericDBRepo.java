@@ -4,6 +4,7 @@ import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.mongo.JongoClient;
 import com.dianping.wizard.mongo.Model;
+import com.dianping.wizard.repo.Cache;
 import com.dianping.wizard.repo.CacheManager;
 import com.dianping.wizard.repo.GenericRepo;
 import org.apache.commons.lang.StringUtils;
@@ -18,17 +19,10 @@ public class GenericDBRepo<T extends Model> implements GenericRepo<T> {
 
     private final Class<T> clazz;
 
-    private CacheManager cache;
+    protected final Cache cache;
 
     public GenericDBRepo(Class<T> clazz) {
-        String className= Configuration.get("extensions.cacheManager","", String.class);
-        if(StringUtils.isNotEmpty(className)){
-            try{
-                cache=(CacheManager)Class.forName(className).newInstance();
-            }catch (Exception e){
-                throw new WidgetException("cache manager initialization failed",e);
-            }
-        }
+        this.cache = CacheManager.getCache();
         this.clazz =clazz;
         this.col= JongoClient.getInstance().getCollection(StringUtils.lowerCase(clazz.getSimpleName()));
     }

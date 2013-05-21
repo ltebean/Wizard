@@ -41,7 +41,9 @@ public class BusinessInterceptor implements Interceptor {
             return InvocationContext.NONE;
         }
 
-        invocation.getContext().putAll((Map<String,Object>)result);
+        if(result!=null && result instanceof Map){
+            invocation.getContext().putAll((Map<String,Object>)result);
+        }
         return InvocationContext.SUCCESS;
     }
 }

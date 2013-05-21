@@ -1,6 +1,8 @@
 package com.dianping.wizard.repo.local;
 
 import com.dianping.wizard.config.Yaml;
+import com.dianping.wizard.repo.Cache;
+import com.dianping.wizard.repo.CacheManager;
 import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.utils.FileUtils;
 import com.dianping.wizard.widget.Mode;
@@ -15,8 +17,28 @@ import java.util.Map;
  * @author ltebean
  */
 public class WidgetLocalRepo implements WidgetRepo {
+
+    private  final Cache cache;
+
+    public WidgetLocalRepo() {
+        cache = CacheManager.getCache();
+    }
+
     @Override
     public Widget loadByName(String name) {
+        if(cache == null){
+            return constructWidget(name);
+        }
+        String key=cache.generateKey(Widget.class,name);
+        Widget widget=(Widget)cache.get(key);
+        if (widget == null) {
+            widget=constructWidget(name);
+            cache.add(key,widget);
+        }
+        return widget;
+    }
+
+    private Widget constructWidget(String name){
         Widget widget=new Widget();
         widget.name=name;
         widget.modes=new HashMap<String, Mode>();

@@ -1,6 +1,6 @@
 package com.dianping.wizard.extensions;
 
-import com.dianping.wizard.repo.CacheManager;
+import com.dianping.wizard.repo.Cache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author ltebean
  */
-public class CacheManagerImpl implements CacheManager
+public class CacheImpl implements Cache
 {
     private Map<String,Object> cache=new HashMap<String,Object>();
     @Override

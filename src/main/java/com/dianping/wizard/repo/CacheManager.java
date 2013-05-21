@@ -1,15 +1,29 @@
 package com.dianping.wizard.repo;
 
+import com.dianping.wizard.config.Configuration;
+import com.dianping.wizard.exception.WidgetException;
+import org.apache.commons.lang.StringUtils;
+
 /**
  * @author ltebean
  */
-public interface CacheManager{
+public class CacheManager {
 
-    public void add(String key,Object obj);
+    private static Cache cache;
 
-    public Object get(String key);
+    static {
+        String className= Configuration.get("extensions.cache", "", String.class);
+        if(StringUtils.isNotEmpty(className)){
+            try{
+                cache=(Cache)Class.forName(className).newInstance();
+            }catch (Exception e){
+                throw new WidgetException("cache manager initialization failed",e);
+            }
+        }
+    }
 
-    public void remove(String key);
+    public static Cache getCache(){
+        return cache;
+    }
 
-    public String generateKey(Class clazz, String name);
 }

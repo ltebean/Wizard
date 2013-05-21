@@ -1,5 +1,4 @@
 name : default
 config :
     main :
-        - basicInfo
-        - reviewList
+        - test

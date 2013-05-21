@@ -44,40 +44,10 @@ public class ResourceList{
         final File file = new File(element);
         if(file.isDirectory()){
             retval.addAll(getResourcesFromDirectory(file, pattern));
-        } else{
-            retval.addAll(getResourcesFromJarFile(file, pattern));
         }
         return retval;
     }
 
-    private static Collection<String> getResourcesFromJarFile(
-            final File file,
-            final Pattern pattern){
-        final ArrayList<String> retval = new ArrayList<String>();
-        ZipFile zf;
-        try{
-            zf = new ZipFile(file);
-        } catch(final ZipException e){
-            throw new Error(e);
-        } catch(final IOException e){
-            throw new Error(e);
-        }
-        final Enumeration e = zf.entries();
-        while(e.hasMoreElements()){
-            final ZipEntry ze = (ZipEntry) e.nextElement();
-            final String fileName = ze.getName();
-            final boolean accept = pattern.matcher(fileName).matches();
-            if(accept){
-                retval.add(fileName);
-            }
-        }
-        try{
-            zf.close();
-        } catch(final IOException e1){
-            throw new Error(e1);
-        }
-        return retval;
-    }
 
     private static Collection<String> getResourcesFromDirectory(
             final File directory,

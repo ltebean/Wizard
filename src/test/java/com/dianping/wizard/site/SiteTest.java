@@ -1,5 +1,7 @@
 package com.dianping.wizard.site;
 
+import com.dianping.wizard.repo.WidgetRepo;
+import com.dianping.wizard.repo.WidgetRepoFactory;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import com.dianping.wizard.widget.WidgetRenderer;
@@ -44,29 +46,11 @@ public class SiteTest extends TestCase
     public void testApp()
     {
 
-//        Layout layout=new Layout();
-//        layout.name="ad";
-//        layout.config=new HashMap<String, List<String>>();
-//        List<String> col=new ArrayList<String>();
-//        col.add("shopDisplay");
-//        col.add("ad");
-//
-//        layout.config.put("col", col);
-//        LayoutRepo layoutRepo=new LayoutRepoImp();
-//        layoutRepo.saveLayout(layout);
-
-
+        WidgetRepo repo= WidgetRepoFactory.getRepo("default");
         Map<String,Object> params=new HashMap<String, Object>();
         params.put("shopId",5000);
 
-        Widget site=new Widget();
-        site.modes=new HashMap<String, Mode>();
-        site.rule="if(param.shopId==500000){return 'once';}else{return 'ad';}";
-
-        Mode displayMode=new Mode();
-        displayMode.code="";
-        displayMode.template="${layout.main}\n<script>${script}</script>";
-        site.modes.put("display", displayMode);
+        Widget site= repo.loadByName("shop");
 
         WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
         System.out.println(renderer.renderWidget(site, Widget.ModeType.Display.value, params));
