@@ -19,6 +19,7 @@ public class InterceptorConfig {
 
     static{
         interceptors= new ArrayList<Interceptor>();
+        interceptors.add(new ExceptionInterceptor());
         interceptors.add(new MergeInterceptor());
         interceptors.add(new ExtensionsInjectionInterceptor());
         interceptors.add(new RenderLayoutInterceptor());
