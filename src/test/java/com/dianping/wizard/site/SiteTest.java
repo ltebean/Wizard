@@ -2,10 +2,10 @@ package com.dianping.wizard.site;
 
 import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.repo.WidgetRepoFactory;
-import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import com.dianping.wizard.widget.WidgetRenderer;
 import com.dianping.wizard.widget.WidgetRendererFactory;
+import com.dianping.wizard.widget.concurrent.ConcurrentRenderer;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -52,11 +52,11 @@ public class SiteTest extends TestCase
 
         Widget site= repo.loadByName("shop");
 
-        WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
-        System.out.println(renderer.renderWidget(site, Widget.ModeType.Display.value, params));
+        WidgetRenderer renderer= WidgetRendererFactory.getRenderer("concurrent");
+        System.out.println(renderer.render(site, Widget.ModeType.Display.value, params).output);
 
         long start=System.currentTimeMillis();
-        System.out.println(renderer.renderWidget(site, Widget.ModeType.Display.value, params));
+        System.out.println(renderer.render(site, Widget.ModeType.Display.value, params).output);
 
         System.out.println(System.currentTimeMillis()-start);
     }

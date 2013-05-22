@@ -1,13 +1,14 @@
 package com.dianping.wizard.repo.local;
 
-import com.dianping.wizard.config.Yaml;
+import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.repo.Cache;
 import com.dianping.wizard.repo.CacheManager;
 import com.dianping.wizard.repo.LayoutRepo;
 import com.dianping.wizard.utils.FileUtils;
 import com.dianping.wizard.widget.Layout;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ public class LayoutLocalRepo implements LayoutRepo {
         if (layout == null) {
             layout = constructLayout(name);
             if (layout != null) {
-                cache.add(key,layout);
+                cache.add(key, layout);
             }
         }
         return layout;
@@ -40,9 +41,14 @@ public class LayoutLocalRepo implements LayoutRepo {
     private Layout constructLayout(String name) {
         Layout layout = new Layout();
         String config = FileUtils.readFileOnClassPath(name, "layout");
-        Yaml yaml = new Yaml(new ByteArrayInputStream(config.getBytes()));
         layout.name = name;
-        layout.config = yaml.get("config", null, Map.class);
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            layout.config = mapper.readValue(config, Map.class);
+        } catch (Exception e) {
+            throw new WidgetException("error in parsing file: " + name + ".layout", e);
+        }
         return layout;
     }
 

@@ -1,4 +1,3 @@
-name : default
-config :
-    main :
-        - test
+{
+     "main":["shop:info","shop:review"]
+}

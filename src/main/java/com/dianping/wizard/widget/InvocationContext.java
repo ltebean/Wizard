@@ -25,7 +25,9 @@ public class InvocationContext {
 
     private String resultCode;
 
-    private String output;
+    private String output="";
+
+    private String script="";
 
     private final String modeType;
 
@@ -61,6 +63,14 @@ public class InvocationContext {
 
     public void setResultCode(String resultCode) {
         this.resultCode = resultCode;
+    }
+
+    public String getScript() {
+        return script;
+    }
+
+    public void setScript(String script) {
+        this.script = script;
     }
 
     public String getOutput() {

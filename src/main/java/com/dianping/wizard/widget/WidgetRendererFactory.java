@@ -1,6 +1,8 @@
 package com.dianping.wizard.widget;
 
+import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.widget.concurrent.ConcurrentRenderer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,7 @@ public class WidgetRendererFactory {
     static{
         renders=new HashMap<String, WidgetRenderer>();
         renders.put("default",new DefaultWidgetRenderer());
+        renders.put("concurrent",new ConcurrentRenderer());
     }
 
     public static WidgetRenderer getRenderer(String name){

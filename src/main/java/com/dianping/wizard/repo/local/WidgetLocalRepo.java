@@ -48,9 +48,9 @@ public class WidgetLocalRepo implements WidgetRepo {
         widget.name=name;
         widget.modes=new HashMap<String, Mode>();
         Mode displayMode=new Mode();
-        displayMode.code = FileUtils.readFileOnClassPath(name+"@display","groovy");
-        displayMode.template= FileUtils.readFileOnClassPath(name+"@display","ftl");
-        displayMode.script= FileUtils.readFileOnClassPath(name+"@display","js","");
+        displayMode.code = FileUtils.readFileOnClassPath(name,"groovy");
+        displayMode.template= FileUtils.readFileOnClassPath(name,"ftl");
+        displayMode.script= FileUtils.readFileOnClassPath(name,"js","");
         Mode configMode=new Mode();
         configMode.code = FileUtils.readFileOnClassPath(name+"@config","groovy","");
         configMode.template= FileUtils.readFileOnClassPath(name+"@config","ftl","");
@@ -65,6 +65,8 @@ public class WidgetLocalRepo implements WidgetRepo {
                 widget.config = yaml.get("config",new HashMap<String, Object>(),Map.class);
                 widget.rule=yaml.get("rule","",String.class);
                 widget.layoutName=yaml.get("layoutName","",String.class);
+                widget.type=yaml.get("type","module",String.class);
+
             }
         } catch(Exception e) {
             logger.warn("no .widget file for: "+name);

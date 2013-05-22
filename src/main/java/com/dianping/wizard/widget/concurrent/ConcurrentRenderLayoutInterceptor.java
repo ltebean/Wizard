@@ -1,22 +1,27 @@
-package com.dianping.wizard.widget.interceptor;
+package com.dianping.wizard.widget.concurrent;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.repo.*;
+import com.dianping.wizard.repo.LayoutRepo;
+import com.dianping.wizard.repo.LayoutRepoFactory;
+import com.dianping.wizard.repo.WidgetRepo;
+import com.dianping.wizard.repo.WidgetRepoFactory;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
 import com.dianping.wizard.widget.*;
+import com.dianping.wizard.widget.interceptor.Interceptor;
+import com.dianping.wizard.widget.interceptor.ResultWrapper;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ltebean
  */
-public class RenderLayoutInterceptor implements Interceptor {
+public class ConcurrentRenderLayoutInterceptor implements Interceptor {
 
     private final WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
 
@@ -28,6 +33,8 @@ public class RenderLayoutInterceptor implements Interceptor {
 
     private final Logger logger = Logger.getLogger(this.getClass());
 
+    private final int timeout=Configuration.get("concurrent.timeout",1000,Integer.class);
+
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
         Widget widget = invocation.getWidget();
@@ -37,7 +44,9 @@ public class RenderLayoutInterceptor implements Interceptor {
         if (StringUtils.isNotEmpty(widget.layoutName)) {
             Layout layout = layoutRepo.loadByName(widget.layoutName);
             Map<String, Object> param = (Map<String, Object>) invocation.getContext().get("param");
-            ResultWrapper wrapper = renderComponents(layout, invocation.getModeType(), param);
+
+            Map<String, Future<RenderingResult>> tasks = (Map<String, Future<RenderingResult>>) invocation.getContext().get("tasks");
+            ResultWrapper wrapper = renderComponentsFromPool(layout, invocation.getModeType(), param, tasks);
 
             invocation.getContext().put("layout", wrapper.output);
             invocation.setScript(invocation.getScript() + wrapper.script);
@@ -45,7 +54,7 @@ public class RenderLayoutInterceptor implements Interceptor {
         return invocation.invoke();
     }
 
-    private ResultWrapper renderComponents(Layout layout, String mode, Map<String, Object> param) {
+    private ResultWrapper renderComponentsFromPool(Layout layout, String mode, Map<String, Object> param, Map<String, Future<RenderingResult>> tasks) {
         ResultWrapper wrapper = new ResultWrapper();
         StringBuilder scriptBuilder = new StringBuilder();
         for (Map.Entry<String, List<String>> entry : layout.config.entrySet()) {
@@ -53,7 +62,16 @@ public class RenderLayoutInterceptor implements Interceptor {
             StringBuilder builder = new StringBuilder();
             for (String widgetName : entry.getValue()) {
                 Widget widget = widgetRepo.loadByName(widgetName);
-                RenderingResult result = renderer.render(widget, mode, param);
+                RenderingResult result = null;
+                if (widget.type.equals("container")) {
+                    result = renderer.render(widget, mode, param);
+                } else {
+                    try {
+                        result =  tasks.get(widgetName).get(timeout, TimeUnit.MILLISECONDS);
+                    } catch (Exception e) {
+                        logger.error("timeout", e);
+                    }
+                }
                 builder.append(result.output);
                 if (widget.modes.get(mode) == null) {
                     continue;
@@ -67,5 +85,6 @@ public class RenderLayoutInterceptor implements Interceptor {
         wrapper.script = scriptBuilder.toString();
         return wrapper;
     }
+
 
 }

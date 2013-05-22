@@ -1,6 +1,5 @@
 package com.dianping.wizard.widget;
 
-import com.dianping.wizard.repo.LayoutRepoFactory;
 import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.repo.WidgetRepoFactory;
 import junit.framework.Test;
@@ -52,10 +51,10 @@ public class WidgetTest extends TestCase
         Map<String,Object> params=new HashMap<String, Object>();
         params.put("shopId",500000);
         WidgetRenderer manager=WidgetRendererFactory.getRenderer("default");
-        System.out.println(manager.renderWidget(widget, Widget.ModeType.Display.value, params));
+        System.out.println(manager.render(widget, Widget.ModeType.Display.value, params));
 
-        Widget test=repo.loadByName("test");
-        System.out.println(manager.renderWidget(test, Widget.ModeType.Display.value, params));
+        Widget test=repo.loadByName("shop:info");
+        System.out.println(manager.render(test, Widget.ModeType.Display.value, params));
 
 
     }

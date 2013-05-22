@@ -11,3 +11,10 @@ extensions:
     serviceLocator: com.dianping.wizard.extensions.ServiceLocator
     staticModels:
         - com.dianping.wizard.extensions.HtmlFormater
+concurrent:
+    timeout: 1000
+    threadPool:
+        corePoolSize: 50
+        maximumPoolSize: 50
+        keepAliveTime: 0
+        blockingQueueCapacity: 1000

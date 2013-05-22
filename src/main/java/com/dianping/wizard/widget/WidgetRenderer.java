@@ -8,5 +8,5 @@ import java.util.Map;
  */
 public interface WidgetRenderer {
 
-    public String renderWidget(Widget widget, String mode,Map<String,Object> params);
+    public RenderingResult render(Widget widget, String mode, Map<String, Object> params);
 }

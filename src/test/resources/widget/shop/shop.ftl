@@ -1,2 +1,2 @@
-shop info:
+--- shop ---
 ${layout.main}
