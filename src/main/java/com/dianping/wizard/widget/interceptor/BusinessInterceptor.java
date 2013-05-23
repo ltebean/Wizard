@@ -23,11 +23,9 @@ public class BusinessInterceptor implements Interceptor {
 
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
-        Widget widget=invocation.getWidget();
-        Map<String,Object> context=invocation.getContext();
-        context.put("config",widget.config);
-        Mode mode=widget.modes.get(invocation.getModeType());
 
+        Widget widget=invocation.getWidget();
+        Mode mode=widget.modes.get(invocation.getModeType());
         if(mode==null){
             throw new WidgetException("widget("+widget.name+") does not support mode:"+invocation.getModeType()+"");
         }
@@ -35,7 +33,7 @@ public class BusinessInterceptor implements Interceptor {
             return InvocationContext.SUCCESS;
         }
 
-        Object result=engine.eval(mode.code,context);
+        Object result=engine.eval(mode.code,invocation.getContext());
 
         if(InvocationContext.NONE.equals(result)){
             return InvocationContext.NONE;

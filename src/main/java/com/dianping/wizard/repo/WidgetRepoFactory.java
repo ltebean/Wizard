@@ -18,8 +18,8 @@ public class WidgetRepoFactory {
 
     static {
         repos=new ConcurrentHashMap<String, WidgetRepo>();
-        String mode= Configuration.get("mode","dev",String.class);
-        if(mode.equals("dev")){
+        String mode= Configuration.get("mode","local",String.class);
+        if(mode.equals("local")){
             repos.put("default",new WidgetLocalRepo());
         }else{
             repos.put("default",new WidgetDBRepo());

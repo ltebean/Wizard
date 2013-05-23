@@ -19,8 +19,8 @@ public class LayoutRepoFactory {
 
     static {
         repos=new ConcurrentHashMap<String, LayoutRepo>();
-        String mode= Configuration.get("mode", "dev", String.class);
-        if(mode.equals("dev")){
+        String mode= Configuration.get("mode", "local", String.class);
+        if(mode.equals("local")){
             repos.put("default",new LayoutLocalRepo());
         }else{
             repos.put("default",new LayoutDBRepo());

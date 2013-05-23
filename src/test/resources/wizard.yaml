@@ -1,4 +1,4 @@
-mode: dev
+mode: local
 exception: log
 mongo:
     host: 127.0.0.1
