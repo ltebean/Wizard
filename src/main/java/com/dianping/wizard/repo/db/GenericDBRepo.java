@@ -1,11 +1,9 @@
 package com.dianping.wizard.repo.db;
 
-import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.mongo.JongoClient;
 import com.dianping.wizard.mongo.Model;
-import com.dianping.wizard.repo.Cache;
-import com.dianping.wizard.repo.CacheManager;
+import com.dianping.wizard.repo.extensions.Cache;
+import com.dianping.wizard.repo.extensions.CacheManager;
 import com.dianping.wizard.repo.GenericRepo;
 import org.apache.commons.lang.StringUtils;
 import org.jongo.MongoCollection;

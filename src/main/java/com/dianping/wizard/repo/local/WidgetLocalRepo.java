@@ -1,8 +1,8 @@
 package com.dianping.wizard.repo.local;
 
 import com.dianping.wizard.config.Yaml;
-import com.dianping.wizard.repo.Cache;
-import com.dianping.wizard.repo.CacheManager;
+import com.dianping.wizard.repo.extensions.Cache;
+import com.dianping.wizard.repo.extensions.CacheManager;
 import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.utils.FileUtils;
 import com.dianping.wizard.widget.Mode;
@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author ltebean

@@ -1,14 +1,13 @@
 package com.dianping.wizard.repo.local;
 
 import com.dianping.wizard.exception.WidgetException;
-import com.dianping.wizard.repo.Cache;
-import com.dianping.wizard.repo.CacheManager;
+import com.dianping.wizard.repo.extensions.Cache;
+import com.dianping.wizard.repo.extensions.CacheManager;
 import com.dianping.wizard.repo.LayoutRepo;
 import com.dianping.wizard.utils.FileUtils;
 import com.dianping.wizard.widget.Layout;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**

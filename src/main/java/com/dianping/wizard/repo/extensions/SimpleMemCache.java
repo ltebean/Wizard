@@ -1,19 +1,18 @@
-package com.dianping.wizard.extensions;
+package com.dianping.wizard.repo.extensions;
 
-import com.dianping.wizard.repo.extensions.Cache;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author ltebean
  */
-public class CacheImpl implements Cache
-{
-    private Map<String,Object> cache=new HashMap<String,Object>();
+public class SimpleMemCache implements Cache {
+
+    private ConcurrentMap<String,Object> cache=new ConcurrentHashMap<String,Object>();
+
     @Override
     public void add(String key, Object obj) {
-        cache.put(key,obj);
+        cache.putIfAbsent(key, obj);
     }
 
     @Override

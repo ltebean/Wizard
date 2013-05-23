@@ -1,4 +1,4 @@
-package com.dianping.wizard.repo;
+package com.dianping.wizard.repo.extensions;
 
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;

@@ -1,4 +1,4 @@
-package com.dianping.wizard.repo;
+package com.dianping.wizard.repo.extensions;
 
 /**
  * @author ltebean
