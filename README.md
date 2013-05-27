@@ -39,7 +39,8 @@ The execution flow is as follows:
 - parse the layout and execute the widget specified in it
 - merge the view under the context returned by the business script and the it's sub-modules
 
-###Getting Started
+##Getting Started:
+
 First retrieve a Widget through the WidgetRepo:
 	
 	WidgetRepo repo= WidgetRepoFactory.getRepo("default");
