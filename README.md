@@ -35,29 +35,29 @@ And the execution flow will be as follows:
 
 First retrieve a widget through the WidgetRepo:
 	
-	WidgetRepo repo= WidgetRepoFactory.getRepo("default");
-	Widget test=repo.loadByName("test");
+	WidgetRepo repo = WidgetRepoFactory.getRepo("default");
+	Widget test = repo.loadByName("test");
 	
-Note that here the widget name is called test, so we must place three files under the classpath: test.groovy, test.ftl, and test.js(optional)
+Note that here the widget name is called test, so we must place three files under the classpath: test.groovy, test.ftl, and test.js(optional).
 
-First, test.groovy, the script constructs a shop object, then puts it into a map, finally returns the map as the merging context;
+First, test.groovy, the script constructs a shop object, then puts it into a map, finally returns the map as the merging context.
 
-	shop=['shopId':param.shopId,'name':'kfc'];
+	shop = ['shopId':param.shopId,'name':'kfc'];
 	return ['shop':shop];
 	
-in test.ftl, we simply display the shop info, since the merging context contains a shop object, so we can use it in the view
+in test.ftl, we simply display the shop info, since the merging context contains a shop object, we can use it in the view.
 
 	shopId:${shop.shopId}
 	name:${shop.name}
 	
 Finally, render the widget through a WidgetRenderer:
 
-	Map<String,Object> params=new HashMap<String, Object>(); //construct the param
+	Map<String,Object> params = new HashMap<String, Object>(); //construct the param
 	params.put("shopId",500000);
-	WidgetRenderer renderer=WidgetRendererFactory.getRenderer("default");
+	WidgetRenderer renderer = WidgetRendererFactory.getRenderer("default");
 	renderer.render(widget, Widget.ModeType.Display.value, params);
 	
-The resultl will be:
+The result will be:
 	
 	shopId:500000
 	name:kfc
