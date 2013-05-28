@@ -31,8 +31,8 @@ public class RenderLayoutInterceptor implements Interceptor {
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
         Widget widget = invocation.getWidget();
-        if (StringUtils.isNotEmpty(widget.rule)) {
-            widget.layoutName = (String) engine.eval(widget.rule, invocation.getContext());
+        if (StringUtils.isNotEmpty(widget.layoutRule)) {
+            widget.layoutName = (String) engine.eval(widget.layoutRule, invocation.getContext());
         }
         if (StringUtils.isNotEmpty(widget.layoutName)) {
             Layout layout = layoutRepo.loadByName(widget.layoutName);

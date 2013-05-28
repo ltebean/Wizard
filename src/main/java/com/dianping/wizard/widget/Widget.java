@@ -21,18 +21,18 @@ public class Widget extends Model {
         }
     }
 
-    public String rule;
+    public String layoutRule="";
 
-    public String layoutName;
+    public String layoutName="";
 
-    public String type;
+    public String type="";
 
     public Map<String,Mode> modes;
 
     public static Widget cloneFromPrototype(Widget prototype,String newName){
         Widget widget=new Widget();
         widget.name=newName;
-        widget.rule=prototype.rule;
+        widget.layoutRule=prototype.layoutRule;
         widget.layoutName=prototype.layoutName;
         widget.type=prototype.type;
         widget.modes=prototype.modes;

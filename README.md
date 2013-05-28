@@ -9,14 +9,7 @@ Wizard is a website development and administration framework
 
 ##Introduction:
 
-A widget could be in two forms: module or container
-
-- if a widget is a module, it is a simple display unit
-- if a widget is a container, it could contain other widget (specified by its layout)
-
-
-####Widget in form of module:
-Widget in form of module has there parts:
+A widget consists of there parts:
 
 - the business code (in a widgetName.groovy file)
 - the view (in a widgetName.ftl file)
@@ -28,12 +21,11 @@ The execution flow is as follows:
 - merge the view under the context returned by the business script
 
 
-####Widget in form of container:
-Widget in form of container has one more part:
+A widget could also contain other widgets, in this case, the container widget should include one more config:
 
-- a layout
+- the layout
 
-The execution flow is as follows:
+And the execution flow will be as follows:
 
 - execute the business script
 - parse the layout and execute the widget specified in it
@@ -41,7 +33,7 @@ The execution flow is as follows:
 
 ##Getting Started:
 
-First retrieve a Widget through the WidgetRepo:
+First retrieve a widget through the WidgetRepo:
 	
 	WidgetRepo repo= WidgetRepoFactory.getRepo("default");
 	Widget test=repo.loadByName("test");

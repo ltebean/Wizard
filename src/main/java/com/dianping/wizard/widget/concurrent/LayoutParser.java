@@ -33,8 +33,8 @@ public class LayoutParser {
 
     public static Map<String,Future<RenderingResult>> parseAndExecute(Widget widget,String mode,Map<String,Object> param){
         Map<String,Future<RenderingResult>> result=new HashMap<String, Future<RenderingResult>>();
-        if(StringUtils.isNotEmpty(widget.rule)){
-            widget.layoutName=(String)engine.eval(widget.rule,param);
+        if(StringUtils.isNotEmpty(widget.layoutRule)){
+            widget.layoutName=(String)engine.eval(widget.layoutRule,param);
         }
         if(StringUtils.isNotEmpty(widget.layoutName)){
             Layout layout=layoutRepo.loadByName(widget.layoutName);
@@ -45,7 +45,7 @@ public class LayoutParser {
                     if(w==null){
                         throw new WidgetException("widget not found: "+widgetName);
                     }
-                    if(w.type.equals("module")){
+                    if(StringUtils.isEmpty(w.layoutName)&&StringUtils.isEmpty(w.layoutRule)){
                         result.put(w.name,executorService.submit(new RenderingTask(w,mode,param)));
                     } else {
                         result.putAll(parseAndExecute(w,mode,param));

@@ -61,9 +61,8 @@ public class WidgetLocalRepo implements WidgetRepo {
             String config= FileUtils.readFileOnClassPath(name,"widget");
             if(StringUtils.isNotEmpty(config)){
                 Yaml yaml=new Yaml(new ByteArrayInputStream(config.getBytes()));
-                widget.rule=yaml.get("rule","",String.class);
+                widget.layoutRule=yaml.get("layoutRule","",String.class);
                 widget.layoutName=yaml.get("layoutName","",String.class);
-                widget.type=yaml.get("type","module",String.class);
 
             }
         } catch(Exception e) {
