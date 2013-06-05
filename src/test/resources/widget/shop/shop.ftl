@@ -1,2 +1,1 @@
---- shop ---
 ${layout.main}

@@ -14,6 +14,9 @@ import com.dianping.wizard.widget.merger.FreemarkerUtils;
  * To change this template use File | Settings | File Templates.
  */
 public class MergeInterceptor implements Interceptor {
+
+    private static final String PREFIX_TEMPLATE="<!-- %s -->\n";
+
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
         String resultCode=invocation.invoke();
@@ -25,7 +28,12 @@ public class MergeInterceptor implements Interceptor {
         if(mode==null){
             throw new WidgetException("widget("+widget.name+") does not support mode:"+invocation.getModeType()+"");
         }
-        invocation.setOutput(FreemarkerUtils.merge(mode.template,invocation.getContext()));
+        String prefix=String.format(PREFIX_TEMPLATE,invocation.getWidget().name);
+        StringBuilder builder=new StringBuilder();
+        builder.append(prefix);
+        builder.append(FreemarkerUtils.merge(mode.template, invocation.getContext()));
+        builder.append(prefix);
+        invocation.setOutput(builder.toString());
         return InvocationContext.SUCCESS;
 
     }
