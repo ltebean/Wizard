@@ -3,20 +3,30 @@
  */
 package com.dianping.wizard.mongo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.bson.types.ObjectId;
 import org.jongo.marshall.jackson.oid.Id;
-import org.jongo.marshall.jackson.oid.ObjectId;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 
 /**
  * @author cong.yu
  */
 public class Model implements Serializable{
-    @Id
-    @ObjectId
-    public String id="";
+    @JsonProperty("_id")
+    protected ObjectId id;
+
+    @XmlJavaTypeAdapter(ObjectIdAdaptor.class)
+    public org.bson.types.ObjectId getId() {
+        return id;
+    }
+
+    public void setId(org.bson.types.ObjectId id) {
+        this.id = id;
+    }
 
     public String name="";
 
