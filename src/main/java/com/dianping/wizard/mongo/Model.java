@@ -45,6 +45,9 @@ public class Model implements Serializable{
 
     @Override
     public int hashCode() {
+        if(id==null){
+            return name.hashCode();
+        }
         int result = id.hashCode();
         result = 31 * result + name.hashCode();
         return result;

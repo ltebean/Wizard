@@ -13,10 +13,4 @@ public class Layout extends Model {
 
     public Map<String,List<String>> config=new HashMap<String, List<String>>();
 
-    public static Layout cloneFromPrototype(Layout prototype,String newName){
-        Layout layout=new Layout();
-        layout.name=newName;
-        layout.config=prototype.config;
-        return layout;
-    }
 }

@@ -16,10 +16,12 @@ public class FileUtils {
         String pattern=".*"+fileName+"."+extensions;
         try {
             Collection<String> paths=ResourceList.getResources(Pattern.compile(pattern));
-            if(paths.size()!=1){
+            if(paths.size()>1){
                 throw new WizardExeption("no distinct file: "+pattern);
             }
-
+            if(paths.size()==0){
+                return "";
+            }
             File file = new File(paths.iterator().next());
             String result=org.apache.commons.io.FileUtils.readFileToString(file,"UTF-8");
             return result;
@@ -35,6 +37,4 @@ public class FileUtils {
             return defaultValue;
         }
     }
-
-
 }

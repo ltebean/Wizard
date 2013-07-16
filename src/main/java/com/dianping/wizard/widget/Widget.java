@@ -21,6 +21,8 @@ public class Widget extends Model {
         }
     }
 
+    public String parentWidgetName;
+
     public String layoutRule="";
 
     public String layoutName="";
@@ -28,15 +30,5 @@ public class Widget extends Model {
     public String type="";
 
     public Map<String,Mode> modes;
-
-    public static Widget cloneFromPrototype(Widget prototype,String newName){
-        Widget widget=new Widget();
-        widget.name=newName;
-        widget.layoutRule=prototype.layoutRule;
-        widget.layoutName=prototype.layoutName;
-        widget.type=prototype.type;
-        widget.modes=prototype.modes;
-        return widget;
-    }
 
 }

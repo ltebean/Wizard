@@ -1,6 +1,7 @@
 package com.dianping.wizard.repo.local;
 
 import com.dianping.wizard.config.Yaml;
+import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.repo.extensions.Cache;
 import com.dianping.wizard.repo.extensions.CacheManager;
 import com.dianping.wizard.repo.WidgetRepo;
@@ -29,13 +30,16 @@ public class WidgetLocalRepo implements WidgetRepo {
     @Override
     public Widget loadByName(String name) {
         if(cache == null){
-            return constructWidget(name);
+            Widget widget= constructWidget(name);
+            populateWithParent(widget);
+            return widget;
         }
         String key=cache.generateKey(Widget.class,name);
         Widget widget=(Widget)cache.get(key);
         if (widget == null) {
             widget=constructWidget(name);
             if (widget != null) {
+                populateWithParent(widget);
                 cache.add(key,widget);
             }
         }
@@ -63,12 +67,12 @@ public class WidgetLocalRepo implements WidgetRepo {
                 Yaml yaml=new Yaml(new ByteArrayInputStream(config.getBytes()));
                 widget.layoutRule=yaml.get("layoutRule","",String.class);
                 widget.layoutName=yaml.get("layoutName","",String.class);
+                widget.parentWidgetName=yaml.get("parentWidgetName","",String.class);
 
             }
         } catch(Exception e) {
             logger.warn("no .widget file for: "+name);
         }
-
         return widget;
     }
 
@@ -86,4 +90,34 @@ public class WidgetLocalRepo implements WidgetRepo {
     public void delete(String id) {
         throw new UnsupportedOperationException();
     }
+
+    private void populateWithParent(Widget widget) {
+        if (StringUtils.isEmpty(widget.parentWidgetName)) {
+            return;
+        }
+        Mode displayMode = widget.modes.get(Widget.ModeType.Display.value);
+        if (StringUtils.isEmpty(displayMode.code) || StringUtils.isEmpty(displayMode.script) || StringUtils.isEmpty(displayMode.template) || StringUtils.isEmpty(widget.layoutRule) || StringUtils.isEmpty(widget.layoutName)) {
+            Widget parent = this.loadByName(widget.parentWidgetName);
+            if(parent==null){
+                throw new WizardExeption("parent not found:"+widget.parentWidgetName);
+            }
+            Mode parentDisplayMode = parent.modes.get(Widget.ModeType.Display.value);
+            if (StringUtils.isEmpty(widget.layoutName)) {
+                widget.layoutName = parent.layoutName;
+            }
+            if (StringUtils.isEmpty(widget.layoutRule)) {
+                widget.layoutRule = parent.layoutRule;
+            }
+            if (StringUtils.isEmpty(displayMode.code)) {
+                displayMode.code = parentDisplayMode.code;
+            }
+            if (StringUtils.isEmpty(displayMode.template)) {
+                displayMode.template = parentDisplayMode.template;
+            }
+            if (StringUtils.isEmpty(displayMode.script)) {
+                displayMode.script = parentDisplayMode.script;
+            }
+        }
+    }
+
 }
