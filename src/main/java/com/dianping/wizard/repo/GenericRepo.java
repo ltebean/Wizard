@@ -15,4 +15,7 @@ public interface GenericRepo<T extends Model> {
 
     public void delete(String id);
 
+    public void deleteByName(String name);
+
+
 }

@@ -21,7 +21,7 @@ public class Widget extends Model {
         }
     }
 
-    public String parentWidgetName;
+    public String parentWidgetName="";
 
     public String layoutRule="";
 

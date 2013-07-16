@@ -5,10 +5,10 @@ package com.dianping.wizard.widget;
  */
 public class Mode {
 
-    public String code;
+    public String code="";
 
-    public String script;
+    public String script="";
 
-    public String template;
+    public String template="";
 
 }

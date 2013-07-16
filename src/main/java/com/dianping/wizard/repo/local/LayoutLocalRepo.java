@@ -65,4 +65,9 @@ public class LayoutLocalRepo implements LayoutRepo {
     public void delete(String id) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void deleteByName(String name) {
+        throw new UnsupportedOperationException();
+    }
 }

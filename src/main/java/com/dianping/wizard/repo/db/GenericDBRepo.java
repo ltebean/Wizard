@@ -60,4 +60,10 @@ public class GenericDBRepo<T extends Model> implements GenericRepo<T> {
     public void delete(String name) {
         col.remove("{name:#}",name);
     }
+
+    @Override
+    public void deleteByName(String name) {
+        col.remove("{name:#}",name);
+    }
+
 }

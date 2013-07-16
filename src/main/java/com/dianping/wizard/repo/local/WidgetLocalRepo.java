@@ -91,6 +91,11 @@ public class WidgetLocalRepo implements WidgetRepo {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void deleteByName(String name) {
+        throw new UnsupportedOperationException();
+    }
+
     private void populateWithParent(Widget widget) {
         if (StringUtils.isEmpty(widget.parentWidgetName)) {
             return;
