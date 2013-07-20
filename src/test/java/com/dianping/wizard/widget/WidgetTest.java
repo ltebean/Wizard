@@ -38,13 +38,10 @@ public class WidgetTest extends TestCase
      */
     public void testApp() throws Exception {
 
-        WidgetRepo repo= WidgetRepoFactory.getRepo("default");
-
         Map<String,Object> params=new HashMap<String, Object>();
         params.put("shopId",500000);
         WidgetRenderer renderer=WidgetRendererFactory.getRenderer("default");
-        Widget test=repo.loadByName("shop:info:50001");
-        System.out.println(renderer.render(test, Widget.ModeType.Display.value, params).output);
+        System.out.println(renderer.render("shop:info:50001", Widget.ModeType.Display.value, params).output);
 
 
     }

@@ -1,6 +1,8 @@
 package com.dianping.wizard.widget.concurrent;
 
 import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.repo.WidgetRepo;
+import com.dianping.wizard.repo.WidgetRepoFactory;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.RenderingResult;
 import com.dianping.wizard.widget.Widget;
@@ -17,9 +19,11 @@ import java.util.concurrent.Future;
 /**
  * @author ltebean
  */
-public class ConcurrentRenderer implements WidgetRenderer{
+public class ConcurrentRenderer implements WidgetRenderer {
 
-    private Logger logger= Logger.getLogger(this.getClass());
+    private WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
+
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
     public RenderingResult render(Widget widget, String mode, Map<String, Object> params) {
@@ -27,27 +31,35 @@ public class ConcurrentRenderer implements WidgetRenderer{
             throw new IllegalArgumentException("widget can not be null");
         }
         if (params == null) {
-            params=new HashMap<String, Object>();
+            params = new HashMap<String, Object>();
         }
-        Map<String,Future<RenderingResult>> tasks = LayoutParser.parseAndExecute(widget,mode,params);
-        Iterator<Interceptor> interceptors= InterceptorConfig.getInterceptors("concurrent");
-        InvocationContext invocation=new InvocationContext(widget, mode,params, interceptors);
-        invocation.getContext().put("tasks",tasks);
-        RenderingResult result=new RenderingResult();
+        Map<String, Future<RenderingResult>> tasks = LayoutParser.parseAndExecute(widget, mode, params);
+        Iterator<Interceptor> interceptors = InterceptorConfig.getInterceptors("concurrent");
+        InvocationContext invocation = new InvocationContext(widget, mode, params, interceptors);
+        invocation.getContext().put("tasks", tasks);
+        RenderingResult result = new RenderingResult();
         try {
-            String resultCode=invocation.invoke();
-            if(resultCode==InvocationContext.SUCCESS){
-                result.output=invocation.getOutput();
-                result.script=invocation.getScript();
-            }else if(resultCode==InvocationContext.NONE){
+            String resultCode = invocation.invoke();
+            if (resultCode == InvocationContext.SUCCESS) {
+                result.output = invocation.getOutput();
+                result.script = invocation.getScript();
+            } else if (resultCode == InvocationContext.NONE) {
                 return result;
-            }else{
-                throw new WidgetException("unknown result code-"+resultCode+" returned by widget:"+widget.name);
+            } else {
+                throw new WidgetException("unknown result code-" + resultCode + " returned by widget:" + widget.name);
             }
         } catch (Exception e) {
-            logger.error("rendering error",e);
+            logger.error("rendering error", e);
         }
         return result;
+    }
 
+    @Override
+    public RenderingResult render(String widgetName, String mode, Map<String, Object> params) {
+        Widget widget = widgetRepo.loadByName(widgetName);
+        if (widget == null) {
+            throw new WidgetException("widget not found:" + widgetName);
+        }
+        return this.render(widget, mode, params);
     }
 }
