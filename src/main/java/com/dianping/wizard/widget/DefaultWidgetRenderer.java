@@ -59,4 +59,14 @@ class DefaultWidgetRenderer implements WidgetRenderer {
         }
         return this.render(widget, mode, params);
     }
+
+    @Override
+    public RenderingResult render(Widget widget, Map<String, Object> params) {
+        return this.render(widget,Widget.ModeType.Display.value,params);
+    }
+
+    @Override
+    public RenderingResult render(String widgetName, Map<String, Object> params) {
+        return this.render(widgetName,Widget.ModeType.Display.value,params);
+    }
 }
