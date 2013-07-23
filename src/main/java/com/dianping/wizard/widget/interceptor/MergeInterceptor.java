@@ -5,6 +5,7 @@ import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import com.dianping.wizard.widget.merger.FreemarkerUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,25 +16,31 @@ import com.dianping.wizard.widget.merger.FreemarkerUtils;
  */
 public class MergeInterceptor implements Interceptor {
 
-    private static final String PREFIX_TEMPLATE="<!-- %s -->\n";
 
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
-        String resultCode=invocation.invoke();
-        if(resultCode==InvocationContext.NONE){
+        String resultCode = invocation.invoke();
+        if (resultCode == InvocationContext.NONE) {
             return resultCode;
         }
-        Widget widget=invocation.getWidget();
-        Mode mode=widget.modes.get(invocation.getModeType());
-        if(mode==null){
-            throw new WidgetException("widget("+widget.name+") does not support mode:"+invocation.getModeType()+"");
+        Widget widget = invocation.getWidget();
+        Mode mode = widget.modes.get(invocation.getModeType());
+        if (mode == null) {
+            throw new WidgetException("widget(" + widget.name + ") does not support mode:" + invocation.getModeType() + "");
         }
-        String prefix=String.format(PREFIX_TEMPLATE,invocation.getWidget().name);
-        StringBuilder builder=new StringBuilder();
-        builder.append(prefix);
-        builder.append(FreemarkerUtils.merge(mode.template, invocation.getContext()));
-        builder.append(prefix);
-        invocation.setOutput(builder.toString());
+        //merge script and put into the context
+        String script="";
+        if (StringUtils.isNotEmpty(mode.script)) {
+            script= FreemarkerUtils.merge(mode.script, invocation.getContext());
+        }
+        String allScript=script+invocation.getScript();
+        invocation.getContext().put("script",allScript);
+        invocation.setScript(allScript);
+        //merge html
+        if (StringUtils.isNotEmpty(mode.template)) {
+            invocation.setOutput(FreemarkerUtils.merge(mode.template, invocation.getContext()));
+        }
+
         return InvocationContext.SUCCESS;
 
     }

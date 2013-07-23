@@ -58,8 +58,8 @@ public class RenderLayoutInterceptor implements Interceptor {
                 if (widget.modes.get(mode) == null) {
                     continue;
                 }
-                if (StringUtils.isNotEmpty(widget.modes.get(mode).script)) {
-                    scriptBuilder.append(widget.modes.get(mode).script);
+                if (StringUtils.isNotEmpty(result.script)) {
+                    scriptBuilder.append(result.script);
                 }
             }
             wrapper.output.put(colKey, builder.toString());

@@ -1,1 +1,1 @@
-console.log("info");
+console.log("shop info: ${shop.shopId}");
