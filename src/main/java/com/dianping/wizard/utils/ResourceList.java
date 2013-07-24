@@ -3,6 +3,8 @@ package com.dianping.wizard.utils;
 /**
  * @author ltebean
  */
+import com.dianping.wizard.config.Configuration;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -34,7 +36,7 @@ public class ResourceList{
 
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        URL url = classLoader.getResource("");
+        URL url = classLoader.getResource(Configuration.get("basePackage","",String.class));
         try {
             retval.addAll(getResources(new File(url.toURI()), pattern));
         } catch (URISyntaxException e) {
@@ -48,7 +50,10 @@ public class ResourceList{
             final Pattern pattern){
         final ArrayList<String> retval = new ArrayList<String>();
         if(file.isDirectory()){
-            retval.addAll(getResourcesFromDirectory(file, pattern));
+            Collection<String> result=getResourcesFromDirectory(file, pattern);
+            if(result.size()>0){
+                retval.addAll(result);
+            }
         }
         return retval;
     }
@@ -68,6 +73,7 @@ public class ResourceList{
                     final boolean accept = pattern.matcher(fileName).matches();
                     if(accept){
                         retval.add(fileName);
+                        return retval;
                     }
                 } catch(final IOException e){
                     throw new Error(e);
