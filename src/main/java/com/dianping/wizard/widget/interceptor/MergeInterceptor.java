@@ -20,7 +20,7 @@ public class MergeInterceptor implements Interceptor {
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
         String resultCode = invocation.invoke();
-        if (resultCode == InvocationContext.NONE) {
+        if (InvocationContext.NONE.equals(resultCode)) {
             return resultCode;
         }
         Widget widget = invocation.getWidget();

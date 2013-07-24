@@ -16,7 +16,7 @@ import java.util.concurrent.Future;
 /**
  * @author ltebean
  */
-public class RenderLayoutInterceptor implements Interceptor {
+public class LayoutInterceptor implements Interceptor {
 
     private final WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
 

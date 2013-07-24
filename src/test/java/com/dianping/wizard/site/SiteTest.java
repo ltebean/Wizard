@@ -52,7 +52,7 @@ public class SiteTest extends TestCase
 
         Widget site= repo.loadByName("shop");
 
-        WidgetRenderer renderer= WidgetRendererFactory.getRenderer("concurrent");
+        WidgetRenderer renderer= WidgetRendererFactory.getRenderer("default");
         //System.out.println(renderer.render(site, Widget.ModeType.Display.value, params).output);
 
         long start=System.currentTimeMillis();

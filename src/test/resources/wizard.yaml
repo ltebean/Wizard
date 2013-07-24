@@ -4,6 +4,12 @@ mongo:
     host: 127.0.0.1
     port: 27017
     db: test
+interceptors:
+    factory:
+        debug: com.dianping.wizard.widget.interceptor.DebuggingInterceptor
+    stack:
+        default: exception|merge|layout|extensions|business
+        concurrent: exception|merge|concurrentLayout|extensions|business
 freemarker:
     properties: freemarker.properties
 extensions:

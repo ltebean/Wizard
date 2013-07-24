@@ -1,7 +1,8 @@
 package com.dianping.wizard.widget.interceptor;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.widget.concurrent.ConcurrentRenderLayoutInterceptor;
+import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.widget.concurrent.ConcurrentLayoutInterceptor;
 import com.dianping.wizard.widget.extensions.ExtensionsInjectionInterceptor;
 
 import java.util.*;
@@ -15,40 +16,57 @@ import java.util.*;
  */
 public class InterceptorConfig {
 
-    private static final Map<String,List<Interceptor>> interceptors;
+    private static final Map<String, Interceptor> factory = new HashMap<String, Interceptor>();
 
-    static{
-        interceptors=new HashMap<String, List<Interceptor>>();
 
-        Interceptor debug=new DebuggingInterceptor();
-        Interceptor exception=new ExceptionInterceptor();
-        Interceptor merge=new MergeInterceptor();
-        Interceptor layout=new RenderLayoutInterceptor();
-        Interceptor concurrentLayout=new ConcurrentRenderLayoutInterceptor();
-        Interceptor extensions=new ExtensionsInjectionInterceptor();
-        Interceptor business=new BusinessInterceptor();
+    private static final Map<String, List<Interceptor>> stacks = new HashMap<String, List<Interceptor>>();
 
-        List<Interceptor> defaultStack= new ArrayList<Interceptor>();
-        defaultStack.add(debug);
-        defaultStack.add(exception);
-        defaultStack.add(merge);
-        defaultStack.add(layout);
-        defaultStack.add(extensions);
-        defaultStack.add(business);
 
-        List<Interceptor> concurrentStack= new ArrayList<Interceptor>();
-        concurrentStack.add(exception);
-        concurrentStack.add(merge);
-        concurrentStack.add(concurrentLayout);
-        concurrentStack.add(extensions);
-        concurrentStack.add(business);
+    static {
+        //initialize built-in interceptors
+        factory.put("exception", new ExceptionInterceptor());
+        factory.put("merge", new MergeInterceptor());
+        factory.put("layout", new LayoutInterceptor());
+        factory.put("concurrentLayout", new ConcurrentLayoutInterceptor());
+        factory.put("extensions", new ExtensionsInjectionInterceptor());
+        factory.put("business", new BusinessInterceptor());
 
-        interceptors.put("default",defaultStack);
-        interceptors.put("concurrent",concurrentStack);
+        //initialize user-defined interceptors
+        Map<String, String> userDefinedFactory = Configuration.get("interceptors.factory", new HashMap<String, String>(), Map.class);
+        if (userDefinedFactory.size() > 0) {
+            for (String interceptorName : userDefinedFactory.keySet()) {
+                try {
+                    Interceptor interceptor = (Interceptor) Class.forName(userDefinedFactory.get(interceptorName)).newInstance();
+                    factory.put(interceptorName, interceptor);
+                } catch (Exception e) {
+                    throw new WidgetException("faild to initialize interceptor: " + interceptorName, e);
+                }
+
+            }
+        }
+        //initialize stack config
+        Map<String, String> stacksRules = Configuration.get("interceptors.stack", new HashMap<String, String>(), Map.class);
+        if (stacksRules.size() == 0) {
+            throw new WidgetException("statck rule not found");
+        }
+        for(String stackName:stacksRules.keySet()){
+            List<Interceptor> interceptors=new ArrayList<Interceptor>();
+            for(String interceptorName:stacksRules.get(stackName).split("\\|")){
+                Interceptor interceptor=factory.get(interceptorName);
+                if (interceptor == null) {
+                    throw new WidgetException("interceptor not found: " + interceptorName);
+                }
+                interceptors.add(interceptor);
+            }
+            stacks.put(stackName,interceptors);
+        }
+
+
     }
 
+
     public static Iterator<Interceptor> getInterceptors(String name) {
-        return interceptors.get(name).iterator();
+        return stacks.get(name).iterator();
     }
 
 }

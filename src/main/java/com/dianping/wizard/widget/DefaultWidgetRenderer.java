@@ -37,10 +37,10 @@ class DefaultWidgetRenderer implements WidgetRenderer {
         RenderingResult result = new RenderingResult();
         try {
             String resultCode = invocation.invoke();
-            if (resultCode == InvocationContext.SUCCESS) {
+            if (InvocationContext.SUCCESS.equals(resultCode)) {
                 result.output = invocation.getOutput();
                 result.script = invocation.getScript();
-            } else if (resultCode == InvocationContext.NONE) {
+            } else if (InvocationContext.NONE.equals(resultCode)) {
                 return result;
             } else {
                 throw new WidgetException("unknown result code-" + resultCode + " returned by widget:" + widget.name);

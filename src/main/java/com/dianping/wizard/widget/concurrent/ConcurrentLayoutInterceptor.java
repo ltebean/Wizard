@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author ltebean
  */
-public class ConcurrentRenderLayoutInterceptor implements Interceptor {
+public class ConcurrentLayoutInterceptor implements Interceptor {
 
     private final WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
 

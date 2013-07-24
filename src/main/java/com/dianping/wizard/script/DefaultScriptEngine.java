@@ -38,7 +38,7 @@ public class DefaultScriptEngine implements ScriptEngine{
             Object result= script.eval(bindings);
             return result;
         }catch (Exception e){
-            throw new WidgetException("script running error:", e);
+            throw new WidgetException("script running error:", e.getCause());
         }
     }
 
