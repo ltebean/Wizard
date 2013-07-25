@@ -34,9 +34,7 @@ public class BusinessInterceptor implements Interceptor {
         }
         Object result;
         try {
-            long start=System.currentTimeMillis();
             result=engine.eval(mode.code,invocation.getContext());
-            System.out.println("------ eval time: "+invocation.getWidget().name+(System.currentTimeMillis()-start)+"ms----");
         } catch(Exception e) {
             throw new WidgetException(widget.name+" running error:",e.getCause());
         }
