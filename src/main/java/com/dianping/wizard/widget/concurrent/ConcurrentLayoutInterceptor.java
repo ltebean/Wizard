@@ -33,7 +33,7 @@ public class ConcurrentLayoutInterceptor implements Interceptor {
 
     private final Logger logger = Logger.getLogger(this.getClass());
 
-    private final int timeout=Configuration.get("concurrent.timeout",1000,Integer.class);
+    private final int timeout = Configuration.get("concurrent.timeout", 1000, Integer.class);
 
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
@@ -62,21 +62,24 @@ public class ConcurrentLayoutInterceptor implements Interceptor {
             StringBuilder builder = new StringBuilder();
             for (String widgetName : entry.getValue()) {
                 Widget widget = widgetRepo.loadByName(widgetName);
-                RenderingResult result = null;
-                if (widget.type.equals("container")) {
-                    result = renderer.render(widget, mode, param);
-                } else {
-                    try {
-                        result =  tasks.get(widgetName).get(timeout, TimeUnit.MILLISECONDS);
-                    } catch (Exception e) {
-                        logger.error("timeout", e);
-                    }
-                }
-                builder.append(result.output);
                 if (widget.modes.get(mode) == null) {
                     continue;
                 }
-                if (StringUtils.isNotEmpty(result.script)) {
+                RenderingResult result = null;
+                if (isContainer(widget)) {
+                    result = renderer.render(widget, mode, param);
+                } else {
+                    try {
+                        result = tasks.get(widgetName).get(timeout, TimeUnit.MILLISECONDS);
+                    } catch (Exception e) {
+                        logger.error("widget:"+widget+" timeout", e);
+                    }
+                }
+                if (result != null && StringUtils.isNotEmpty(result.output)) {
+                    builder.append(result.output);
+                }
+
+                if (result != null && StringUtils.isNotEmpty(result.script)) {
                     scriptBuilder.append(result.script);
                 }
             }
@@ -84,6 +87,13 @@ public class ConcurrentLayoutInterceptor implements Interceptor {
         }
         wrapper.script = scriptBuilder.toString();
         return wrapper;
+    }
+
+    private boolean isContainer(Widget widget) {
+        if (StringUtils.isNotEmpty(widget.layoutName) || StringUtils.isNotEmpty(widget.layoutRule)) {
+            return true;
+        }
+        return false;
     }
 
 

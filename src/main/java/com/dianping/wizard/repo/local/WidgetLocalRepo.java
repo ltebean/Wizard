@@ -39,8 +39,8 @@ public class WidgetLocalRepo implements WidgetRepo {
         if (widget == null) {
             widget=constructWidget(name);
             if (widget != null) {
-                populateWithParent(widget);
                 cache.add(key,widget);
+                populateWithParent(widget);
             }
         }
         return widget;

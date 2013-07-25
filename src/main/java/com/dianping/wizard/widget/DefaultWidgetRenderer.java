@@ -32,7 +32,7 @@ class DefaultWidgetRenderer implements WidgetRenderer {
         if (params == null) {
             params = new HashMap<String, Object>();
         }
-        Iterator<Interceptor> interceptors = InterceptorConfig.getInterceptors("default");
+        Iterator<Interceptor> interceptors = InterceptorConfig.getInstance().getInterceptors("default");
         InvocationContext invocation = new InvocationContext(widget, modeType, params, interceptors);
         RenderingResult result = new RenderingResult();
         try {

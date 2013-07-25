@@ -7,8 +7,8 @@ import java.util.Map;
  */
 public class FreemarkerUtils {
 
-    public static String merge(String template,Map<String,Object> context) throws Exception {
-        return FreemarkerMerger.getInstance().merge(template,context);
+    public static String merge(String templateName,String template,Map<String,Object> context) throws Exception {
+        return FreemarkerMerger.getInstance().merge(templateName,template,context);
     }
 
 

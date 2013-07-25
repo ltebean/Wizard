@@ -15,7 +15,7 @@ public class DebuggingInterceptor implements Interceptor{
         long start = System.currentTimeMillis();
         String code=invocation.invoke();
         long end= System.currentTimeMillis();
-        logger.debug(invocation.getWidget().name+": "+(end-start)+"ms");
+        System.out.println("---------------"+invocation.getWidget().name+": "+(end-start)+"ms ----------------");
         return code;
     }
 }

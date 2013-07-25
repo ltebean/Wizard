@@ -34,7 +34,7 @@ public class ConcurrentRenderer implements WidgetRenderer {
             params = new HashMap<String, Object>();
         }
         Map<String, Future<RenderingResult>> tasks = LayoutParser.parseAndExecute(widget, mode, params);
-        Iterator<Interceptor> interceptors = InterceptorConfig.getInterceptors("concurrent");
+        Iterator<Interceptor> interceptors = InterceptorConfig.getInstance().getInterceptors("concurrent");
         InvocationContext invocation = new InvocationContext(widget, mode, params, interceptors);
         invocation.getContext().put("tasks", tasks);
         RenderingResult result = new RenderingResult();

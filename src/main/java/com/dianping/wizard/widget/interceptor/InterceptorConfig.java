@@ -16,13 +16,15 @@ import java.util.*;
  */
 public class InterceptorConfig {
 
-    private static final Map<String, Interceptor> factory = new HashMap<String, Interceptor>();
+    private final Map<String, Interceptor> factory = new HashMap<String, Interceptor>();
 
 
-    private static final Map<String, List<Interceptor>> stacks = new HashMap<String, List<Interceptor>>();
+    private final Map<String, List<Interceptor>> stacks = new HashMap<String, List<Interceptor>>();
+
+    private static InterceptorConfig instance=new InterceptorConfig();
 
 
-    static {
+    private InterceptorConfig()   {
         //initialize built-in interceptors
         factory.put("exception", new ExceptionInterceptor());
         factory.put("merge", new MergeInterceptor());
@@ -47,7 +49,7 @@ public class InterceptorConfig {
         //initialize stack config
         Map<String, String> stacksRules = Configuration.get("interceptors.stack", new HashMap<String, String>(), Map.class);
         if (stacksRules.size() == 0) {
-            throw new WidgetException("statck rule not found");
+            throw new WidgetException("stack rule not found");
         }
         for(String stackName:stacksRules.keySet()){
             List<Interceptor> interceptors=new ArrayList<Interceptor>();
@@ -64,8 +66,10 @@ public class InterceptorConfig {
 
     }
 
-
-    public static Iterator<Interceptor> getInterceptors(String name) {
+    public static InterceptorConfig getInstance(){
+        return instance;
+    }
+    public  Iterator<Interceptor> getInterceptors(String name) {
         return stacks.get(name).iterator();
     }
 

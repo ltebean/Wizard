@@ -31,14 +31,14 @@ public class MergeInterceptor implements Interceptor {
         //merge script and put into the context
         String script="";
         if (StringUtils.isNotEmpty(mode.script)) {
-            script= FreemarkerUtils.merge(mode.script, invocation.getContext());
+            script= FreemarkerUtils.merge(widget.name+invocation.getModeType()+"script",mode.script, invocation.getContext());
         }
         String allScript=script+invocation.getScript();
         invocation.getContext().put("script",allScript);
         invocation.setScript(allScript);
         //merge html
         if (StringUtils.isNotEmpty(mode.template)) {
-            invocation.setOutput(FreemarkerUtils.merge(mode.template, invocation.getContext()));
+            invocation.setOutput(FreemarkerUtils.merge(widget.name+invocation.getModeType()+"code",mode.template, invocation.getContext()));
         }
 
         return InvocationContext.SUCCESS;

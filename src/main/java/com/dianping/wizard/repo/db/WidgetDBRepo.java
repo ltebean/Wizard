@@ -29,8 +29,8 @@ public class WidgetDBRepo extends GenericDBRepo<Widget> implements WidgetRepo {
         if (widget == null) {
             widget = col.findOne("{name:#}", name).as(Widget.class);
             if (widget != null) {
-                populateWithParent(widget);
                 cache.add(key, widget);
+                populateWithParent(widget);
             }
         }
         return widget;
