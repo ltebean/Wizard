@@ -1,6 +1,7 @@
 package com.dianping.wizard.widget.concurrent;
 
 import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.repo.LayoutRepo;
 import com.dianping.wizard.repo.LayoutRepoFactory;
 import com.dianping.wizard.repo.WidgetRepo;
@@ -33,27 +34,35 @@ public class LayoutParser {
 
     public static Map<String,Future<RenderingResult>> parseAndExecute(Widget widget,String mode,Map<String,Object> param){
         Map<String,Future<RenderingResult>> result=new HashMap<String, Future<RenderingResult>>();
+        //if the widget does not has layout, execute it and return the result;
+        if(!hasLayout(widget)){
+            result.put(widget.name,executorService.submit(new RenderingTask(widget,mode,param)));
+            return result;
+        }
+        //evaluate the rule to find the layout
         if(StringUtils.isNotEmpty(widget.layoutRule)){
             widget.layoutName=(String)engine.eval(widget.layoutRule,param);
         }
         if(StringUtils.isNotEmpty(widget.layoutName)){
             Layout layout=layoutRepo.loadByName(widget.layoutName);
+            if(layout==null){
+                throw new WizardExeption("layout not found: "+widget.layoutName);
+            }
             for(Map.Entry<String,List<String>> entry : layout.config.entrySet()) {
-                String colKey=entry.getKey();
                 for(String widgetName:entry.getValue()){
                     Widget w=widgetRepo.loadByName(widgetName);
                     if(w==null){
                         throw new WidgetException("widget not found: "+widgetName);
                     }
-                    if(StringUtils.isEmpty(w.layoutName)&&StringUtils.isEmpty(w.layoutRule)){
-                        result.put(w.name,executorService.submit(new RenderingTask(w,mode,param)));
-                    } else {
-                        result.putAll(parseAndExecute(w,mode,param));
-                    }
+                    result.put(w.name,executorService.submit(new RenderingTask(w,mode,param)));
                 }
             }
         }
         return result;
+    }
+
+    private static boolean hasLayout(Widget widget){
+        return (StringUtils.isNotEmpty(widget.layoutName)||StringUtils.isNotEmpty(widget.layoutRule));
     }
 
 }

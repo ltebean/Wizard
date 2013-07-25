@@ -66,15 +66,12 @@ public class ConcurrentLayoutInterceptor implements Interceptor {
                     continue;
                 }
                 RenderingResult result = null;
-                if (isContainer(widget)) {
-                    result = renderer.render(widget, mode, param);
-                } else {
-                    try {
-                        result = tasks.get(widgetName).get(timeout, TimeUnit.MILLISECONDS);
-                    } catch (Exception e) {
-                        logger.error("widget:"+widget+" timeout", e);
-                    }
+                try {
+                    result = tasks.get(widgetName).get(timeout, TimeUnit.MILLISECONDS);
+                } catch (Exception e) {
+                    logger.error("widget:" + widget + " timeout", e);
                 }
+
                 if (result != null && StringUtils.isNotEmpty(result.output)) {
                     builder.append(result.output);
                 }
@@ -87,13 +84,6 @@ public class ConcurrentLayoutInterceptor implements Interceptor {
         }
         wrapper.script = scriptBuilder.toString();
         return wrapper;
-    }
-
-    private boolean isContainer(Widget widget) {
-        if (StringUtils.isNotEmpty(widget.layoutName) || StringUtils.isNotEmpty(widget.layoutRule)) {
-            return true;
-        }
-        return false;
     }
 
 
