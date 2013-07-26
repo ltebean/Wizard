@@ -1,14 +1,19 @@
 package com.dianping.wizard.widget.interceptor;
 
+import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
+import com.dianping.wizard.utils.ResourceList;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import org.apache.commons.lang.StringUtils;
 
+import java.io.File;
+import java.util.Collection;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +24,18 @@ import java.util.Map;
  */
 public class BusinessInterceptor implements Interceptor {
 
-    private final ScriptEngine engine= ScriptEngineFactory.getEngine("default");
+    private final ScriptEngine engine;
+
+    private final boolean enableDebug;
+
+    public BusinessInterceptor() {
+        enableDebug=Configuration.get("enableDebug","false",String.class).equals("true");
+        if(enableDebug){
+            engine = ScriptEngineFactory.getEngine("shell");
+        } else{
+            engine = ScriptEngineFactory.getEngine("default");
+        }
+    }
 
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
@@ -34,7 +50,13 @@ public class BusinessInterceptor implements Interceptor {
         }
         Object result;
         try {
-            result=engine.eval(mode.code,invocation.getContext());
+            if(enableDebug){
+                Collection<String> paths= ResourceList.getResources(Pattern.compile(".*"+widget.name+".groovy"));
+                result=engine.eval(new File(paths.iterator().next()),invocation.getContext());
+            }else{
+                result=engine.eval(mode.code,invocation.getContext());
+
+            }
         } catch(Exception e) {
             throw new WidgetException(widget.name+" running error:",e.getCause());
         }
@@ -48,4 +70,6 @@ public class BusinessInterceptor implements Interceptor {
         }
         return InvocationContext.SUCCESS;
     }
+
+
 }

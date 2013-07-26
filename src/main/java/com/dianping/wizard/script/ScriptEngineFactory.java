@@ -15,6 +15,8 @@ public class ScriptEngineFactory {
     static{
         engines=new HashMap<String, ScriptEngine>();
         engines.put("default",new DefaultScriptEngine());
+        engines.put("shell",new GroovyShellScriptEngine());
+
     }
 
     public static ScriptEngine getEngine(String name){

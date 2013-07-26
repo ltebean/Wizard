@@ -1,4 +1,5 @@
 mode: local
+enableDebug: true
 basePackage: widget
 exception: log
 mongo:

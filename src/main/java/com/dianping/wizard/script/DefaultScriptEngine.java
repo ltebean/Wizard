@@ -1,8 +1,10 @@
 package com.dianping.wizard.script;
 
 import com.dianping.wizard.exception.WidgetException;
+import org.apache.commons.io.FileUtils;
 
 import javax.script.*;
+import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -42,4 +44,13 @@ public class DefaultScriptEngine implements ScriptEngine{
         }
     }
 
+    public Object eval(File file,Map<String,Object> context){
+        String code="";
+        try {
+            code= FileUtils.readFileToString(file,"UTF-8");
+        } catch(Exception e) {
+            throw new WidgetException("error reading file", e);
+        }
+        return this.eval(code,context);
+    }
 }
