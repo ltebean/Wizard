@@ -29,7 +29,7 @@ public class BusinessInterceptor implements Interceptor {
     private final boolean enableDebug;
 
     public BusinessInterceptor() {
-        enableDebug=Configuration.get("enableDebug","false",String.class).equals("true");
+        enableDebug=Configuration.get("modeConfig.local.enableDebug","false",String.class).equals("true");
         if(enableDebug){
             engine = ScriptEngineFactory.getEngine("shell");
         } else{

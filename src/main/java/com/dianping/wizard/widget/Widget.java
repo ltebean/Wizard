@@ -2,7 +2,9 @@ package com.dianping.wizard.widget;
 
 import com.dianping.wizard.mongo.Model;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,8 +28,6 @@ public class Widget extends Model {
     public String layoutRule="";
 
     public String layoutName="";
-
-    public String type="";
 
     public Map<String,Mode> modes;
 

@@ -19,11 +19,11 @@ public class JongoClient {
 
     private static final Jongo jongo;
 
-    private static final String SERVER_ADDRESS = Configuration.get("mongo.host",String.class);
+    private static final String SERVER_ADDRESS = Configuration.get("modeConfig.db.host",String.class);
 
-    private static final int SERVER_PORT = Configuration.get("mongo.port",Integer.class);
+    private static final int SERVER_PORT = Configuration.get("modeConfig.db.port",Integer.class);
 
-    private static final String DB_NAME = Configuration.get("mongo.db",String.class);
+    private static final String DB_NAME = Configuration.get("modeConfig.db.dbName",String.class);
 
     static {
         try {

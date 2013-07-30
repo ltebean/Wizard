@@ -1,11 +1,13 @@
 mode: local
-enableDebug: true
-basePackage: widget
+modeConfig:
+    local:
+        enableDebug: true
+        basePackage: widget
+    db:
+        host: 127.0.0.1
+        port: 27017
+        dbName: test
 exception: log
-mongo:
-    host: 127.0.0.1
-    port: 27017
-    db: test
 interceptors:
     factory:
         debug: com.dianping.wizard.widget.interceptor.DebuggingInterceptor

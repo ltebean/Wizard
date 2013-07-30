@@ -36,7 +36,7 @@ public class ResourceList{
 
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        URL url = classLoader.getResource(Configuration.get("basePackage","",String.class));
+        URL url = classLoader.getResource(Configuration.get("modeConfig.local.basePackage","",String.class));
         try {
             retval.addAll(getResources(new File(url.toURI()), pattern));
         } catch (URISyntaxException e) {
