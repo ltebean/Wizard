@@ -36,7 +36,7 @@ public class LayoutParser {
         Map<String,Future<RenderingResult>> result=new HashMap<String, Future<RenderingResult>>();
         //if the widget does not has layout, execute it and return the result;
         if(!hasLayout(widget)){
-            result.put(widget.name,executorService.submit(new RenderingTask(widget,mode,param)));
+            result.put(widget.name,executorService.submit(new RenderingTask(widget,mode,(HashMap<String,Object>)param.get("param"))));
             return result;
         }
         //evaluate the rule to find the layout
@@ -54,7 +54,7 @@ public class LayoutParser {
                     if(w==null){
                         throw new WidgetException("widget not found: "+widgetName);
                     }
-                    result.put(w.name,executorService.submit(new RenderingTask(w,mode,param)));
+                    result.put(w.name,executorService.submit(new RenderingTask(w,mode,(HashMap<String,Object>)param.get("param"))));
                 }
             }
         }
