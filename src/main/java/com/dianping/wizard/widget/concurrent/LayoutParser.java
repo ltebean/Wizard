@@ -8,9 +8,7 @@ import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.repo.WidgetRepoFactory;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
-import com.dianping.wizard.widget.Layout;
-import com.dianping.wizard.widget.RenderingResult;
-import com.dianping.wizard.widget.Widget;
+import com.dianping.wizard.widget.*;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
@@ -32,11 +30,12 @@ public class LayoutParser {
 
     private final static ExecutorService executorService = Executor.getInstance();
 
-    public static Map<String,Future<RenderingResult>> parseAndExecute(Widget widget,String mode,Map<String,Object> param){
+    public static Map<String,Future<RenderingResult>> parseAndExecute(Widget widget,String mode,Map<String,Object> context){
         Map<String,Future<RenderingResult>> result=new HashMap<String, Future<RenderingResult>>();
+        HashMap<String,Object> param=  (HashMap<String,Object>)context.get("param");
         //if the widget does not has layout, execute it and return the result;
         if(!hasLayout(widget)){
-            result.put(widget.name,executorService.submit(new RenderingTask(widget,mode,(HashMap<String,Object>)param.get("param"))));
+            result.put(widget.name,executorService.submit(new RenderingTask(widget,mode,param)));
             return result;
         }
         //evaluate the rule to find the layout
@@ -54,7 +53,11 @@ public class LayoutParser {
                     if(w==null){
                         throw new WidgetException("widget not found: "+widgetName);
                     }
-                    result.put(w.name,executorService.submit(new RenderingTask(w,mode,(HashMap<String,Object>)param.get("param"))));
+                    if(hasLayout(w)){
+                        result.putAll(parseAndExecute(w,mode,context));
+                    }else{
+                        result.put(w.name,executorService.submit(new RenderingTask(w,mode,param)));
+                    }
                 }
             }
         }

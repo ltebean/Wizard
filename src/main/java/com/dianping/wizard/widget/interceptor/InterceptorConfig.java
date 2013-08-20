@@ -2,7 +2,6 @@ package com.dianping.wizard.widget.interceptor;
 
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
-import com.dianping.wizard.widget.concurrent.ConcurrentLayoutInterceptor;
 import com.dianping.wizard.widget.extensions.ExtensionsInjectionInterceptor;
 
 import java.util.*;
@@ -29,7 +28,6 @@ public class InterceptorConfig {
         factory.put("exception", new ExceptionInterceptor());
         factory.put("merge", new MergeInterceptor());
         factory.put("layout", new LayoutInterceptor());
-        factory.put("concurrentLayout", new ConcurrentLayoutInterceptor());
         factory.put("extensions", new ExtensionsInjectionInterceptor());
         factory.put("business", new BusinessInterceptor());
 
