@@ -45,7 +45,7 @@ public class LayoutInterceptor implements Interceptor {
                 throw new WidgetException("layout not found: "+widget.layoutName);
             }
             Map<String, Object> param = (Map<String, Object>) invocation.getContext().get("param");
-            Map<String, Future<RenderingResult>> tasks = (Map<String, Future<RenderingResult>>) invocation.getContext().get("tasks");
+            Map<String, Future<RenderingResult>> tasks = (Map<String, Future<RenderingResult>>) param.get("CONCURRENT_TASKS");
 
             ResultWrapper wrapper = renderComponentsFromPool(layout, invocation.getModeType(), param,tasks);
 
@@ -67,8 +67,6 @@ public class LayoutInterceptor implements Interceptor {
                     continue;
                 }
                 RenderingResult result = null;
-                //
-
                 if(tasks==null||tasks.get(widgetName)==null){
                     result = renderer.render(widget, mode, param);
                 }else{
