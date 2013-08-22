@@ -73,7 +73,8 @@ public class LayoutInterceptor implements Interceptor {
                     try {
                         result = tasks.get(widgetName).get(timeout, TimeUnit.MILLISECONDS);
                     } catch (Exception e) {
-                        logger.error("widget:" + widget + " timeout", e);
+                        String msg="widget:" + widget + " timeout";
+                        logger.error(msg, new WidgetException(msg,e));
                     }
                 }
 
@@ -82,29 +83,6 @@ public class LayoutInterceptor implements Interceptor {
                 }
 
                 if (result != null && StringUtils.isNotEmpty(result.script)) {
-                    scriptBuilder.append(result.script);
-                }
-            }
-            wrapper.output.put(colKey, builder.toString());
-        }
-        wrapper.script = scriptBuilder.toString();
-        return wrapper;
-    }
-
-    private ResultWrapper renderComponents(Layout layout, String mode, Map<String, Object> param) {
-        ResultWrapper wrapper = new ResultWrapper();
-        StringBuilder scriptBuilder = new StringBuilder();
-        for (Map.Entry<String, List<String>> entry : layout.config.entrySet()) {
-            String colKey = entry.getKey();
-            StringBuilder builder = new StringBuilder();
-            for (String widgetName : entry.getValue()) {
-                Widget widget = widgetRepo.loadByName(widgetName);
-                RenderingResult result = renderer.render(widget, mode, param);
-                builder.append(result.output);
-                if (widget.modes.get(mode) == null) {
-                    continue;
-                }
-                if (StringUtils.isNotEmpty(result.script)) {
                     scriptBuilder.append(result.script);
                 }
             }

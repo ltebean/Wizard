@@ -27,7 +27,7 @@ public class ExceptionInterceptor implements Interceptor{
                 invocation.setOutput(ExceptionUtils.getFullStackTrace(e));
                 return InvocationContext.SUCCESS;
             } else {
-                logger.error("error in rendering widget: " + invocation.getWidget().name, e);
+                logger.error("error in renderring widget: " + invocation.getWidget().name, e);
                 return InvocationContext.NONE;
             }
         }
