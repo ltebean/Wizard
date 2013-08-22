@@ -36,8 +36,8 @@ public class Executor {
     public void init() {
         int corePoolSize= Configuration.get("concurrent.threadPool.corePoolSize",50,Integer.class);
         int maximumPoolSize= Configuration.get("concurrent.threadPool.maximumPoolSize",50,Integer.class);
-        int keepAliveTime= Configuration.get("concurrent.threadPool.keepAliveTime",00,Integer.class);
-        int blockingQueueCapacity= Configuration.get("concurrent.threadPool.blockingQueueCapacity",500,Integer.class);
+        int keepAliveTime= Configuration.get("concurrent.threadPool.keepAliveTime",0,Integer.class);
+        int blockingQueueCapacity= Configuration.get("concurrent.threadPool.blockingQueueCapacity",1000,Integer.class);
 
         if (executorService == null) {
             executorService = new ThreadPoolExecutor(corePoolSize,
