@@ -73,7 +73,7 @@ public class LayoutInterceptor implements Interceptor {
                     try {
                         result = tasks.get(widgetName).get(timeout, TimeUnit.MILLISECONDS);
                     } catch (Exception e) {
-                        String msg="widget:" + widget + " timeout";
+                        String msg="failed to retrieve result - widget:" + widget.name;
                         logger.error(msg, new WidgetException(msg,e));
                     }
                 }
