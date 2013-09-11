@@ -40,7 +40,7 @@ public class LayoutParser {
         }
         //evaluate the rule to find the layout
         if(StringUtils.isNotEmpty(widget.layoutRule)){
-            widget.layoutName=(String)engine.eval(widget.layoutRule,param);
+            widget.layoutName=(String)engine.eval(widget.layoutRule,context);
         }
         if(StringUtils.isNotEmpty(widget.layoutName)){
             Layout layout=layoutRepo.loadByName(widget.layoutName);
