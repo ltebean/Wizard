@@ -12,7 +12,7 @@ interceptors:
     factory:
         debug: com.dianping.wizard.widget.interceptor.DebuggingInterceptor
     stack:
-        default: exception|merge|layout|extensions|business
+        default: exception|merge|layout|business
 freemarker:
     properties: freemarker.properties
 extensions:

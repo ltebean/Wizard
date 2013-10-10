@@ -3,6 +3,7 @@ package com.dianping.wizard.widget;
 import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.repo.WidgetRepoFactory;
+import com.dianping.wizard.widget.extensions.ExtensionsManager;
 import com.dianping.wizard.widget.interceptor.Interceptor;
 import com.dianping.wizard.widget.interceptor.InterceptorConfig;
 import org.apache.log4j.Logger;
@@ -34,6 +35,7 @@ class DefaultWidgetRenderer implements WidgetRenderer {
         }
         Iterator<Interceptor> interceptors = InterceptorConfig.getInstance().getInterceptors("default");
         InvocationContext invocation = new InvocationContext(widget, modeType, params, interceptors);
+        invocation.getContext().putAll(ExtensionsManager.getInstance().getExtension());
         RenderingResult result = new RenderingResult();
         try {
             String resultCode = invocation.invoke();

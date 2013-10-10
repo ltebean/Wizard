@@ -7,6 +7,7 @@ import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.RenderingResult;
 import com.dianping.wizard.widget.Widget;
 import com.dianping.wizard.widget.WidgetRenderer;
+import com.dianping.wizard.widget.extensions.ExtensionsManager;
 import com.dianping.wizard.widget.interceptor.Interceptor;
 import com.dianping.wizard.widget.interceptor.InterceptorConfig;
 import org.apache.log4j.Logger;
@@ -35,6 +36,7 @@ public class ConcurrentRenderer implements WidgetRenderer {
         }
         Iterator<Interceptor> interceptors = InterceptorConfig.getInstance().getInterceptors("default");
         InvocationContext invocation = new InvocationContext(widget, mode, params, interceptors);
+        invocation.getContext().putAll(ExtensionsManager.getInstance().getExtension());
         Map<String, Future<RenderingResult>> tasks = LayoutParser.parseAndExecute(widget, mode, invocation.getContext());
         params.put("CONCURRENT_TASKS",tasks);
         RenderingResult result = new RenderingResult();

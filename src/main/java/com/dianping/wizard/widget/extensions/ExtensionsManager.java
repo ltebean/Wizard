@@ -20,13 +20,13 @@ import java.util.Map;
  * Time: 上午10:49
  * To change this template use File | Settings | File Templates.
  */
-public class ExtensionsInjectionInterceptor implements Interceptor {
+public class ExtensionsManager {
 
-    private Map<String,Object> extensions;
+    private final Map<String,Object> extensions;
 
+    private static final ExtensionsManager instance=new ExtensionsManager();
 
-
-    public ExtensionsInjectionInterceptor() {
+    private ExtensionsManager() {
         extensions=new HashMap<String,Object>();
 
         String locatorClassName= Configuration.get("extensions.serviceLocator","",String.class);
@@ -54,11 +54,11 @@ public class ExtensionsInjectionInterceptor implements Interceptor {
         }
     }
 
-    @Override
-    public String intercept(InvocationContext invocation) throws Exception {
-        if(extensions.size()>0){
-            invocation.getContext().putAll(extensions);
-        }
-        return invocation.invoke();
+    public static ExtensionsManager getInstance(){
+        return instance;
+    }
+
+    public Map<String,Object> getExtension() {
+        return extensions;
     }
 }
