@@ -2,7 +2,9 @@ package com.dianping.wizard.repo;
 
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WizardExeption;
+import com.dianping.wizard.repo.db.LayoutDBRepo;
 import com.dianping.wizard.repo.db.WidgetDBRepo;
+import com.dianping.wizard.repo.local.LayoutLocalRepo;
 import com.dianping.wizard.repo.local.WidgetLocalRepo;
 import com.dianping.wizard.widget.Widget;
 
@@ -19,10 +21,14 @@ public class WidgetRepoFactory {
     static {
         repos=new ConcurrentHashMap<String, WidgetRepo>();
         String mode= Configuration.get("mode","local",String.class);
+        WidgetRepo localRepo=new WidgetLocalRepo();
+        WidgetRepo dbRepo=new WidgetDBRepo();
+        repos.put("local",localRepo);
+        repos.put("db",dbRepo);
         if(mode.equals("local")){
-            repos.put("default",new WidgetLocalRepo());
+            repos.put("default",localRepo);
         }else{
-            repos.put("default",new WidgetDBRepo());
+            repos.put("default",dbRepo);
         }
     }
 
@@ -32,5 +38,12 @@ public class WidgetRepoFactory {
             throw new WizardExeption("widget repo not found: "+name);
         }
         return repo;
+    }
+
+    public static void registerRepo(String name, WidgetRepo repo){
+        if(name==null||repo==null){
+            throw new IllegalArgumentException("name or repo cannot be null");
+        }
+        repos.putIfAbsent(name,repo);
     }
 }
