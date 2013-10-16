@@ -57,6 +57,16 @@ public class GenericDBRepo<T extends Model> implements GenericRepo<T> {
     }
 
     @Override
+    public  T updateByName(T t){
+        col.update("{name:'"+t.name+"'}").merge(t);
+        if(cache!=null){
+            String key=cache.generateKey(clazz,t.name);
+            cache.remove(key);
+        }
+        return t;
+    }
+
+    @Override
     public void delete(String name) {
         col.remove("{name:#}",name);
     }

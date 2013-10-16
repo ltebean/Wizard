@@ -62,6 +62,11 @@ public class LayoutLocalRepo implements LayoutRepo {
     }
 
     @Override
+    public Layout updateByName(Layout layout) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void delete(String id) {
         throw new UnsupportedOperationException();
     }

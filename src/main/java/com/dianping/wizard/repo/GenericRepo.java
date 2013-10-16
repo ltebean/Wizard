@@ -13,6 +13,8 @@ public interface GenericRepo<T extends Model> {
 
     public  T save(T t);
 
+    public  T updateByName(T t);
+
     public void delete(String id);
 
     public void deleteByName(String name);
