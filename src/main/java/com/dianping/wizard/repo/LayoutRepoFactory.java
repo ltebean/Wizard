@@ -3,9 +3,7 @@ package com.dianping.wizard.repo;
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.repo.db.LayoutDBRepo;
-import com.dianping.wizard.repo.db.WidgetDBRepo;
 import com.dianping.wizard.repo.local.LayoutLocalRepo;
-import com.dianping.wizard.repo.local.WidgetLocalRepo;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -44,5 +42,12 @@ public class LayoutRepoFactory {
             throw new IllegalArgumentException("name or repo cannot be null");
         }
         repos.putIfAbsent(name,repo);
+    }
+
+    public static void replaceRepo(String name, LayoutRepo repo){
+        if(name==null||repo==null){
+            throw new IllegalArgumentException("name or repo cannot be null");
+        }
+        repos.replace(name,repo);
     }
 }

@@ -21,9 +21,7 @@ import java.util.Map;
  */
 class DefaultWidgetRenderer implements WidgetRenderer {
 
-    private Logger logger = Logger.getLogger(this.getClass());
-
-    private WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
+    private final Logger logger = Logger.getLogger(this.getClass());
 
     @Override
     public RenderingResult render(Widget widget, String modeType, Map<String, Object> params) {
@@ -55,6 +53,7 @@ class DefaultWidgetRenderer implements WidgetRenderer {
 
     @Override
     public RenderingResult render(String widgetName, String mode, Map<String, Object> params) {
+        WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
         Widget widget = widgetRepo.loadByName(widgetName);
         if (widget == null) {
             throw new WidgetException("widget not found:" + widgetName);

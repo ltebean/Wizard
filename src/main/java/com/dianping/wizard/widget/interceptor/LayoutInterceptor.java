@@ -20,10 +20,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class LayoutInterceptor implements Interceptor {
 
-    private final WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
-
-    private final LayoutRepo layoutRepo = LayoutRepoFactory.getRepo("default");
-
     private final WidgetRenderer renderer = WidgetRendererFactory.getRenderer("default");
 
     private final ScriptEngine engine = ScriptEngineFactory.getEngine("default");
@@ -40,6 +36,7 @@ public class LayoutInterceptor implements Interceptor {
             widget.layoutName = (String) engine.eval(widget.layoutRule, invocation.getContext());
         }
         if (StringUtils.isNotEmpty(widget.layoutName)) {
+            LayoutRepo layoutRepo = LayoutRepoFactory.getRepo("default");
             Layout layout = layoutRepo.loadByName(widget.layoutName);
             if(layout==null){
                 throw new WidgetException("layout not found: "+widget.layoutName);
@@ -56,6 +53,7 @@ public class LayoutInterceptor implements Interceptor {
     }
 
     private ResultWrapper renderComponentsFromPool(Layout layout, String mode, Map<String, Object> param, Map<String, Future<RenderingResult>> tasks) {
+        WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
         ResultWrapper wrapper = new ResultWrapper();
         StringBuilder scriptBuilder = new StringBuilder();
         for (Map.Entry<String, List<String>> entry : layout.config.entrySet()) {

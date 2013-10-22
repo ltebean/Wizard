@@ -24,10 +24,6 @@ public class LayoutParser {
 
     private final static ScriptEngine engine= ScriptEngineFactory.getEngine("default");
 
-    private final static WidgetRepo widgetRepo= WidgetRepoFactory.getRepo("default");
-
-    private final static LayoutRepo layoutRepo= LayoutRepoFactory.getRepo("default");
-
     private final static ExecutorService executorService = Executor.getInstance();
 
     public static Map<String,Future<RenderingResult>> parseAndExecute(Widget widget,String mode,Map<String,Object> context){
@@ -43,10 +39,12 @@ public class LayoutParser {
             widget.layoutName=(String)engine.eval(widget.layoutRule,context);
         }
         if(StringUtils.isNotEmpty(widget.layoutName)){
+            LayoutRepo layoutRepo=LayoutRepoFactory.getRepo("default");
             Layout layout=layoutRepo.loadByName(widget.layoutName);
             if(layout==null){
                 throw new WizardExeption("layout not found: "+widget.layoutName);
             }
+            WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
             for(Map.Entry<String,List<String>> entry : layout.config.entrySet()) {
                 for(String widgetName:entry.getValue()){
                     Widget w=widgetRepo.loadByName(widgetName);

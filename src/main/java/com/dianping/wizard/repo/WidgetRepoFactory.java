@@ -46,4 +46,11 @@ public class WidgetRepoFactory {
         }
         repos.putIfAbsent(name,repo);
     }
+
+    public static void replaceRepo(String name, WidgetRepo repo){
+        if(name==null||repo==null){
+            throw new IllegalArgumentException("name or repo cannot be null");
+        }
+        repos.replace(name,repo);
+    }
 }

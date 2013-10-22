@@ -22,8 +22,6 @@ import java.util.concurrent.Future;
  */
 public class ConcurrentRenderer implements WidgetRenderer {
 
-    private WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
-
     private Logger logger = Logger.getLogger(this.getClass());
 
     @Override
@@ -60,6 +58,7 @@ public class ConcurrentRenderer implements WidgetRenderer {
 
     @Override
     public RenderingResult render(String widgetName, String mode, Map<String, Object> params) {
+        WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
         Widget widget = widgetRepo.loadByName(widgetName);
         if (widget == null) {
             throw new WidgetException("widget not found:" + widgetName);
