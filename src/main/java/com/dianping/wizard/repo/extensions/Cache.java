@@ -12,4 +12,6 @@ public interface Cache {
     public void remove(String key);
 
     public String generateKey(Class clazz, String name);
+
+    public void clearAll();
 }

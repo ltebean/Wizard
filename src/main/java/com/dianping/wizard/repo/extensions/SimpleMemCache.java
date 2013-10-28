@@ -29,4 +29,9 @@ public class SimpleMemCache implements Cache {
     public String generateKey(Class clazz, String name) {
         return clazz.getSimpleName()+name;
     }
+
+    @Override
+    public void clearAll() {
+        cache.clear();;
+    }
 }
