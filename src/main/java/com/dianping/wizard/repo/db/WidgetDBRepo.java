@@ -15,6 +15,16 @@ public class WidgetDBRepo extends GenericDBRepo<Widget> implements WidgetRepo {
         super(Widget.class);
     }
 
+    @Override
+    public  Widget save(Widget widget) {
+        col.save(widget);
+        if(cache!=null){
+            String key=cache.generateKey(Widget.class,widget.name);
+            cache.remove(key);
+        }
+        return widget;
+    }
+
 
     @Override
     public Widget loadByName(String name) {
@@ -34,6 +44,25 @@ public class WidgetDBRepo extends GenericDBRepo<Widget> implements WidgetRepo {
             }
         }
         return widget;
+    }
+
+    @Override
+    public  Widget updateByName(Widget widget){
+        col.update("{name:'"+widget.name+"'}").merge(widget);
+        if(cache!=null){
+            String key=cache.generateKey(Widget.class,widget.name);
+            cache.remove(key);
+        }
+        return widget;
+    }
+
+    @Override
+    public void deleteByName(String name) {
+        col.remove("{name:#}",name);
+        if(cache!=null){
+            String key=cache.generateKey(Widget.class,name);
+            cache.remove(key);
+        }
     }
 
     private void populateWithParent(Widget widget) {

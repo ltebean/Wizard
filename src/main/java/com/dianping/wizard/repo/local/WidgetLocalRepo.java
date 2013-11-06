@@ -92,11 +92,6 @@ public class WidgetLocalRepo implements WidgetRepo {
     }
 
     @Override
-    public void delete(String id) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void deleteByName(String name) {
         throw new UnsupportedOperationException();
     }

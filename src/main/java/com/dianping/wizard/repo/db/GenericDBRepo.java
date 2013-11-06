@@ -21,59 +21,35 @@ public class GenericDBRepo<T extends Model> implements GenericRepo<T> {
 
     public GenericDBRepo(Class<T> clazz) {
         this.cache = CacheManager.getCache();
-        this.clazz =clazz;
-        this.col= JongoClient.getInstance().getCollection(StringUtils.lowerCase(clazz.getSimpleName()));
+        this.clazz = clazz;
+        this.col = JongoClient.getInstance().getCollection(StringUtils.lowerCase(clazz.getSimpleName()));
     }
 
     @Override
-    public  T loadByName(String name) {
-        if (cache == null) {
-            return col.findOne("{name:#}",name).as(clazz);
-        }
-        String key=cache.generateKey(clazz,name);
-        T result= (T) cache.get(key);
-        if (result == null) {
-            result =col.findOne("{name:#}",name).as(clazz);
-            if (result != null) {
-                cache.add(key,result);
-            }
-        }
-        return result;
+    public T loadByName(String name) {
+        return col.findOne("{name:#}", name).as(clazz);
     }
 
     @Override
-    public  Iterable<T> find(String query, Object... params) {
+    public Iterable<T> find(String query, Object... params) {
         return col.find(query, params).as(clazz);
     }
 
     @Override
-    public  T save(T t) {
+    public T save(T t) {
         col.save(t);
-        if(cache!=null){
-            String key=cache.generateKey(clazz,t.name);
-            cache.remove(key);
-        }
         return t;
     }
 
     @Override
-    public  T updateByName(T t){
-        col.update("{name:'"+t.name+"'}").merge(t);
-        if(cache!=null){
-            String key=cache.generateKey(clazz,t.name);
-            cache.remove(key);
-        }
+    public T updateByName(T t) {
+        col.update("{name:'" + t.name + "'}").merge(t);
         return t;
-    }
-
-    @Override
-    public void delete(String name) {
-        col.remove("{name:#}",name);
     }
 
     @Override
     public void deleteByName(String name) {
-        col.remove("{name:#}",name);
+        col.remove("{name:#}", name);
     }
 
 }
