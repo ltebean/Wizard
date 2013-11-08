@@ -1,13 +1,13 @@
 
 Wizard is a website development and administration framework
 
-##Core Features:
+## Core Features:
 - spliting a page into several self-contained modules(called widget)
 - each widget works like a standalone app (fully mvc support)
 - dynamic changing the behavior or view of a widget
 - dynamic organizing the layout of a page
 
-##Introduction:
+## Introduction:
 
 A widget consists of there parts:
 
@@ -31,7 +31,7 @@ And the execution flow will be as follows:
 - parse the layout and execute the widget specified in it
 - merge the view under the context returned by the business script and the it's sub-modules
 
-##Getting Started:
+## Getting Started:
 
 First retrieve a widget through the WidgetRepo:
 	
