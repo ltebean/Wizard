@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class FileUtils {
 
     public static String readFileOnClassPath(final String fileName,final String extensions){
-        String pattern=".*/"+fileName+"."+extensions;
+        String pattern=".*[/\\\\]"+fileName+"."+extensions;
         try {
             Collection<String> paths=ResourceList.getResources(Pattern.compile(pattern));
             if(paths.size()>1){
