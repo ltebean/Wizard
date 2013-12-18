@@ -2,6 +2,7 @@ package com.dianping.wizard.widget.extensions;
 
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.interceptor.Interceptor;
 import freemarker.ext.beans.BeansWrapper;
@@ -22,35 +23,25 @@ import java.util.Map;
  */
 public class ExtensionsManager {
 
-    private final Map<String,Object> extensions;
+    private final Map<String,Object> extensions=new HashMap<String, Object>();
 
     private static final ExtensionsManager instance=new ExtensionsManager();
 
     private ExtensionsManager() {
-        extensions=new HashMap<String,Object>();
-
-        String locatorClassName= Configuration.get("extensions.serviceLocator","",String.class);
-        if(StringUtils.isNotEmpty(locatorClassName)){
-            try{
-                ServiceLocator locator=(ServiceLocator)Class.forName(locatorClassName).newInstance();
-                extensions.put("service",locator);
-            }catch (Exception e){
-                throw new WidgetException("extensions locator initialization failed",e);
-            }
+        Map<String,String> extensionsConfig = Configuration.get("extensions",new HashMap<String, Object>(),Map.class);
+        if(extensionsConfig.size()==0){
+            return;
         }
-
-        List<String> modelList=Configuration.get("extensions.staticModels", null, List.class);
-        if(CollectionUtils.isNotEmpty(modelList)){
-            BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
-            TemplateHashModel models = wrapper.getStaticModels();
-            for (String clazz : modelList) {
-                try {
-                    TemplateHashModel model =(TemplateHashModel) models.get(clazz);
-                    extensions.put(Class.forName(clazz).getSimpleName(),model);
-                } catch(Exception e) {
-                    throw new WidgetException("static model initialization error",e);
+        try{
+            for (String extensionsName : extensionsConfig.keySet()) {
+                if(StringUtils.isNotEmpty(extensionsName)){
+                        Object extensionsInstance=Class.forName(extensionsConfig.get(extensionsName)).newInstance();
+                        extensions.put(extensionsName,extensionsInstance);
+                    }
                 }
             }
+        catch (Exception e){
+            throw new WizardExeption("extensions initialization failed",e);
         }
     }
 

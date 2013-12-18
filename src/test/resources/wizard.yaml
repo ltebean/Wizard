@@ -9,6 +9,7 @@ modeConfig:
             port: 27017
         dbName: test
 exception: log
+cache: com.dianping.wizard.repo.extensions.SimpleMemCache
 interceptors:
     factory:
         debug: com.dianping.wizard.widget.interceptor.DebuggingInterceptor
@@ -16,11 +17,10 @@ interceptors:
         default: exception|merge|layout|business
 freemarker:
     properties: freemarker.properties
-extensions:
-    cache: com.dianping.wizard.repo.extensions.SimpleMemCache
-    serviceLocator: com.dianping.wizard.extensions.ServiceLocator
     staticModels:
-        - com.dianping.wizard.extensions.HtmlFormater
+            - com.dianping.wizard.extensions.HtmlFormater
+extensions:
+    service: com.dianping.wizard.extensions.ServiceLocator
 concurrent:
     timeout: 1000
     threadPool:

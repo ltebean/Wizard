@@ -12,7 +12,7 @@ public class CacheManager {
     private static Cache cache;
 
     static {
-        String className= Configuration.get("extensions.cache", "", String.class);
+        String className= Configuration.get("cache", "", String.class);
         if(StringUtils.isNotEmpty(className)){
             try{
                 cache=(Cache)Class.forName(className).newInstance();
