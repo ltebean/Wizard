@@ -4,7 +4,7 @@
 
   <groupId>com.dianping</groupId>
   <artifactId>wizard</artifactId>
-  <version>1.0.5-SNAPSHOT</version>
+  <version>1.0.5_cachetask-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>wizard</name>
