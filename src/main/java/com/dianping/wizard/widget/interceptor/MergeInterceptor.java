@@ -62,13 +62,14 @@ public class MergeInterceptor implements Interceptor {
         invocation.getContext().putAll(staticModels);
 
         //merge script and put it into the context
+        String finalScript=invocation.getScript();
         if (StringUtils.isNotEmpty(mode.script)) {
             String templateName = Template.generateName(widget.name, invocation.getModeType(), "script");
             String script = merger.merge(new Template(templateName,mode.script), invocation.getContext());
-            String finalScript = script + invocation.getScript();
-            invocation.getContext().put("script", finalScript);
-            invocation.setScript(finalScript);
+            finalScript+=script;
         }
+        invocation.getContext().put("script", finalScript);
+        invocation.setScript(finalScript);
         //merge html
         if (StringUtils.isNotEmpty(mode.template)) {
             String templateName = Template.generateName(widget.name, invocation.getModeType(), "template");
