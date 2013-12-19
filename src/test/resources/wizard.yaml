@@ -8,7 +8,7 @@ modeConfig:
             host: 127.0.0.1
             port: 27017
         dbName: test
-exception: log
+exception: print
 cache: com.dianping.wizard.repo.extensions.SimpleMemCache
 interceptors:
     factory:

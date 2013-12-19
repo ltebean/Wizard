@@ -4,10 +4,9 @@ import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.ObjectWrapper;
-import freemarker.template.Template;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
-import java.io.FileNotFoundException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Map;
@@ -18,13 +17,13 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * @author ltebean
  */
-public class FreemarkerMerger {
+public class FreemarkerMerger implements Merger {
 
     private static final FreemarkerMerger instance = new FreemarkerMerger();
 
     private final freemarker.template.Configuration cfg;
 
-    private final ConcurrentMap<String, Template> cache = new ConcurrentHashMap<String, Template>();
+    private final ConcurrentMap<String, TemplatePack> cache = new ConcurrentHashMap<String, TemplatePack>();
 
     public static FreemarkerMerger getInstance() {
         return instance;
@@ -49,15 +48,37 @@ public class FreemarkerMerger {
         cfg.setObjectWrapper(ObjectWrapper.BEANS_WRAPPER);
     }
 
-    public String merge(String templateName, String templateString, Map<String, Object> context) throws Exception {
-        Template template = cache.get(templateString);
-        if (template == null) {
-            template = new Template(templateName, new StringReader(templateString), cfg);
-            cache.putIfAbsent(templateString, template);
-        }
+    public String merge(Template template, Map<String, Object> context) throws Exception {
+        updateCache(template);
+        TemplatePack templatePack = cache.get(template.name);
         StringWriter writer = new StringWriter();
-        template.process(context, writer);
+        templatePack.compiledTemplate.process(context, writer);
         return writer.getBuffer().toString();
     }
 
+    private void updateCache(Template template) throws Exception{
+        TemplatePack templatePack = cache.get(template.name);
+        if (templatePack == null) {
+            freemarker.template.Template fmTemplate = new freemarker.template.Template(template.name, new StringReader(template.code), cfg);
+            TemplatePack pack= new TemplatePack(template.name,fmTemplate);
+            cache.putIfAbsent(template.name,pack);
+            return;
+        }
+        if(!templatePack.code.equals(template.code)){
+            freemarker.template.Template fmTemplate = new freemarker.template.Template(template.name, new StringReader(template.code), cfg);
+            cache.put(template.name, new TemplatePack(template.name,fmTemplate));
+        }
+    }
+
+    private static class TemplatePack{
+
+        public final String code;
+
+        public final freemarker.template.Template compiledTemplate;
+
+        private TemplatePack(String code, freemarker.template.Template compiledTemplate) {
+            this.code = code;
+            this.compiledTemplate = compiledTemplate;
+        }
+    }
 }

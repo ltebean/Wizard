@@ -5,7 +5,9 @@ import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
-import com.dianping.wizard.widget.merger.FreemarkerUtils;
+import com.dianping.wizard.widget.merger.FreemarkerMerger;
+import com.dianping.wizard.widget.merger.Merger;
+import com.dianping.wizard.widget.merger.Template;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
 import org.apache.commons.collections.CollectionUtils;
@@ -24,19 +26,21 @@ import java.util.Map;
  */
 public class MergeInterceptor implements Interceptor {
 
-    private Map<String,Object> staticModels=new HashMap<String,Object>();
+    private final Map<String, Object> staticModels = new HashMap<String, Object>();
+
+    private final Merger merger = FreemarkerMerger.getInstance();
 
     public MergeInterceptor() {
-        List<String> modelList= Configuration.get("freemarker.staticModels", null, List.class);
-        if(CollectionUtils.isNotEmpty(modelList)){
+        List<String> modelList = Configuration.get("freemarker.staticModels", null, List.class);
+        if (CollectionUtils.isNotEmpty(modelList)) {
             BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
             TemplateHashModel models = wrapper.getStaticModels();
             for (String clazz : modelList) {
                 try {
-                    TemplateHashModel model =(TemplateHashModel) models.get(clazz);
-                    staticModels.put(Class.forName(clazz).getSimpleName(),model);
-                } catch(Exception e) {
-                    throw new WidgetException("static model initialization error",e);
+                    TemplateHashModel model = (TemplateHashModel) models.get(clazz);
+                    staticModels.put(Class.forName(clazz).getSimpleName(), model);
+                } catch (Exception e) {
+                    throw new WidgetException("static model initialization error", e);
                 }
             }
         }
@@ -53,21 +57,23 @@ public class MergeInterceptor implements Interceptor {
         if (mode == null) {
             throw new WidgetException("widget(" + widget.name + ") does not support mode:" + invocation.getModeType() + "");
         }
-        //merge script and put into the context
+
+        //inject staticModels
         invocation.getContext().putAll(staticModels);
-        String script="";
+
+        //merge script and put it into the context
         if (StringUtils.isNotEmpty(mode.script)) {
-            script= FreemarkerUtils.merge(widget.name+invocation.getModeType()+"script",mode.script, invocation.getContext());
+            String templateName = Template.generateName(widget.name, invocation.getModeType(), "script");
+            String script = merger.merge(new Template(templateName,mode.script), invocation.getContext());
+            String finalScript = script + invocation.getScript();
+            invocation.getContext().put("script", finalScript);
+            invocation.setScript(finalScript);
         }
-        String allScript=script+invocation.getScript();
-        invocation.getContext().put("script",allScript);
-        invocation.setScript(allScript);
         //merge html
         if (StringUtils.isNotEmpty(mode.template)) {
-            invocation.setOutput(FreemarkerUtils.merge(widget.name+invocation.getModeType()+"code",mode.template, invocation.getContext()));
+            String templateName = Template.generateName(widget.name, invocation.getModeType(), "template");
+            invocation.setOutput(merger.merge(new Template(templateName,mode.template), invocation.getContext()));
         }
-
         return InvocationContext.SUCCESS;
-
     }
 }

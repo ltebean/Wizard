@@ -21,12 +21,8 @@ public class GroovyShellScriptEngine implements ScriptEngine{
     }
 
     @Override
-    public Object eval(String code, Map<String, Object> context) {
-        Binding binding = new Binding();
-        for(String key:context.keySet()){
-            binding.setProperty(key,context.get(key));
-        }
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Object eval(Script script, Map<String, Object> context) {
+        throw  new UnsupportedOperationException();
     }
 
     @Override
@@ -43,5 +39,8 @@ public class GroovyShellScriptEngine implements ScriptEngine{
         }
     }
 
+    public void updateScript(Script script){
+        throw  new UnsupportedOperationException();
+    }
 
 }

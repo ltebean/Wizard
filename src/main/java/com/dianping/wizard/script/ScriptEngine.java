@@ -8,8 +8,9 @@ import java.util.Map;
  */
 public interface ScriptEngine {
 
-    public Object eval(String code,Map<String,Object> context);
+    public Object eval(Script script,Map<String,Object> context);
 
     public Object eval(File file,Map<String,Object> context);
+
 
 }

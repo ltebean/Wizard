@@ -2,6 +2,7 @@ package com.dianping.wizard.widget.interceptor;
 
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.script.Script;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
 import com.dianping.wizard.utils.ResourceList;
@@ -54,8 +55,8 @@ public class BusinessInterceptor implements Interceptor {
                 Collection<String> paths= ResourceList.getResources(Pattern.compile(".*"+widget.name+".groovy"));
                 result=engine.eval(new File(paths.iterator().next()),invocation.getContext());
             }else{
-                result=engine.eval(mode.code,invocation.getContext());
-
+                String name= Script.generateName(widget.name, invocation.getModeType());
+                result=engine.eval(new Script(name,mode.code),invocation.getContext());
             }
         } catch(Exception e) {
             throw new WidgetException(widget.name+" running error:",e.getCause());

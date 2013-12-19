@@ -3,6 +3,7 @@ package com.dianping.wizard.widget.interceptor;
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.repo.*;
+import com.dianping.wizard.script.Script;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
 import com.dianping.wizard.widget.*;
@@ -33,7 +34,8 @@ public class LayoutInterceptor implements Interceptor {
     public String intercept(InvocationContext invocation) throws Exception {
         Widget widget = invocation.getWidget();
         if (StringUtils.isNotEmpty(widget.layoutRule)) {
-            widget.layoutName = (String) engine.eval(widget.layoutRule, invocation.getContext());
+            String scriptName= Script.generateName(widget.name, "layout");
+            widget.layoutName=(String)engine.eval(new Script(scriptName,widget.layoutRule),invocation.getContext());
         }
         if (StringUtils.isNotEmpty(widget.layoutName)) {
             LayoutRepo layoutRepo = LayoutRepoFactory.getRepo("default");

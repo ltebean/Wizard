@@ -6,6 +6,7 @@ import com.dianping.wizard.repo.LayoutRepo;
 import com.dianping.wizard.repo.LayoutRepoFactory;
 import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.repo.WidgetRepoFactory;
+import com.dianping.wizard.script.Script;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
 import com.dianping.wizard.widget.*;
@@ -36,7 +37,8 @@ public class LayoutParser {
         }
         //evaluate the rule to find the layout
         if(StringUtils.isNotEmpty(widget.layoutRule)){
-            widget.layoutName=(String)engine.eval(widget.layoutRule,context);
+            String scriptName= Script.generateName(widget.name,"layout");
+            widget.layoutName=(String)engine.eval(new Script(scriptName,widget.layoutRule),context);
         }
         if(StringUtils.isNotEmpty(widget.layoutName)){
             LayoutRepo layoutRepo=LayoutRepoFactory.getRepo("default");

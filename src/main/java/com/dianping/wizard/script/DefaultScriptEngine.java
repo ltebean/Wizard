@@ -1,6 +1,7 @@
 package com.dianping.wizard.script;
 
 import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.exception.WizardExeption;
 import org.apache.commons.io.FileUtils;
 
 import javax.script.*;
@@ -20,37 +21,51 @@ public class DefaultScriptEngine implements ScriptEngine{
 
     private final javax.script.ScriptEngine engine;
 
-    private final ConcurrentMap<String, CompiledScript> compiledScripts = new ConcurrentHashMap<String, CompiledScript>();
+    private final ConcurrentMap<String, ScriptPack> scriptCache = new ConcurrentHashMap<String, ScriptPack>();
 
     public DefaultScriptEngine() {
         ScriptEngineManager manager = new ScriptEngineManager();
         engine = manager.getEngineByName("groovy");
     }
 
-    public Object eval(String code,Map<String,Object> context){
-
+    public Object eval(Script script,Map<String,Object> context){
         try {
-            CompiledScript script = compiledScripts.get(code);
-            if(script==null){
-                script = ((Compilable) engine).compile(code);
-                compiledScripts.putIfAbsent(code, script);
-            }
+            updateCache(script);
+            ScriptPack scriptPack = scriptCache.get(script.name);
             Bindings bindings = engine.createBindings();
             bindings.putAll(context);
-            Object result= script.eval(bindings);
+            Object result= scriptPack.compiledScript.eval(bindings);
             return result;
-        }catch (Exception e){
-            throw new WidgetException("script running error:", e.getCause());
+        }catch (ScriptException e){
+            throw new WidgetException("script running error:", e);
+        }
+    }
+
+    private void updateCache(Script script) throws  ScriptException{
+        ScriptPack scriptPack = scriptCache.get(script.name);
+        if(scriptPack==null){
+            CompiledScript compiledScript = ((Compilable) engine).compile(script.code);
+            ScriptPack pack=new ScriptPack(script.code,compiledScript);
+            scriptCache.putIfAbsent(script.name,pack);
+            return;
+        }
+        if (!scriptPack.code.equals(script.code)){
+            CompiledScript compiledScript = ((Compilable) engine).compile(script.code);
+            scriptCache.put(script.name,new ScriptPack(script.code,compiledScript));
         }
     }
 
     public Object eval(File file,Map<String,Object> context){
-        String code="";
-        try {
-            code= FileUtils.readFileToString(file,"UTF-8");
-        } catch(Exception e) {
-            throw new WidgetException("error reading file", e);
+        throw new UnsupportedOperationException();
+    }
+
+    private static class ScriptPack{
+        public String code;
+        public CompiledScript compiledScript;
+
+        private ScriptPack(String code, CompiledScript compiledScript) {
+            this.code = code;
+            this.compiledScript = compiledScript;
         }
-        return this.eval(code,context);
     }
 }
