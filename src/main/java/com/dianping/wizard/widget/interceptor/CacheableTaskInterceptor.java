@@ -1,11 +1,8 @@
 package com.dianping.wizard.widget.interceptor;
 
-import com.dianping.wizard.widget.CacheTaskProxy;
+import com.dianping.wizard.widget.CacheableTaskProxy;
 import com.dianping.wizard.widget.InvocationContext;
-import groovy.lang.GroovyClassLoader;
-import org.apache.log4j.Logger;
 
-import java.io.InputStream;
 import java.util.HashMap;
 
 /**
@@ -15,23 +12,23 @@ import java.util.HashMap;
  * Time: PM7:47
  * To change this template use File | Settings | File Templates.
  */
-public class CacheTaskInterceptor implements Interceptor {
+public class CacheableTaskInterceptor implements Interceptor {
 
 
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
 
         HashMap<String,Object> param=  (HashMap<String,Object>)invocation.getContext().get("param");
-        CacheTaskProxy cacheTaskProxy = (CacheTaskProxy) param.get("CACHE_TASK_PROXY");
-        if(cacheTaskProxy == null){
+        CacheableTaskProxy cacheableTaskProxy = (CacheableTaskProxy) param.get("CACHEABLE_TASK_PROXY");
+        if(cacheableTaskProxy == null){
             synchronized (param) {
-                if(cacheTaskProxy == null){
-                    cacheTaskProxy = new CacheTaskProxy();
-                    param.put("CACHE_TASK_PROXY", cacheTaskProxy);
+                if(cacheableTaskProxy == null){
+                    cacheableTaskProxy = new CacheableTaskProxy();
+                    param.put("CACHEABLE_TASK_PROXY", cacheableTaskProxy);
                 }
             }
         }
-        invocation.getContext().put("cacheTaskProxy", cacheTaskProxy);
+        invocation.getContext().put("cacheable", cacheableTaskProxy);
 
         return invocation.invoke();
     }
