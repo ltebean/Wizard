@@ -39,14 +39,8 @@ public class CacheableTaskProxy {
 
         Object result = cacheableTaskDataRepo.get(key);
 
-        if(result!=null){
-            logger.info("---------------------------------------CacheTaskProxy: "+key+" get data from cache");
-        }
-
         if(result == null){
             result = task.call();
-
-            logger.info("---------------------------------------CacheTaskProxy: "+key+" get data from Closure");
 
             if(result == null){
                 cacheableTaskDataRepo.put(key, EMPTYRESULT);
