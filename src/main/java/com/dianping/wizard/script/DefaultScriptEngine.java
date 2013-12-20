@@ -30,8 +30,7 @@ public class DefaultScriptEngine implements ScriptEngine{
 
     public Object eval(Script script,Map<String,Object> context){
         try {
-            updateCache(script);
-            ScriptPack scriptPack = scriptCache.get(script.name);
+            ScriptPack scriptPack = getScriptPackAndUpdateCache(script);
             Bindings bindings = engine.createBindings();
             bindings.putAll(context);
             Object result= scriptPack.compiledScript.eval(bindings);
@@ -41,18 +40,21 @@ public class DefaultScriptEngine implements ScriptEngine{
         }
     }
 
-    private void updateCache(Script script) throws  ScriptException{
+    private ScriptPack getScriptPackAndUpdateCache(Script script) throws  ScriptException{
         ScriptPack scriptPack = scriptCache.get(script.name);
         if(scriptPack==null){
             CompiledScript compiledScript = ((Compilable) engine).compile(script.code);
             ScriptPack pack=new ScriptPack(script.code,compiledScript);
             scriptCache.putIfAbsent(script.name,pack);
-            return;
+            return pack;
         }
         if (!scriptPack.code.equals(script.code)){
             CompiledScript compiledScript = ((Compilable) engine).compile(script.code);
-            scriptCache.put(script.name,new ScriptPack(script.code,compiledScript));
+            ScriptPack pack=new ScriptPack(script.code,compiledScript);
+            scriptCache.put(script.name,pack);
+            return pack;
         }
+        return scriptPack;
     }
 
     public Object eval(File file,Map<String,Object> context){

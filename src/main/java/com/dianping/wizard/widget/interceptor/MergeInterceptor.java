@@ -66,7 +66,10 @@ public class MergeInterceptor implements Interceptor {
         if (StringUtils.isNotEmpty(mode.script)) {
             String templateName = Template.generateName(widget.name, invocation.getModeType(), "script");
             String script = merger.merge(new Template(templateName,mode.script), invocation.getContext());
-            finalScript+=script;
+            //contact script
+            StringBuilder builder=new StringBuilder(finalScript);
+            builder.append(script);
+            finalScript=builder.toString();
         }
         invocation.getContext().put("script", finalScript);
         invocation.setScript(finalScript);

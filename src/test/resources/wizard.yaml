@@ -1,7 +1,7 @@
 mode: local
 modeConfig:
     local:
-        enableDebug: true
+        enableDebug: false
         basePackage: widget
     db:
         server:

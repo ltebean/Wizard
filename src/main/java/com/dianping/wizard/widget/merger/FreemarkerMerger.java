@@ -49,25 +49,26 @@ public class FreemarkerMerger implements Merger {
     }
 
     public String merge(Template template, Map<String, Object> context) throws Exception {
-        updateCache(template);
-        TemplatePack templatePack = cache.get(template.name);
+        TemplatePack templatePack = getTemplatePackAndUpdateCache(template);
         StringWriter writer = new StringWriter();
         templatePack.compiledTemplate.process(context, writer);
         return writer.getBuffer().toString();
     }
 
-    private void updateCache(Template template) throws Exception{
+    private TemplatePack getTemplatePackAndUpdateCache(Template template) throws Exception{
         TemplatePack templatePack = cache.get(template.name);
         if (templatePack == null) {
             freemarker.template.Template fmTemplate = new freemarker.template.Template(template.name, new StringReader(template.code), cfg);
             TemplatePack pack= new TemplatePack(template.name,fmTemplate);
             cache.putIfAbsent(template.name,pack);
-            return;
+            return pack;
         }
         if(!templatePack.code.equals(template.code)){
             freemarker.template.Template fmTemplate = new freemarker.template.Template(template.name, new StringReader(template.code), cfg);
-            cache.put(template.name, new TemplatePack(template.name,fmTemplate));
+            TemplatePack pack=new TemplatePack(template.name,fmTemplate);
+            cache.put(template.name, pack);
         }
+        return templatePack;
     }
 
     private static class TemplatePack{
