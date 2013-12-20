@@ -67,6 +67,7 @@ public class FreemarkerMerger implements Merger {
             freemarker.template.Template fmTemplate = new freemarker.template.Template(template.name, new StringReader(template.code), cfg);
             TemplatePack pack=new TemplatePack(template.name,fmTemplate);
             cache.put(template.name, pack);
+            return pack;
         }
         return templatePack;
     }

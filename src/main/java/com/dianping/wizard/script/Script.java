@@ -15,9 +15,7 @@ public class Script {
     }
 
     public static String generateName(String widgetName,String modeType){
-        StringBuilder builder=new StringBuilder(widgetName);
-        builder.append(modeType);
-        return builder.toString();
+        return widgetName+modeType;
     }
 
     @Override

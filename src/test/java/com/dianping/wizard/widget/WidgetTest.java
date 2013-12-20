@@ -41,8 +41,13 @@ public class WidgetTest extends TestCase
         Map<String,Object> params=new HashMap<String, Object>();
         params.put("shopId",500000);
         WidgetRenderer renderer=WidgetRendererFactory.getRenderer("default");
-        System.out.println(renderer.render("shop:info", params).output);
+        renderer.render("shop:info", params);
 
+        long s=System.currentTimeMillis();
+        for(int i=0;i<500;i++){
+            renderer.render("shop:info", params);
+        }
+        System.out.println(System.currentTimeMillis()-s);
 
     }
 }

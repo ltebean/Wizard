@@ -55,7 +55,7 @@ public class MergeInterceptor implements Interceptor {
         Widget widget = invocation.getWidget();
         Mode mode = widget.modes.get(invocation.getModeType());
         if (mode == null) {
-            throw new WidgetException("widget(" + widget.name + ") does not support mode:" + invocation.getModeType() + "");
+            throw new WidgetException("widget(" + widget.name + ") does not support mode:" + invocation.getModeType());
         }
 
         //inject staticModels
@@ -67,12 +67,13 @@ public class MergeInterceptor implements Interceptor {
             String templateName = Template.generateName(widget.name, invocation.getModeType(), "script");
             String script = merger.merge(new Template(templateName,mode.script), invocation.getContext());
             //contact script
-            StringBuilder builder=new StringBuilder(finalScript);
+            StringBuilder builder=new StringBuilder(finalScript.length()+script.length());
+            builder.append(finalScript);
             builder.append(script);
             finalScript=builder.toString();
+            invocation.setScript(finalScript);
         }
         invocation.getContext().put("script", finalScript);
-        invocation.setScript(finalScript);
         //merge html
         if (StringUtils.isNotEmpty(mode.template)) {
             String templateName = Template.generateName(widget.name, invocation.getModeType(), "template");

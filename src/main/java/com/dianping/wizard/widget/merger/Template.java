@@ -15,10 +15,7 @@ public class Template {
     }
 
     public static String generateName(String widgetName,String modeType,String codeType){
-        StringBuilder builder=new StringBuilder(widgetName);
-        builder.append(modeType);
-        builder.append(codeType);
-        return builder.toString();
+        return widgetName+modeType+codeType;
     }
 
     @Override
