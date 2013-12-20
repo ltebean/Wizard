@@ -59,13 +59,13 @@ public class FreemarkerMerger implements Merger {
         TemplatePack templatePack = cache.get(template.name);
         if (templatePack == null) {
             freemarker.template.Template fmTemplate = new freemarker.template.Template(template.name, new StringReader(template.code), cfg);
-            TemplatePack pack= new TemplatePack(template.name,fmTemplate);
+            TemplatePack pack= new TemplatePack(template.code,fmTemplate);
             cache.putIfAbsent(template.name,pack);
             return pack;
         }
         if(!templatePack.code.equals(template.code)){
             freemarker.template.Template fmTemplate = new freemarker.template.Template(template.name, new StringReader(template.code), cfg);
-            TemplatePack pack=new TemplatePack(template.name,fmTemplate);
+            TemplatePack pack=new TemplatePack(template.code,fmTemplate);
             cache.put(template.name, pack);
             return pack;
         }
