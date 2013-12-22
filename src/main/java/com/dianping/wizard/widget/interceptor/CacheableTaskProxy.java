@@ -15,9 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CacheableTaskProxy {
 
-    private final Map<String, Object> cacheableTaskDataRepo;
+    private static final String NULL_RESULT ="NULL_RESULT";
 
-    private final String NULL_RESULT ="NULL_RESULT";
+    private final Map<String, Object> cacheableTaskDataRepo;
 
     public CacheableTaskProxy() {
         cacheableTaskDataRepo = new ConcurrentHashMap<String, Object>();
