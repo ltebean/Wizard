@@ -19,6 +19,8 @@ public class InvocationContext {
 
     public static final String NONE="none";
 
+    private static final String PARAM_KEY="param";
+
     private final Widget widget;
 
     private final Map<String,Object> context;
@@ -37,7 +39,7 @@ public class InvocationContext {
         this.widget = widget;
         this.modeType=modeType;
         this.context = new HashMap<String, Object>();
-        this.context.put("param",params);
+        this.context.put(PARAM_KEY,params);
         this.interceptors = interceptors;
     }
 
@@ -47,6 +49,10 @@ public class InvocationContext {
             resultCode=interceptor.intercept(this);
         }
         return resultCode;
+    }
+
+    public Map<String,Object> getParam(){
+        return (Map<String,Object>)context.get(PARAM_KEY);
     }
 
     public Widget getWidget() {

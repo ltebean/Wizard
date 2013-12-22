@@ -2,7 +2,10 @@ package com.dianping.wizard.widget.interceptor;
 
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WidgetException;
-import com.dianping.wizard.repo.*;
+import com.dianping.wizard.repo.LayoutRepo;
+import com.dianping.wizard.repo.LayoutRepoFactory;
+import com.dianping.wizard.repo.WidgetRepo;
+import com.dianping.wizard.repo.WidgetRepoFactory;
 import com.dianping.wizard.script.Script;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
@@ -12,7 +15,6 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +45,7 @@ public class LayoutInterceptor implements Interceptor {
             if(layout==null){
                 throw new WidgetException("layout not found: "+widget.layoutName);
             }
-            Map<String, Object> param = (Map<String, Object>) invocation.getContext().get("param");
+            Map<String, Object> param = invocation.getParam();
             Map<String, Future<RenderingResult>> tasks = (Map<String, Future<RenderingResult>>) param.get("CONCURRENT_TASKS");
 
             ResultWrapper wrapper = renderComponentsFromPool(layout, invocation.getModeType(), param,tasks);

@@ -1,8 +1,6 @@
 package com.dianping.wizard.script;
 
 import com.dianping.wizard.exception.WidgetException;
-import com.dianping.wizard.exception.WizardExeption;
-import org.apache.commons.io.FileUtils;
 
 import javax.script.*;
 import java.io.File;
@@ -62,8 +60,8 @@ public class DefaultScriptEngine implements ScriptEngine{
     }
 
     private static class ScriptPack{
-        public String code;
-        public CompiledScript compiledScript;
+        public final String code;
+        public final CompiledScript compiledScript;
 
         private ScriptPack(String code, CompiledScript compiledScript) {
             this.code = code;
