@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class Layout extends Model {
 
+    public String author="";
+
     public Map<String,List<String>> config=new HashMap<String, List<String>>();
 
 }
