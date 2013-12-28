@@ -11,7 +11,7 @@ import org.jongo.MongoCollection;
  * Time: 下午8:57
  * To change this template use File | Settings | File Templates.
  */
-public class GenericProductServiceImpl<T,E extends Model> implements GenericProductService<T,E> {
+public class GenericProductServiceImpl<T extends Product,E extends Model> implements GenericProductService<T,E> {
 
     protected final MongoCollection col;
 
@@ -26,6 +26,14 @@ public class GenericProductServiceImpl<T,E extends Model> implements GenericProd
         this.col = JongoClient.getInstance().getCollection("product");
     }
 
+
+    @Override
+    public Product loadProductInfo(int shopId) {
+        E entity =col.findOne("{shopId:#,productType:#}",shopId,productType).as(entityClass);
+        Product dto=new Product();
+        // copy properties
+        return dto;
+    }
 
     @Override
     public T loadProduct(int shopId) {
@@ -49,8 +57,5 @@ public class GenericProductServiceImpl<T,E extends Model> implements GenericProd
         }catch (Exception e){
             return;
         }
-
     }
-
-
 }

@@ -13,9 +13,11 @@ public class Client {
 
     public static void main(String[] args) {
         MenuService menuService=new MenuServiceImpl();
+        Product menuProduct=menuService.loadProductInfo(500000);
         MenuDTO menuDTO=menuService.loadProduct(500000);
 
         AlbumService albumService=new AlbumServiceImpl();
+        Product albumProduct=albumService.loadProductInfo(500000);
         AlbumDTO albumDTO=albumService.loadProduct(500000);
     }
 }

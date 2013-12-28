@@ -7,5 +7,8 @@ package com.dianping.wizard.product;
  * Time: 下午8:55
  * To change this template use File | Settings | File Templates.
  */
-public class AlbumDTO {
+public class AlbumDTO extends Product {
+
+    // album list
+
 }

@@ -9,7 +9,9 @@ import com.dianping.wizard.mongo.Model;
  * Time: 下午8:57
  * To change this template use File | Settings | File Templates.
  */
-public interface GenericProductService<T,E extends Model> {
+public interface GenericProductService<T extends Product,E extends Model> {
+
+    public Product loadProductInfo(int shopId);
 
     public T loadProduct(int shopId);
 
