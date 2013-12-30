@@ -35,7 +35,7 @@ public class LayoutInterceptor implements Interceptor {
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
         Widget widget = invocation.getWidget();
-        if (StringUtils.isNotEmpty(widget.layoutRule)) {
+        if (StringUtils.isEmpty(widget.layoutName) && StringUtils.isNotEmpty(widget.layoutRule)) {
             String scriptName= Script.generateName(widget.name, "layout");
             widget.layoutName=(String)engine.eval(new Script(scriptName,widget.layoutRule),invocation.getContext());
         }
