@@ -35,15 +35,19 @@ public class LayoutInterceptor implements Interceptor {
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
         Widget widget = invocation.getWidget();
-        if (StringUtils.isEmpty(widget.layoutName) && StringUtils.isNotEmpty(widget.layoutRule)) {
+        String layoutName="";
+        //evaluate the layout
+        if(StringUtils.isNotEmpty(widget.layoutName)){
+            layoutName=widget.layoutName;
+        }else if(StringUtils.isNotEmpty(widget.layoutRule)){
             String scriptName= Script.generateName(widget.name, "layout");
-            widget.layoutName=(String)engine.eval(new Script(scriptName,widget.layoutRule),invocation.getContext());
+            layoutName=(String)engine.eval(new Script(scriptName,widget.layoutRule),invocation.getContext());
         }
-        if (StringUtils.isNotEmpty(widget.layoutName)) {
+        if (StringUtils.isNotEmpty(layoutName)) {
             LayoutRepo layoutRepo = LayoutRepoFactory.getRepo("default");
-            Layout layout = layoutRepo.loadByName(widget.layoutName);
+            Layout layout = layoutRepo.loadByName(layoutName);
             if(layout==null){
-                throw new WidgetException("layout not found: "+widget.layoutName);
+                throw new WidgetException("layout not found: "+layoutName);
             }
             Map<String, Object> param = invocation.getParam();
             Map<String, Future<RenderingResult>> tasks = (Map<String, Future<RenderingResult>>) param.get("CONCURRENT_TASKS");

@@ -36,15 +36,18 @@ public class LayoutParser {
             return result;
         }
         //evaluate the rule to find the layout
-        if(StringUtils.isNotEmpty(widget.layoutRule)){
-            String scriptName= Script.generateName(widget.name,"layout");
-            widget.layoutName=(String)engine.eval(new Script(scriptName,widget.layoutRule),context);
-        }
+        String layoutName="";
         if(StringUtils.isNotEmpty(widget.layoutName)){
+            layoutName=widget.layoutName;
+        }else if(StringUtils.isNotEmpty(widget.layoutRule)){
+            String scriptName= Script.generateName(widget.name,"layout");
+            layoutName=(String)engine.eval(new Script(scriptName,widget.layoutRule),context);
+        }
+        if(StringUtils.isNotEmpty(layoutName)){
             LayoutRepo layoutRepo=LayoutRepoFactory.getRepo("default");
-            Layout layout=layoutRepo.loadByName(widget.layoutName);
+            Layout layout=layoutRepo.loadByName(layoutName);
             if(layout==null){
-                throw new WizardExeption("layout not found: "+widget.layoutName);
+                throw new WizardExeption("layout not found: "+layoutName);
             }
             WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
             for(Map.Entry<String,List<String>> entry : layout.config.entrySet()) {
