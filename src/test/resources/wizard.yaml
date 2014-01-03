@@ -13,8 +13,9 @@ cache: com.dianping.wizard.repo.extensions.SimpleMemCache
 interceptors:
     factory:
         debug: com.dianping.wizard.widget.interceptor.DebuggingInterceptor
+        javaBusiness: com.dianping.wizard.widget.java.JavaBusinessInterceptor
     stack:
-        default: exception|merge|layout|business
+        default: exception|merge|layout|javaBusiness
 freemarker:
     properties: freemarker.properties
     staticModels:

@@ -4,6 +4,7 @@ import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.repo.db.LayoutDBRepo;
 import com.dianping.wizard.repo.db.WidgetDBRepo;
+import com.dianping.wizard.repo.java.WidgetJavaRepo;
 import com.dianping.wizard.repo.local.LayoutLocalRepo;
 import com.dianping.wizard.repo.local.WidgetLocalRepo;
 import com.dianping.wizard.widget.Widget;
@@ -23,8 +24,12 @@ public class WidgetRepoFactory {
         String mode= Configuration.get("mode","local",String.class);
         WidgetRepo localRepo=new WidgetLocalRepo();
         WidgetRepo dbRepo=new WidgetDBRepo();
+        WidgetRepo javaRepo=new WidgetJavaRepo();
+
         repos.put("local",localRepo);
         repos.put("db",dbRepo);
+        repos.put("java",javaRepo);
+
         if(mode.equals("local")){
             repos.put("default",localRepo);
         }else{
