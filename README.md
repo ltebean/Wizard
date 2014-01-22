@@ -76,8 +76,8 @@ Since we need to support both the local mode and db mode, two kinds of repo are 
 
 The LocalRepo and DBRepo are all registered in the RepoFactory, you can retreive them by calling:
 
-	WidgetRepo localRepo=WidgetRepoFactory.getRepo("local");
-	WidgetRepo dbRepo=WidgetRepoFactory.getRepo("db");
+	WidgetRepo localRepo = WidgetRepoFactory.getRepo("local");
+	WidgetRepo dbRepo = WidgetRepoFactory.getRepo("db");
 
 In runtime, we can choose to use theses two repos so that switch between the local mode and db mode can go smoothly.
 
@@ -96,7 +96,7 @@ Let's get our hand dirty. Suppose we need to calculate how much time it takes to
 
 	public class DebuggingInterceptor implements Interceptor{
     	@Override
-    	public String intercept(InvocationContext invocation) throws 	Exception {
+    	public String intercept(InvocationContext invocation) throws Exception {
         	long start = System.currentTimeMillis();
         	String code=invocation.invoke();
         	long end= System.currentTimeMillis();
