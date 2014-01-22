@@ -33,7 +33,7 @@ And the execution flow will be as follows:
 
 ## Getting Started:
 
-For example, we need a widget to display basic shop info, let's call it "basicInfo". we need to place three files under the classpath: basicInfo.groovy, basicInfo, and basicInfo.js(optional).
+For example, we need a widget to display basic shop info, let's call it "basicInfo". we need to place three files under the classpath: basicInfo.groovy, basicInfo.ftl, and basicInfo.js(optional).
 
 First, basicInfo.groovy, the script constructs a shop object, then puts it into a map, finally returns the map as the template model.
 
