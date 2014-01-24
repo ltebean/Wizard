@@ -1,4 +1,4 @@
-package com.dianping.wizard.utils;
+package com.dianping.wizard.repo.local.utils;
 
 import java.io.File;
 import java.util.ArrayList;

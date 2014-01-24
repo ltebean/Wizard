@@ -1,4 +1,4 @@
-package com.dianping.wizard.utils;
+package com.dianping.wizard.repo.local.utils;
 
 /**
  * @author ltebean
@@ -13,9 +13,6 @@ import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
-import java.util.zip.ZipFile;
 
 /**
  * list resources available from the classpath @ *

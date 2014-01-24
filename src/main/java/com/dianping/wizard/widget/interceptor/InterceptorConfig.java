@@ -1,8 +1,13 @@
 package com.dianping.wizard.widget.interceptor;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WidgetException;
-import com.dianping.wizard.widget.extensions.ExtensionsManager;
+import com.dianping.wizard.widget.WizardInitializationException;
+import com.dianping.wizard.widget.interceptor.core.BusinessInterceptor;
+import com.dianping.wizard.widget.interceptor.core.ExceptionInterceptor;
+import com.dianping.wizard.widget.interceptor.core.LayoutInterceptor;
+import com.dianping.wizard.widget.interceptor.core.MergeInterceptor;
+import com.dianping.wizard.widget.interceptor.extensions.CacheableTaskInterceptor;
+import com.dianping.wizard.widget.interceptor.extensions.ProxyInterceptor;
 
 import java.util.*;
 
@@ -29,6 +34,8 @@ public class InterceptorConfig {
         factory.put("merge", new MergeInterceptor());
         factory.put("layout", new LayoutInterceptor());
         factory.put("business", new BusinessInterceptor());
+        factory.put("proxy", new ProxyInterceptor());
+        factory.put("cacheableTask", new CacheableTaskInterceptor());
 
         //initialize user-defined interceptors
         Map<String, String> userDefinedFactory = Configuration.get("interceptors.factory", new HashMap<String, String>(), Map.class);
@@ -38,7 +45,7 @@ public class InterceptorConfig {
                     Interceptor interceptor = (Interceptor) Class.forName(userDefinedFactory.get(interceptorName)).newInstance();
                     factory.put(interceptorName, interceptor);
                 } catch (Exception e) {
-                    throw new WidgetException("faild to initialize interceptor: " + interceptorName, e);
+                    throw new WizardInitializationException("failed to initialize interceptor: " + interceptorName, e);
                 }
 
             }
@@ -46,21 +53,19 @@ public class InterceptorConfig {
         //initialize stack config
         Map<String, String> stacksRules = Configuration.get("interceptors.stack", new HashMap<String, String>(), Map.class);
         if (stacksRules.size() == 0) {
-            throw new WidgetException("stack rule not found");
+            throw new WizardInitializationException("stack rule not found");
         }
         for(String stackName:stacksRules.keySet()){
             List<Interceptor> interceptors=new ArrayList<Interceptor>();
             for(String interceptorName:stacksRules.get(stackName).split("\\|")){
                 Interceptor interceptor=factory.get(interceptorName);
                 if (interceptor == null) {
-                    throw new WidgetException("interceptor not found: " + interceptorName);
+                    throw new WizardInitializationException("interceptor not found: " + interceptorName);
                 }
                 interceptors.add(interceptor);
             }
             stacks.put(stackName,interceptors);
         }
-
-
     }
 
     public static InterceptorConfig getInstance(){

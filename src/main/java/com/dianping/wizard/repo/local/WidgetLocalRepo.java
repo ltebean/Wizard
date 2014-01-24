@@ -1,11 +1,11 @@
 package com.dianping.wizard.repo.local;
 
 import com.dianping.wizard.config.Yaml;
-import com.dianping.wizard.exception.WizardExeption;
+import com.dianping.wizard.repo.WidgetRepo;
+import com.dianping.wizard.repo.WizardRepoException;
 import com.dianping.wizard.repo.extensions.Cache;
 import com.dianping.wizard.repo.extensions.CacheManager;
-import com.dianping.wizard.repo.WidgetRepo;
-import com.dianping.wizard.utils.FileUtils;
+import com.dianping.wizard.repo.local.utils.FileUtils;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import org.apache.commons.lang.StringUtils;
@@ -24,7 +24,7 @@ public class WidgetLocalRepo implements WidgetRepo {
     private  final Cache cache;
 
     public WidgetLocalRepo() {
-        cache = CacheManager.getCache();
+        this.cache = CacheManager.getInstance().getCache();
     }
 
     @Override
@@ -104,7 +104,7 @@ public class WidgetLocalRepo implements WidgetRepo {
         if (StringUtils.isEmpty(displayMode.code) || StringUtils.isEmpty(displayMode.script) || StringUtils.isEmpty(displayMode.template) || StringUtils.isEmpty(widget.layoutRule) || StringUtils.isEmpty(widget.layoutName)) {
             Widget parent = this.loadByName(widget.parentWidgetName);
             if(parent==null){
-                throw new WizardExeption("parent not found:"+widget.parentWidgetName);
+                throw new WizardRepoException("parent not found:"+widget.parentWidgetName);
             }
             Mode parentDisplayMode = parent.modes.get(Widget.ModeType.Display.value);
             if (StringUtils.isEmpty(widget.layoutName)) {

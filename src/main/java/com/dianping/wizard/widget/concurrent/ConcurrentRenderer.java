@@ -1,12 +1,8 @@
 package com.dianping.wizard.widget.concurrent;
 
-import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.repo.WidgetRepo;
 import com.dianping.wizard.repo.WidgetRepoFactory;
-import com.dianping.wizard.widget.InvocationContext;
-import com.dianping.wizard.widget.RenderingResult;
-import com.dianping.wizard.widget.Widget;
-import com.dianping.wizard.widget.WidgetRenderer;
+import com.dianping.wizard.widget.*;
 import com.dianping.wizard.widget.extensions.ExtensionsManager;
 import com.dianping.wizard.widget.interceptor.Interceptor;
 import com.dianping.wizard.widget.interceptor.InterceptorConfig;
@@ -32,6 +28,7 @@ public class ConcurrentRenderer implements WidgetRenderer {
         if (params == null) {
             params = new HashMap<String, Object>();
         }
+        RenderingResult result = new RenderingResult();
         Iterator<Interceptor> interceptors = InterceptorConfig.getInstance().getInterceptors("default");
         InvocationContext invocation = new InvocationContext(widget, mode, params, interceptors);
         invocation.getContext().putAll(ExtensionsManager.getInstance().getExtension());
@@ -39,19 +36,19 @@ public class ConcurrentRenderer implements WidgetRenderer {
         Map<String, Future<RenderingResult>> tasks=new HashMap<String, Future<RenderingResult>>();
         params.put("CONCURRENT_TASKS",tasks);
         tasks.putAll(LayoutParser.parseAndExecute(widget, mode, invocation.getContext()));
-        RenderingResult result = new RenderingResult();
+        String resultCode;
         try {
-            String resultCode = invocation.invoke();
-            if (InvocationContext.SUCCESS.equals(resultCode)) {
-                result.output = invocation.getOutput();
-                result.script = invocation.getScript();
-            } else if (InvocationContext.NONE.equals(resultCode)) {
-                return result;
-            } else {
-                throw new WidgetException("unknown result code-" + resultCode + " returned by widget:" + widget.name);
-            }
+            resultCode = invocation.invoke();
         } catch (Exception e) {
-            logger.error("rendering error", e);
+            throw new WidgetRenderingException("error in rendering widget:" + widget.name, e);
+        }
+        if (InvocationContext.SUCCESS.equals(resultCode)) {
+            result.output = invocation.getOutput();
+            result.script = invocation.getScript();
+        } else if (InvocationContext.NONE.equals(resultCode)) {
+            return result;
+        } else {
+            throw new WidgetRenderingException("unknown result code-" + resultCode + " returned by widget:" + widget.name);
         }
         return result;
     }
@@ -61,7 +58,7 @@ public class ConcurrentRenderer implements WidgetRenderer {
         WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
         Widget widget = widgetRepo.loadByName(widgetName);
         if (widget == null) {
-            throw new WidgetException("widget not found:" + widgetName);
+            throw new IllegalArgumentException("widget not found:" + widgetName);
         }
         return this.render(widget, mode, params);
     }

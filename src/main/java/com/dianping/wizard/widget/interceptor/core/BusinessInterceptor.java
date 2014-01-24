@@ -1,14 +1,15 @@
-package com.dianping.wizard.widget.interceptor;
+package com.dianping.wizard.widget.interceptor.core;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.script.Script;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
-import com.dianping.wizard.utils.ResourceList;
+import com.dianping.wizard.repo.local.utils.ResourceList;
 import com.dianping.wizard.widget.InvocationContext;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
+import com.dianping.wizard.widget.WidgetRenderingException;
+import com.dianping.wizard.widget.interceptor.Interceptor;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -44,7 +45,7 @@ public class BusinessInterceptor implements Interceptor {
         Widget widget=invocation.getWidget();
         Mode mode=widget.modes.get(invocation.getModeType());
         if(mode==null){
-            throw new WidgetException("widget("+widget.name+") does not support mode:"+invocation.getModeType()+"");
+            throw new WidgetRenderingException("widget("+widget.name+") does not support mode:"+invocation.getModeType()+"");
         }
         if(StringUtils.isEmpty(mode.code)){
             return InvocationContext.SUCCESS;
@@ -59,7 +60,7 @@ public class BusinessInterceptor implements Interceptor {
                 result=engine.eval(new Script(name,mode.code),invocation.getContext());
             }
         } catch(Exception e) {
-            throw new WidgetException(widget.name+" running error:",e.getCause());
+            throw new WidgetRenderingException(widget.name+" running error:",e.getCause());
         }
 
         if(InvocationContext.NONE.equals(result)){

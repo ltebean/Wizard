@@ -1,6 +1,7 @@
-package com.dianping.wizard.widget.interceptor;
+package com.dianping.wizard.widget.interceptor.extensions;
 
 import com.dianping.wizard.widget.InvocationContext;
+import com.dianping.wizard.widget.interceptor.Interceptor;
 
 import java.util.Map;
 

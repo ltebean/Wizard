@@ -1,7 +1,7 @@
 package com.dianping.wizard.repo.db;
 
-import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.repo.WidgetRepo;
+import com.dianping.wizard.repo.WizardRepoException;
 import com.dianping.wizard.widget.Mode;
 import com.dianping.wizard.widget.Widget;
 import org.apache.commons.lang.StringUtils;
@@ -73,7 +73,7 @@ public class WidgetDBRepo extends GenericDBRepo<Widget> implements WidgetRepo {
         if (StringUtils.isEmpty(displayMode.code) || StringUtils.isEmpty(displayMode.script) || StringUtils.isEmpty(displayMode.template) || StringUtils.isEmpty(widget.layoutRule) || StringUtils.isEmpty(widget.layoutName)) {
             Widget parent = this.loadByName(widget.parentWidgetName);
             if(parent==null){
-                throw new WizardExeption("parent not found:"+widget.parentWidgetName);
+                throw new WizardRepoException("parent not found:"+widget.parentWidgetName);
             }
             Mode parentDisplayMode = parent.modes.get(Widget.ModeType.Display.value);
             if (StringUtils.isEmpty(widget.layoutName)) {

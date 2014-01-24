@@ -1,6 +1,6 @@
 package com.dianping.wizard.script;
 
-import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.widget.WidgetRenderingException;
 
 import javax.script.*;
 import java.io.File;
@@ -27,6 +27,9 @@ public class DefaultScriptEngine implements ScriptEngine{
     }
 
     public Object eval(Script script,Map<String,Object> context){
+        if(script==null){
+            throw new IllegalArgumentException("script cannot be null");
+        }
         try {
             ScriptPack scriptPack = getScriptPackAndUpdateCache(script);
             Bindings bindings = engine.createBindings();
@@ -34,7 +37,7 @@ public class DefaultScriptEngine implements ScriptEngine{
             Object result= scriptPack.compiledScript.eval(bindings);
             return result;
         }catch (ScriptException e){
-            throw new WidgetException("script running error:", e);
+            throw new ScriptingException("script running error:", e);
         }
     }
 

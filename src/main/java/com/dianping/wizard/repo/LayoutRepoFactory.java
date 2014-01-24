@@ -1,7 +1,6 @@
 package com.dianping.wizard.repo;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.repo.db.LayoutDBRepo;
 import com.dianping.wizard.repo.local.LayoutLocalRepo;
 
@@ -32,7 +31,7 @@ public class LayoutRepoFactory {
     public static LayoutRepo getRepo(String name){
         LayoutRepo repo=repos.get(name);
         if (repo == null) {
-            throw new WizardExeption("layout repo not found: "+name);
+            throw new WizardRepoException("layout repo not found: "+name);
         }
         return repo;
     }

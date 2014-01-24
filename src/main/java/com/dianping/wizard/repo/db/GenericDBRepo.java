@@ -20,7 +20,7 @@ public class GenericDBRepo<T extends Model> implements GenericRepo<T> {
     protected final Cache cache;
 
     public GenericDBRepo(Class<T> clazz) {
-        this.cache = CacheManager.getCache();
+        this.cache = CacheManager.getInstance().getCache();
         this.clazz = clazz;
         this.col = JongoClient.getInstance().getCollection(StringUtils.lowerCase(clazz.getSimpleName()));
     }

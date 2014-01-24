@@ -1,7 +1,5 @@
 package com.dianping.wizard.widget;
 
-import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WidgetException;
 import com.dianping.wizard.widget.concurrent.ConcurrentRenderer;
 
 import java.util.HashMap;
@@ -23,7 +21,7 @@ public class WidgetRendererFactory {
     public static WidgetRenderer getRenderer(String name){
         WidgetRenderer renderer =renders.get(name);
         if(renderer==null){
-            throw new WidgetException("render not found:"+name);
+            throw new RuntimeException("render not found:"+name);
         }
         return renders.get(name);
 
@@ -31,7 +29,7 @@ public class WidgetRendererFactory {
 
     public static void registerWidgetRenderer(String name,WidgetRenderer renderer){
         if(renders.containsKey(name)){
-            throw new WidgetException("render key already exists:"+name);
+            throw new IllegalArgumentException("renderer already exists:"+name);
         }
         renders.put(name,renderer);
 

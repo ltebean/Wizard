@@ -1,4 +1,4 @@
-package com.dianping.wizard.widget.interceptor;
+package com.dianping.wizard.widget.interceptor.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author ltebean
  */
-public class ResultWrapper {
+class ResultWrapper {
 
     public Map<String,String> output=new HashMap<String, String>();
 

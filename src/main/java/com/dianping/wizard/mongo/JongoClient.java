@@ -4,13 +4,10 @@
 package com.dianping.wizard.mongo;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WizardExeption;
+import com.dianping.wizard.widget.WizardInitializationException;
+import com.mongodb.Mongo;
 import org.apache.commons.lang.StringUtils;
 import org.jongo.Jongo;
-
-import com.mongodb.Mongo;
-
-import java.util.Map;
 
 /**
  * @author cong.yu
@@ -37,7 +34,7 @@ public class JongoClient {
             }
             jongo = new Jongo(mongo.getDB(DB_NAME));
         } catch (Exception e) {
-            throw new WizardExeption("failed to initialize mongo client",e);
+            throw new WizardInitializationException("failed to initialize mongo client",e);
         }
     }
 

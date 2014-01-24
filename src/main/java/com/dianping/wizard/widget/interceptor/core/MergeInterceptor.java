@@ -1,13 +1,11 @@
-package com.dianping.wizard.widget.interceptor;
+package com.dianping.wizard.widget.interceptor.core;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WidgetException;
-import com.dianping.wizard.widget.InvocationContext;
-import com.dianping.wizard.widget.Mode;
-import com.dianping.wizard.widget.Widget;
-import com.dianping.wizard.widget.merger.FreemarkerMerger;
+import com.dianping.wizard.widget.*;
+import com.dianping.wizard.widget.interceptor.Interceptor;
 import com.dianping.wizard.widget.merger.Merger;
 import com.dianping.wizard.widget.merger.Template;
+import com.dianping.wizard.widget.merger.freemarker.FreemarkerMerger;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
 import org.apache.commons.collections.CollectionUtils;
@@ -40,7 +38,7 @@ public class MergeInterceptor implements Interceptor {
                     TemplateHashModel model = (TemplateHashModel) models.get(clazz);
                     staticModels.put(Class.forName(clazz).getSimpleName(), model);
                 } catch (Exception e) {
-                    throw new WidgetException("static model initialization error", e);
+                    throw new WizardInitializationException("static model initialization error", e);
                 }
             }
         }
@@ -55,7 +53,7 @@ public class MergeInterceptor implements Interceptor {
         Widget widget = invocation.getWidget();
         Mode mode = widget.modes.get(invocation.getModeType());
         if (mode == null) {
-            throw new WidgetException("widget(" + widget.name + ") does not support mode:" + invocation.getModeType());
+            throw new WidgetRenderingException("widget(" + widget.name + ") does not support mode:" + invocation.getModeType());
         }
 
         //inject staticModels

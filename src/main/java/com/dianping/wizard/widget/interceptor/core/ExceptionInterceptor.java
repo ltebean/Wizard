@@ -1,14 +1,15 @@
-package com.dianping.wizard.widget.interceptor;
+package com.dianping.wizard.widget.interceptor.core;
 
 import com.dianping.wizard.config.Configuration;
 import com.dianping.wizard.widget.InvocationContext;
+import com.dianping.wizard.widget.interceptor.Interceptor;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 
 /**
  * @author ltebean
  */
-public class ExceptionInterceptor implements Interceptor{
+public class ExceptionInterceptor implements Interceptor {
 
     private String handling="log";
 

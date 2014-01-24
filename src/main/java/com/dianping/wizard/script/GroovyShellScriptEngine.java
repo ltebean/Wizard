@@ -1,6 +1,5 @@
 package com.dianping.wizard.script;
 
-import com.dianping.wizard.exception.WidgetException;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import org.codehaus.groovy.control.CompilerConfiguration;
@@ -35,7 +34,7 @@ public class GroovyShellScriptEngine implements ScriptEngine{
         try {
             return shell.evaluate(file);
         } catch(Exception e) {
-            throw new WidgetException("evaluation error",e);
+            throw new ScriptingException("evaluation error",e);
         }
     }
 

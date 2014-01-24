@@ -1,7 +1,7 @@
 package com.dianping.wizard.repo.extensions;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.widget.WizardInitializationException;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -11,18 +11,24 @@ public class CacheManager {
 
     private static Cache cache;
 
-    static {
+    private static final CacheManager instance=new CacheManager();
+
+    private CacheManager(){
         String className= Configuration.get("cache", "", String.class);
         if(StringUtils.isNotEmpty(className)){
             try{
                 cache=(Cache)Class.forName(className).newInstance();
             }catch (Exception e){
-                throw new WidgetException("cache manager initialization failed",e);
+                throw new WizardInitializationException("cache manager initialization failed",e);
             }
         }
     }
 
-    public static Cache getCache(){
+    public static CacheManager getInstance(){
+        return instance;
+    }
+
+    public Cache getCache(){
         return cache;
     }
 

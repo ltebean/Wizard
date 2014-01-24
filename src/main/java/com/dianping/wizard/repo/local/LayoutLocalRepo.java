@@ -1,10 +1,10 @@
 package com.dianping.wizard.repo.local;
 
-import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.repo.LayoutRepo;
+import com.dianping.wizard.repo.WizardRepoException;
 import com.dianping.wizard.repo.extensions.Cache;
 import com.dianping.wizard.repo.extensions.CacheManager;
-import com.dianping.wizard.repo.LayoutRepo;
-import com.dianping.wizard.utils.FileUtils;
+import com.dianping.wizard.repo.local.utils.FileUtils;
 import com.dianping.wizard.widget.Layout;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,7 +18,7 @@ public class LayoutLocalRepo implements LayoutRepo {
     private final Cache cache;
 
     public LayoutLocalRepo() {
-        cache = CacheManager.getCache();
+        this.cache = CacheManager.getInstance().getCache();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class LayoutLocalRepo implements LayoutRepo {
         try {
             layout.config = mapper.readValue(config, Map.class);
         } catch (Exception e) {
-            throw new WidgetException("error in parsing file: " + name + ".layout", e);
+            throw new WizardRepoException("error in parsing file: " + name + ".layout", e);
         }
         return layout;
     }

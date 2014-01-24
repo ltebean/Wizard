@@ -1,7 +1,5 @@
 package com.dianping.wizard.script;
 
-import com.dianping.wizard.exception.WizardExeption;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +20,7 @@ public class ScriptEngineFactory {
     public static ScriptEngine getEngine(String name){
         ScriptEngine engine=engines.get(name);
         if(engine==null){
-            throw new WizardExeption("script engine not found: "+name);
+            throw new ScriptingException("script engine not found: "+name);
         }
         return engine;
     }

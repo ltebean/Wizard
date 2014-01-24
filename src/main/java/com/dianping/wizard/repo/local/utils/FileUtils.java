@@ -1,6 +1,6 @@
-package com.dianping.wizard.utils;
+package com.dianping.wizard.repo.local.utils;
 
-import com.dianping.wizard.exception.WizardExeption;
+import com.dianping.wizard.repo.WizardRepoException;
 
 import java.io.*;
 import java.util.Collection;
@@ -16,7 +16,7 @@ public class FileUtils {
         try {
             Collection<String> paths=ResourceList.getResources(Pattern.compile(pattern));
             if(paths.size()>1){
-                throw new WizardExeption("no distinct file: "+pattern);
+                throw new WizardRepoException("no distinct file: "+pattern);
             }
             if(paths.size()==0){
                 return "";
@@ -45,7 +45,7 @@ public class FileUtils {
             }
             return builder.toString();
         } catch (IOException e) {
-            throw new WizardExeption("reading file error: " + pattern ,e);
+            throw new WizardRepoException("reading file error: " + pattern ,e);
         }
     }
 

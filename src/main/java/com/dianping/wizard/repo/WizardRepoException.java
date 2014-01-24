@@ -1,23 +1,22 @@
-package com.dianping.wizard.exception;
+package com.dianping.wizard.repo;
 
 /**
  * @author ltebean
  */
-public class WidgetException extends RuntimeException {
-
-    public WidgetException() {
+public class WizardRepoException extends RuntimeException {
+    public WizardRepoException() {
         super();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    public WidgetException(String message) {
+    public WizardRepoException(String message) {
         super(message);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    public WidgetException(String message, Throwable cause) {
+    public WizardRepoException(String message, Throwable cause) {
         super(message, cause);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    public WidgetException(Throwable cause) {
+    public WizardRepoException(Throwable cause) {
         super(cause);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

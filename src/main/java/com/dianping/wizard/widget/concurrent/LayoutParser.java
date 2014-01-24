@@ -1,7 +1,5 @@
 package com.dianping.wizard.widget.concurrent;
 
-import com.dianping.wizard.exception.WidgetException;
-import com.dianping.wizard.exception.WizardExeption;
 import com.dianping.wizard.repo.LayoutRepo;
 import com.dianping.wizard.repo.LayoutRepoFactory;
 import com.dianping.wizard.repo.WidgetRepo;
@@ -9,7 +7,10 @@ import com.dianping.wizard.repo.WidgetRepoFactory;
 import com.dianping.wizard.script.Script;
 import com.dianping.wizard.script.ScriptEngine;
 import com.dianping.wizard.script.ScriptEngineFactory;
-import com.dianping.wizard.widget.*;
+import com.dianping.wizard.widget.Layout;
+import com.dianping.wizard.widget.RenderingResult;
+import com.dianping.wizard.widget.Widget;
+import com.dianping.wizard.widget.WidgetRenderingException;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
@@ -47,14 +48,14 @@ public class LayoutParser {
             LayoutRepo layoutRepo=LayoutRepoFactory.getRepo("default");
             Layout layout=layoutRepo.loadByName(layoutName);
             if(layout==null){
-                throw new WizardExeption("layout not found: "+layoutName);
+                throw new WidgetRenderingException("layout not found: "+layoutName);
             }
             WidgetRepo widgetRepo = WidgetRepoFactory.getRepo("default");
             for(Map.Entry<String,List<String>> entry : layout.config.entrySet()) {
                 for(String widgetName:entry.getValue()){
                     Widget w=widgetRepo.loadByName(widgetName);
                     if(w==null){
-                        throw new WidgetException("widget not found: "+widgetName);
+                        throw new WidgetRenderingException("widget not found: "+widgetName);
                     }
                     if(hasLayout(w)){
                         result.putAll(parseAndExecute(w,mode,context));

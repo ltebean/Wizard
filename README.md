@@ -109,7 +109,7 @@ Then in the widget.yaml, register it with the name "debug" and put it into the d
 
 	interceptors:
     	factory:
-        	debug: com.dianping.wizard.widget.interceptor.DebuggingInterceptor
+        	debug: com.dianping.wizard.widget.interceptor.extensions.DebuggingInterceptor
     	stack:
         	default: debug|exception|merge|layout|business
         	

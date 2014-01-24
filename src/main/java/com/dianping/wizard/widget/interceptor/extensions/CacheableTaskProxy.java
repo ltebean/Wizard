@@ -1,4 +1,4 @@
-package com.dianping.wizard.widget.interceptor;
+package com.dianping.wizard.widget.interceptor.extensions;
 
 import groovy.lang.Closure;
 import org.apache.commons.lang.StringUtils;

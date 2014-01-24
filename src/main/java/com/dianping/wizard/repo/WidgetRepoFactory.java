@@ -1,12 +1,8 @@
 package com.dianping.wizard.repo;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WizardExeption;
-import com.dianping.wizard.repo.db.LayoutDBRepo;
 import com.dianping.wizard.repo.db.WidgetDBRepo;
-import com.dianping.wizard.repo.local.LayoutLocalRepo;
 import com.dianping.wizard.repo.local.WidgetLocalRepo;
-import com.dianping.wizard.widget.Widget;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -35,7 +31,7 @@ public class WidgetRepoFactory {
     public static WidgetRepo getRepo(String name){
         WidgetRepo repo=repos.get(name);
         if (repo == null) {
-            throw new WizardExeption("widget repo not found: "+name);
+            throw new WizardRepoException("widget repo not found: "+name);
         }
         return repo;
     }

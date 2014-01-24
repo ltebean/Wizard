@@ -1,11 +1,12 @@
-package com.dianping.wizard.widget.merger;
+package com.dianping.wizard.widget.merger.freemarker;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WidgetException;
+import com.dianping.wizard.widget.WizardInitializationException;
+import com.dianping.wizard.widget.merger.Merger;
+import com.dianping.wizard.widget.merger.Template;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.ObjectWrapper;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -39,7 +40,7 @@ public class FreemarkerMerger implements Merger {
                         .getResourceAsStream(freemarkerProperties));
                 cfg.setSettings(properties);
             } catch (Exception e) {
-                throw new WidgetException("freemarker settings error", e);
+                throw new WizardInitializationException("freemarker settings error", e);
             }
         }
 

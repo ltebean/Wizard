@@ -1,17 +1,10 @@
 package com.dianping.wizard.widget.extensions;
 
 import com.dianping.wizard.config.Configuration;
-import com.dianping.wizard.exception.WidgetException;
-import com.dianping.wizard.exception.WizardExeption;
-import com.dianping.wizard.widget.InvocationContext;
-import com.dianping.wizard.widget.interceptor.Interceptor;
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.TemplateHashModel;
-import org.apache.commons.collections.CollectionUtils;
+import com.dianping.wizard.widget.WizardInitializationException;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +34,7 @@ public class ExtensionsManager {
                 }
             }
         catch (Exception e){
-            throw new WizardExeption("extensions initialization failed",e);
+            throw new WizardInitializationException("extensions initialization failed",e);
         }
     }
 

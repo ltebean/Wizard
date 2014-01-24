@@ -12,7 +12,7 @@ exception: print
 cache: com.dianping.wizard.repo.extensions.SimpleMemCache
 interceptors:
     factory:
-        debug: com.dianping.wizard.widget.interceptor.DebuggingInterceptor
+        debug: com.dianping.wizard.widget.interceptor.extensions.DebuggingInterceptor
     stack:
         default: exception|merge|layout|business
 freemarker:

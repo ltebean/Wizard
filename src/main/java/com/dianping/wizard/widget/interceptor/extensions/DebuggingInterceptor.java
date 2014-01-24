@@ -1,14 +1,13 @@
-package com.dianping.wizard.widget.interceptor;
+package com.dianping.wizard.widget.interceptor.extensions;
 
 import com.dianping.wizard.widget.InvocationContext;
+import com.dianping.wizard.widget.interceptor.Interceptor;
 import org.apache.log4j.Logger;
 
 /**
  * @author ltebean
  */
-public class DebuggingInterceptor implements Interceptor{
-
-    private final Logger logger = Logger.getLogger(this.getClass());
+public class DebuggingInterceptor implements Interceptor {
 
     @Override
     public String intercept(InvocationContext invocation) throws Exception {
