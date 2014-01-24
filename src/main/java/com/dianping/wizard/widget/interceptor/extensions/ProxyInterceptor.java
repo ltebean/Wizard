@@ -31,6 +31,9 @@ public class ProxyInterceptor implements Interceptor {
             return invocation.invoke();
         }
         WizardCookieConfig config = getWizardCookieConfig(request);
+        if(config==null){
+            return invocation.invoke();
+        }
         if (!needsProxy(config, invocation.getWidget().name)) {
             return invocation.invoke();
         }
