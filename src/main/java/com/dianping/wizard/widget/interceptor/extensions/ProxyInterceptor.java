@@ -45,11 +45,16 @@ public class ProxyInterceptor implements Interceptor {
     }
 
     private Widget getProxyWidget(WizardCookieConfig config, String widgetName) throws Exception {
+        String result;
         String url = "http://" + config.host + ":" + config.port + "/api/widget/" + widgetName;
-        String result = Request.Get(url)
-                .connectTimeout(1000)
-                .socketTimeout(1000)
-                .execute().returnContent().asString();
+        try {
+            result = Request.Get(url)
+                    .connectTimeout(1000)
+                    .socketTimeout(1000)
+                    .execute().returnContent().asString();
+        } catch(Exception e) {
+            return null;
+        }
         if (StringUtils.isEmpty(result)) {
             return null;
         }
