@@ -14,7 +14,7 @@ interceptors:
     factory:
         debug: com.dianping.wizard.widget.interceptor.extensions.DebuggingInterceptor
     stack:
-        default: exception|merge|layout|business
+        default: exception|merge|layout|cacheableTask|business
 freemarker:
     properties: freemarker.properties
     staticModels:

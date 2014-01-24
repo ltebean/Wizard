@@ -56,6 +56,8 @@ public class SiteTest extends TestCase
         System.out.println(renderer.render(site, Widget.ModeType.Display.value, params).output);
 
         long start=System.currentTimeMillis();
+
+
         System.out.println(renderer.render(site, Widget.ModeType.Display.value, params).output);
 
         System.out.println(System.currentTimeMillis()-start);
