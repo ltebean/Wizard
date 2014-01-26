@@ -199,4 +199,6 @@ There are some built-in interceptors, they are:
 - layout: handle the layout-parsing related work if the widget has a layout
 - merge: merge the view with the template model
 - exception: handle the exception, if an exception happens, it will print it on the page or log it according to the config
+- cacheableTask: allow cacheable calls
+- proxy: works much like fiddler. It make a widget use your local files instead of the one in db when you visit a page(must work with the cli tool).
 
