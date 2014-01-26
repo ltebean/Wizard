@@ -60,38 +60,7 @@ To let the framework work, we need the put a config file called "widget.yaml" un
       		corePoolSize: 50
       		maximumPoolSize: 50
       		keepAliveTime: 0
-      		blockingQueueCapacity: 1000
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
+      		blockingQueueCapacity: 1000	
 #### 2. Write a simple widget
 For example, we need a widget to display basic shop info, let's call it "basicInfo". we need to place three files under the classpath: basicInfo.groovy, basicInfo.ftl, and basicInfo.js(optional).
 
@@ -139,14 +108,14 @@ Next let's learn how to write a widget that has a layout. For example, we want t
 		</body>
 	</html>
 	
-The page itself is a widget, let's call it "index". After examine the html we could find that the "index" widget could has two sub-parts:"main" and "aside", and in each part it allows certain widgets to exist. So the "widget" widget could has a layout, the layout rule is specified in json format:
+The page itself is a widget, let's call it "index". After examine the html we could find that the "index" widget could has two sub-parts:"main" and "aside", and in each part it allows certain widgets to exist. So the "index" widget could has a layout, the layout rule is specified in json format:
 
 	{
 		"main":["basicInfo","reviewList"],
 		"aside":["aside"]
 	}
 
-Then in index.ftl, we could write this, the "index" widget actually acts as a container, it specifies a layout, then the framework will find all the widgets in that layout, execute them, and finally fill them into the container widget.
+Then in index.ftl, we could write as follows:
 	
 	<html>
 		<head></head>
@@ -165,7 +134,7 @@ Then in index.ftl, we could write this, the "index" widget actually acts as a co
 		</body>
 	</html>
 	
-
+The "index" widget actually acts as a container, it specifies a layout, then the framework will find all the widgets in that layout, execute them, and finally fill them into the container widget.
 
 
 ## Designs
