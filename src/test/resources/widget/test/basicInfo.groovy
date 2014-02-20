@@ -6,9 +6,9 @@ cacheable.run("test",{
     println("by shop:info");
 })
 
-wz.require("shopService",{shopService ->
+wz.require(["shopService","reviewService"],{shopService,reviewService ->
     def aShop=shopService.loadShop(10);
-    shopService.saveShop();
+    def review=reviewService.loadReview(1);
 })
 
 return ['shop':shop];

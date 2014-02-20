@@ -1,3 +1,5 @@
+package widget.test.mod
+
 wz.define("shopService",{
     def counter=0;
 
