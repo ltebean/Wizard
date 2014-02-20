@@ -12,5 +12,4 @@ public interface ScriptEngine {
 
     public Object eval(File file,Map<String,Object> context);
 
-
 }

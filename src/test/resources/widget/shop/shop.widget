@@ -1,1 +1,1 @@
-layoutRule: return 'shop:default';
+layoutRule: return 'shop-default';

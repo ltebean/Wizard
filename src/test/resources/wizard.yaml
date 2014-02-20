@@ -1,7 +1,7 @@
 mode: local
 modeConfig:
     local:
-        enableDebug: false
+        enableDebug: true
         basePackage: widget
     db:
         server:
@@ -21,6 +21,7 @@ freemarker:
             - com.dianping.wizard.extensions.HtmlFormater
 extensions:
     service: com.dianping.wizard.extensions.ServiceLocator
+    wz: com.dianping.wizard.script.module.Wizard
 concurrent:
     timeout: 1000
     threadPool:
